@@ -3,6 +3,8 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 const app: Application = express();
 import status from "http-status";
+import globalErrorHandler from "./app/middlewares/globalErrorHandler";
+import router from "./app/routes";
 
 app.use(cors());
 app.use(cookieParser());
@@ -17,9 +19,9 @@ app.get('/', (req: Request, res: Response) => {
         Message: "Green Circle Server Is Running"
     })
 })
+app.use('/api/', router);
 
-
-
+app.use(globalErrorHandler)
 app.use((req: Request, res: Response, next: NextFunction) => {
     res.status(status.NOT_FOUND).json({
         success: false,
