@@ -105,7 +105,6 @@ const forgotPassword = async (payload: { email: string }) => {
         config.reset_password_secret as string,
         config.reset_password_expairs_in as string
     )
-    //console.log(resetPassToken)
 
     const resetPassLink = config.reset_passoword_link + `?userId=${userData.id}&token=${resetPassToken}`
 
@@ -127,10 +126,38 @@ const forgotPassword = async (payload: { email: string }) => {
     )
     //console.log(resetPassLink)
 };
+const resetPassword = async (token: string, payload: { id: string, password: string }) => {
+    console.log({ token, payload })
 
+    const userData = await prisma.users.findUniqueOrThrow({
+        where: {
+            id: payload.id,
+        }
+    });
+
+    const isValidToken = jwt.verify(token, config.reset_password_secret as string)
+
+    if (!isValidToken) {
+        throw new Error("Forbidden!")
+    }
+
+    // hash password
+    const password = await bcrypt.hash(payload.password, 12);
+
+    // update into database
+    await prisma.users.update({
+        where: {
+            id: payload.id
+        },
+        data: {
+            password
+        }
+    })
+};
 export const AuthServices = {
     login,
     refreshToken,
     changePassword,
-    forgotPassword
+    forgotPassword,
+    resetPassword
 }
