@@ -23,12 +23,44 @@ const registerUser = async (payload: IUser) => {
 const getMyProfile = async (user: IAuthUser) => {
     const userData = await prisma.users.findUnique({
         where: {
-            email: user.email
+            email: user.email,
+            isDeleted:false
         }
     })
     return userData
 }
+const deleteUser = async (user: IAuthUser, deletedId: string) => {
+    const userData = await prisma.users.findUniqueOrThrow({
+        where: {
+            email: user.email
+        }
+    })
+    const deletedData = await prisma.users.findUniqueOrThrow({
+        where: {
+            id: deletedId,
+            isDeleted: false
+        }
+    })
+    if (!deletedData) {
+        throw new Error('User not exists')
+    }
+    if (userData.role !== "ADMIN" && userData.id !== deletedId) {
+        throw new Error('You are not authorized to delete');
+    }
+
+    const result = await prisma.users.update({
+        where: {
+            id: deletedId,
+            isDeleted:false
+        },
+        data: {
+            isDeleted: true
+        }
+    })
+    return result
+}
 export const userServices = {
     registerUser,
-    getMyProfile
+    getMyProfile,
+    deleteUser
 }

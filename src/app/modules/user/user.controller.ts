@@ -15,8 +15,8 @@ const registerUser = catchAsync(async (req: Request, res: Response) => {
         data: result
     });
 })
-const getMyProfile = catchAsync(async (req: Request & {user?:IAuthUser}, res: Response) => {
-    const {user}=req;
+const getMyProfile = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
+    const { user } = req;
     const result = await userServices.getMyProfile(user as IAuthUser);
     sendResponse(res, {
         statusCode: status.OK,
@@ -25,8 +25,20 @@ const getMyProfile = catchAsync(async (req: Request & {user?:IAuthUser}, res: Re
         data: result
     });
 })
+const deleteUser = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
+    const { user } = req;
+    const { id } = req.params;
+    await userServices.deleteUser(user as IAuthUser, id);
+    sendResponse(res, {
+        statusCode: status.OK,
+        success: true,
+        message: "User deleted Successfully",
+        data: null
+    });
+})
 
 export const userController = {
     registerUser,
-    getMyProfile
+    getMyProfile,
+    deleteUser
 }

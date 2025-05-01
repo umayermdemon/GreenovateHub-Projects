@@ -6,7 +6,9 @@ import { userRole } from "../../../../generated/prisma";
 
 const router = Router();
 
-router.post('/', userController.registerUser)
-router.get('/my-profile',auth(userRole.ADMIN,userRole.MEMBER), userController.getMyProfile)
+router.post('/', userController.registerUser);
+router.get('/my-profile',auth(userRole.ADMIN,userRole.MEMBER), userController.getMyProfile);
+router.delete('/delete-user/:id',auth(userRole.ADMIN,userRole.MEMBER), userController.deleteUser);
+
 
 export const userRouter = router;

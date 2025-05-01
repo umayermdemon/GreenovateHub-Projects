@@ -903,6 +903,7 @@ export namespace Prisma {
     role: $Enums.userRole | null
     password: string | null
     needsPasswordChange: boolean | null
+    isDeleted: boolean | null
     image: string | null
     address: string | null
     createdAt: Date | null
@@ -916,6 +917,7 @@ export namespace Prisma {
     role: $Enums.userRole | null
     password: string | null
     needsPasswordChange: boolean | null
+    isDeleted: boolean | null
     image: string | null
     address: string | null
     createdAt: Date | null
@@ -929,6 +931,7 @@ export namespace Prisma {
     role: number
     password: number
     needsPasswordChange: number
+    isDeleted: number
     image: number
     address: number
     createdAt: number
@@ -944,6 +947,7 @@ export namespace Prisma {
     role?: true
     password?: true
     needsPasswordChange?: true
+    isDeleted?: true
     image?: true
     address?: true
     createdAt?: true
@@ -957,6 +961,7 @@ export namespace Prisma {
     role?: true
     password?: true
     needsPasswordChange?: true
+    isDeleted?: true
     image?: true
     address?: true
     createdAt?: true
@@ -970,6 +975,7 @@ export namespace Prisma {
     role?: true
     password?: true
     needsPasswordChange?: true
+    isDeleted?: true
     image?: true
     address?: true
     createdAt?: true
@@ -1056,6 +1062,7 @@ export namespace Prisma {
     role: $Enums.userRole
     password: string
     needsPasswordChange: boolean
+    isDeleted: boolean
     image: string
     address: string
     createdAt: Date
@@ -1086,6 +1093,7 @@ export namespace Prisma {
     role?: boolean
     password?: boolean
     needsPasswordChange?: boolean
+    isDeleted?: boolean
     image?: boolean
     address?: boolean
     createdAt?: boolean
@@ -1099,6 +1107,7 @@ export namespace Prisma {
     role?: boolean
     password?: boolean
     needsPasswordChange?: boolean
+    isDeleted?: boolean
     image?: boolean
     address?: boolean
     createdAt?: boolean
@@ -1112,6 +1121,7 @@ export namespace Prisma {
     role?: boolean
     password?: boolean
     needsPasswordChange?: boolean
+    isDeleted?: boolean
     image?: boolean
     address?: boolean
     createdAt?: boolean
@@ -1125,13 +1135,14 @@ export namespace Prisma {
     role?: boolean
     password?: boolean
     needsPasswordChange?: boolean
+    isDeleted?: boolean
     image?: boolean
     address?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UsersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "role" | "password" | "needsPasswordChange" | "image" | "address" | "createdAt" | "updatedAt", ExtArgs["result"]["users"]>
+  export type UsersOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "role" | "password" | "needsPasswordChange" | "isDeleted" | "image" | "address" | "createdAt" | "updatedAt", ExtArgs["result"]["users"]>
 
   export type $UsersPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Users"
@@ -1143,6 +1154,7 @@ export namespace Prisma {
       role: $Enums.userRole
       password: string
       needsPasswordChange: boolean
+      isDeleted: boolean
       image: string
       address: string
       createdAt: Date
@@ -1576,6 +1588,7 @@ export namespace Prisma {
     readonly role: FieldRef<"Users", 'userRole'>
     readonly password: FieldRef<"Users", 'String'>
     readonly needsPasswordChange: FieldRef<"Users", 'Boolean'>
+    readonly isDeleted: FieldRef<"Users", 'Boolean'>
     readonly image: FieldRef<"Users", 'String'>
     readonly address: FieldRef<"Users", 'String'>
     readonly createdAt: FieldRef<"Users", 'DateTime'>
@@ -1967,6 +1980,7 @@ export namespace Prisma {
     role: 'role',
     password: 'password',
     needsPasswordChange: 'needsPasswordChange',
+    isDeleted: 'isDeleted',
     image: 'image',
     address: 'address',
     createdAt: 'createdAt',
@@ -2073,6 +2087,7 @@ export namespace Prisma {
     role?: EnumuserRoleFilter<"Users"> | $Enums.userRole
     password?: StringFilter<"Users"> | string
     needsPasswordChange?: BoolFilter<"Users"> | boolean
+    isDeleted?: BoolFilter<"Users"> | boolean
     image?: StringFilter<"Users"> | string
     address?: StringFilter<"Users"> | string
     createdAt?: DateTimeFilter<"Users"> | Date | string
@@ -2086,6 +2101,7 @@ export namespace Prisma {
     role?: SortOrder
     password?: SortOrder
     needsPasswordChange?: SortOrder
+    isDeleted?: SortOrder
     image?: SortOrder
     address?: SortOrder
     createdAt?: SortOrder
@@ -2102,6 +2118,7 @@ export namespace Prisma {
     role?: EnumuserRoleFilter<"Users"> | $Enums.userRole
     password?: StringFilter<"Users"> | string
     needsPasswordChange?: BoolFilter<"Users"> | boolean
+    isDeleted?: BoolFilter<"Users"> | boolean
     image?: StringFilter<"Users"> | string
     address?: StringFilter<"Users"> | string
     createdAt?: DateTimeFilter<"Users"> | Date | string
@@ -2115,6 +2132,7 @@ export namespace Prisma {
     role?: SortOrder
     password?: SortOrder
     needsPasswordChange?: SortOrder
+    isDeleted?: SortOrder
     image?: SortOrder
     address?: SortOrder
     createdAt?: SortOrder
@@ -2134,6 +2152,7 @@ export namespace Prisma {
     role?: EnumuserRoleWithAggregatesFilter<"Users"> | $Enums.userRole
     password?: StringWithAggregatesFilter<"Users"> | string
     needsPasswordChange?: BoolWithAggregatesFilter<"Users"> | boolean
+    isDeleted?: BoolWithAggregatesFilter<"Users"> | boolean
     image?: StringWithAggregatesFilter<"Users"> | string
     address?: StringWithAggregatesFilter<"Users"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Users"> | Date | string
@@ -2147,6 +2166,7 @@ export namespace Prisma {
     role: $Enums.userRole
     password: string
     needsPasswordChange?: boolean
+    isDeleted?: boolean
     image: string
     address: string
     createdAt?: Date | string
@@ -2160,6 +2180,7 @@ export namespace Prisma {
     role: $Enums.userRole
     password: string
     needsPasswordChange?: boolean
+    isDeleted?: boolean
     image: string
     address: string
     createdAt?: Date | string
@@ -2173,6 +2194,7 @@ export namespace Prisma {
     role?: EnumuserRoleFieldUpdateOperationsInput | $Enums.userRole
     password?: StringFieldUpdateOperationsInput | string
     needsPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2186,6 +2208,7 @@ export namespace Prisma {
     role?: EnumuserRoleFieldUpdateOperationsInput | $Enums.userRole
     password?: StringFieldUpdateOperationsInput | string
     needsPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2199,6 +2222,7 @@ export namespace Prisma {
     role: $Enums.userRole
     password: string
     needsPasswordChange?: boolean
+    isDeleted?: boolean
     image: string
     address: string
     createdAt?: Date | string
@@ -2212,6 +2236,7 @@ export namespace Prisma {
     role?: EnumuserRoleFieldUpdateOperationsInput | $Enums.userRole
     password?: StringFieldUpdateOperationsInput | string
     needsPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2225,6 +2250,7 @@ export namespace Prisma {
     role?: EnumuserRoleFieldUpdateOperationsInput | $Enums.userRole
     password?: StringFieldUpdateOperationsInput | string
     needsPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
     address?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -2276,6 +2302,7 @@ export namespace Prisma {
     role?: SortOrder
     password?: SortOrder
     needsPasswordChange?: SortOrder
+    isDeleted?: SortOrder
     image?: SortOrder
     address?: SortOrder
     createdAt?: SortOrder
@@ -2289,6 +2316,7 @@ export namespace Prisma {
     role?: SortOrder
     password?: SortOrder
     needsPasswordChange?: SortOrder
+    isDeleted?: SortOrder
     image?: SortOrder
     address?: SortOrder
     createdAt?: SortOrder
@@ -2302,6 +2330,7 @@ export namespace Prisma {
     role?: SortOrder
     password?: SortOrder
     needsPasswordChange?: SortOrder
+    isDeleted?: SortOrder
     image?: SortOrder
     address?: SortOrder
     createdAt?: SortOrder
