@@ -25,6 +25,16 @@ const getMyProfile = catchAsync(async (req: Request & { user?: IAuthUser }, res:
         data: result
     });
 })
+const updateUser = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
+    const { user,body } = req;
+   const result= await userServices.updateUser(user as IAuthUser,body);
+    sendResponse(res, {
+        statusCode: status.OK,
+        success: true,
+        message: "User updated Successfully",
+        data: result
+    });
+})
 const deleteUser = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
     const { user } = req;
     const { id } = req.params;
@@ -40,5 +50,6 @@ const deleteUser = catchAsync(async (req: Request & { user?: IAuthUser }, res: R
 export const userController = {
     registerUser,
     getMyProfile,
-    deleteUser
+    deleteUser,
+    updateUser
 }

@@ -24,10 +24,27 @@ const getMyProfile = async (user: IAuthUser) => {
     const userData = await prisma.users.findUnique({
         where: {
             email: user.email,
-            isDeleted:false
+            isDeleted: false
         }
     })
     return userData
+}
+const updateUser = async (user: IAuthUser, upadedPayload: Partial<IUser>) => {
+    const userData = await prisma.users.findUniqueOrThrow({
+        where: {
+            email: user.email
+        }
+    })
+    if (!userData) {
+        throw new Error('User not found')
+    }
+    const result = await prisma.users.update({
+        where: {
+            id: userData.id
+        },
+        data: upadedPayload
+    })
+    return result
 }
 const deleteUser = async (user: IAuthUser, deletedId: string) => {
     const userData = await prisma.users.findUniqueOrThrow({
@@ -51,7 +68,7 @@ const deleteUser = async (user: IAuthUser, deletedId: string) => {
     const result = await prisma.users.update({
         where: {
             id: deletedId,
-            isDeleted:false
+            isDeleted: false
         },
         data: {
             isDeleted: true
@@ -62,5 +79,6 @@ const deleteUser = async (user: IAuthUser, deletedId: string) => {
 export const userServices = {
     registerUser,
     getMyProfile,
-    deleteUser
+    deleteUser,
+    updateUser
 }

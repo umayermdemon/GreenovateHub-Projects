@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import config from "../config";
 import jwt, { JwtPayload } from "jsonwebtoken";
+import { prisma } from "../utils/prisma";
 const auth = (...userRoles: string[]) => {
     return async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
         try {
@@ -13,7 +14,15 @@ const auth = (...userRoles: string[]) => {
             if (userRoles.length && !userRoles.includes(decodedUser.role)) {
                 throw new Error('Forbidden')
             }
-            req.user = decodedUser
+            req.user = decodedUser;
+            const isUserExists= await prisma.users.findUnique({
+                where:{
+                    email:decodedUser.email,
+                }
+            })
+            if(!isUserExists){
+                throw new Error('User not exists in auth');
+            }
             next();
         } catch (err) {
             next(err)
