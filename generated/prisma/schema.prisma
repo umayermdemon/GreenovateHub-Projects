@@ -14,17 +14,68 @@ model User {
   email               String   @unique
   role                userRole
   password            String
+<<<<<<< HEAD
+  needsPasswordChange Boolean  @default(true)
+=======
   needsPasswordChange Boolean  @default(false)
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
   isDeleted           Boolean  @default(false)
   image               String
-  address             String
+  address             String?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
+<<<<<<< HEAD
+  Idea                Idea[]
+=======
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
 
   @@map("users")
 }
 
 enum userRole {
-  ADMIN
-  MEMBER
+  admin
+  member
+}
+
+model Category {
+  category_id String       @id @default(uuid())
+  name        categoryName
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  Idea        Idea[]
+
+  @@map("categories")
+}
+
+enum categoryName {
+  energy
+  waste
+  transportation
+}
+
+model Idea {
+  idea_id           String     @id @default(uuid())
+  title             String
+  description       String
+  categoryId        String
+  category          Category   @relation(fields: [categoryId], references: [category_id])
+  images            String[]
+  authorId          String
+  users             User       @relation(fields: [authorId], references: [id])
+  problem_statement String
+  proposed_solution String
+  isPremium         Boolean    @default(false)
+  price             String
+  status            ideaStatus
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  @@map("ideas")
+}
+
+enum ideaStatus {
+  pending
+  draft
+  published
+  unpublished
 }

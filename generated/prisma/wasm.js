@@ -134,6 +134,30 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CategoryScalarFieldEnum = {
+  category_id: 'category_id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.IdeaScalarFieldEnum = {
+  idea_id: 'idea_id',
+  title: 'title',
+  description: 'description',
+  categoryId: 'categoryId',
+  images: 'images',
+  authorId: 'authorId',
+  problem_statement: 'problem_statement',
+  proposed_solution: 'proposed_solution',
+  isPremium: 'isPremium',
+  price: 'price',
+  status: 'status',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -143,13 +167,37 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
 exports.userRole = exports.$Enums.userRole = {
-  ADMIN: 'ADMIN',
-  MEMBER: 'MEMBER'
+  admin: 'admin',
+  member: 'member'
+};
+
+exports.categoryName = exports.$Enums.categoryName = {
+  energy: 'energy',
+  waste: 'waste',
+  transportation: 'transportation'
+};
+
+exports.ideaStatus = exports.$Enums.ideaStatus = {
+  pending: 'pending',
+  draft: 'draft',
+  published: 'published',
+  unpublished: 'unpublished'
 };
 
 exports.Prisma.ModelName = {
+<<<<<<< HEAD
+  User: 'User',
+  Category: 'Category',
+  Idea: 'Idea'
+=======
   User: 'User'
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
 };
 
 /**

@@ -5,62 +5,56 @@ import status from "http-status";
 import { userServices } from "./user.service";
 import { IAuthUser } from "./user.interface";
 
-
 const registerUser = catchAsync(async (req: Request, res: Response) => {
-    const result = await userServices.registerUser(req.body);
-    sendResponse(res, {
-        statusCode: status.CREATED,
-        success: true,
-        message: "User Registered Successfully",
-        data: result
-    });
-})
-const getSingleUser = catchAsync(async (req: Request, res: Response) => {
-    const{id}=req.params;
-    const result = await userServices.getSingleUser(id);
-    sendResponse(res, {
-        statusCode: status.CREATED,
-        success: true,
-        message: "User Retrived Successfully",
-        data: result
-    });
-})
-const getMyProfile = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
+  const result = await userServices.registerUser(req.body);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    success: true,
+    message: "User Registered Successfully",
+    data: result,
+  });
+});
+const getMyProfile = catchAsync(
+  async (req: Request & { user?: IAuthUser }, res: Response) => {
     const { user } = req;
     const result = await userServices.getMyProfile(user as IAuthUser);
     sendResponse(res, {
-        statusCode: status.OK,
-        success: true,
-        message: "My Profile Retrived Successfully",
-        data: result
+      statusCode: status.OK,
+      success: true,
+      message: "My Profile Retrieved Successfully",
+      data: result,
     });
-})
-const updateUser = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
-    const { user,body } = req;
-   const result= await userServices.updateUser(user as IAuthUser,body);
+  }
+);
+const updateUser = catchAsync(
+  async (req: Request & { user?: IAuthUser }, res: Response) => {
+    const { user, body } = req;
+    const result = await userServices.updateUser(user as IAuthUser, body);
     sendResponse(res, {
-        statusCode: status.OK,
-        success: true,
-        message: "User updated Successfully",
-        data: result
+      statusCode: status.OK,
+      success: true,
+      message: "User updated Successfully",
+      data: result,
     });
-})
-const deleteUser = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
+  }
+);
+const deleteUser = catchAsync(
+  async (req: Request & { user?: IAuthUser }, res: Response) => {
     const { user } = req;
     const { id } = req.params;
     await userServices.deleteUser(user as IAuthUser, id);
     sendResponse(res, {
-        statusCode: status.OK,
-        success: true,
-        message: "User deleted Successfully",
-        data: null
+      statusCode: status.OK,
+      success: true,
+      message: "User deleted Successfully",
+      data: null,
     });
-})
+  }
+);
 
 export const userController = {
-    registerUser,
-    getMyProfile,
-    deleteUser,
-    updateUser,
-    getSingleUser
-}
+  registerUser,
+  getMyProfile,
+  deleteUser,
+  updateUser,
+};
