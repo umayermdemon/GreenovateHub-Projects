@@ -15,6 +15,16 @@ const registerUser = catchAsync(async (req: Request, res: Response) => {
         data: result
     });
 })
+const getSingleUser = catchAsync(async (req: Request, res: Response) => {
+    const{id}=req.params;
+    const result = await userServices.getSingleUser(id);
+    sendResponse(res, {
+        statusCode: status.CREATED,
+        success: true,
+        message: "User Retrived Successfully",
+        data: result
+    });
+})
 const getMyProfile = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
     const { user } = req;
     const result = await userServices.getMyProfile(user as IAuthUser);
@@ -51,5 +61,6 @@ export const userController = {
     registerUser,
     getMyProfile,
     deleteUser,
-    updateUser
+    updateUser,
+    getSingleUser
 }

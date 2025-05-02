@@ -7,7 +7,7 @@ const registerUser = async (payload: IUser) => {
     const { password } = payload;
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const result = await prisma.users.create({
+    const result = await prisma.user.create({
         data: {
             name: payload.name,
             email: payload.email,
@@ -19,9 +19,16 @@ const registerUser = async (payload: IUser) => {
     })
     return result
 }
-
+const getSingleUser = async (userId: string) => {
+    const result = prisma.user.findUnique({
+        where: {
+            id: userId
+        }
+    })
+    return result
+}
 const getMyProfile = async (user: IAuthUser) => {
-    const userData = await prisma.users.findUnique({
+    const userData = await prisma.user.findUnique({
         where: {
             email: user.email,
             isDeleted: false
@@ -30,7 +37,7 @@ const getMyProfile = async (user: IAuthUser) => {
     return userData
 }
 const updateUser = async (user: IAuthUser, upadedPayload: Partial<IUser>) => {
-    const userData = await prisma.users.findUniqueOrThrow({
+    const userData = await prisma.user.findUniqueOrThrow({
         where: {
             email: user.email
         }
@@ -38,7 +45,7 @@ const updateUser = async (user: IAuthUser, upadedPayload: Partial<IUser>) => {
     if (!userData) {
         throw new Error('User not found')
     }
-    const result = await prisma.users.update({
+    const result = await prisma.user.update({
         where: {
             id: userData.id
         },
@@ -47,12 +54,12 @@ const updateUser = async (user: IAuthUser, upadedPayload: Partial<IUser>) => {
     return result
 }
 const deleteUser = async (user: IAuthUser, deletedId: string) => {
-    const userData = await prisma.users.findUniqueOrThrow({
+    const userData = await prisma.user.findUniqueOrThrow({
         where: {
             email: user.email
         }
     })
-    const deletedData = await prisma.users.findUniqueOrThrow({
+    const deletedData = await prisma.user.findUniqueOrThrow({
         where: {
             id: deletedId,
             isDeleted: false
@@ -65,7 +72,7 @@ const deleteUser = async (user: IAuthUser, deletedId: string) => {
         throw new Error('You are not authorized to delete');
     }
 
-    const result = await prisma.users.update({
+    const result = await prisma.user.update({
         where: {
             id: deletedId,
             isDeleted: false
@@ -76,9 +83,10 @@ const deleteUser = async (user: IAuthUser, deletedId: string) => {
     })
     return result
 }
-export const userServices = {
+export const userervices = {
     registerUser,
     getMyProfile,
     deleteUser,
-    updateUser
+    updateUser,
+    getSingleUser
 }

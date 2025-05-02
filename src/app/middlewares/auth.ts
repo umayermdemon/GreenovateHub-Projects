@@ -18,6 +18,7 @@ const auth = (...userRoles: string[]) => {
             const isUserExists= await prisma.users.findUnique({
                 where:{
                     email:decodedUser.email,
+                    isDeleted:false
                 }
             })
             if(!isUserExists){

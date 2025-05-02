@@ -7,7 +7,7 @@ import { IAuthUser } from "../user/user.interface";
 import sendEmail from "./sendEmail";
 
 const login = async (payload: { email: string, password: string }) => {
-    const userData = await prisma.users.findUniqueOrThrow({
+    const userData = await prisma.user.findUniqueOrThrow({
         where: {
             email: payload.email
         }
@@ -48,7 +48,7 @@ const refreshToken = async (token: string) => {
     if (typeof decodedData === 'string' || !('email' in decodedData)) {
         throw new Error("Invalid token payload");
     }
-    const userData = await prisma.users.findUniqueOrThrow({
+    const userData = await prisma.user.findUniqueOrThrow({
         where: {
             email: decodedData.email
         }
@@ -64,7 +64,7 @@ const refreshToken = async (token: string) => {
 }
 
 const changePassword = async (user: IAuthUser, payload: { oldPassword: string, newPassword: string }) => {
-    const userData = await prisma.users.findUniqueOrThrow({
+    const userData = await prisma.user.findUniqueOrThrow({
         where: {
             email: user?.email,
         }
@@ -78,7 +78,7 @@ const changePassword = async (user: IAuthUser, payload: { oldPassword: string, n
 
     const hashedPassword: string = await bcrypt.hash(payload.newPassword, 12);
 
-    await prisma.users.update({
+    await prisma.user.update({
         where: {
             email: userData.email
         },
@@ -94,7 +94,7 @@ const changePassword = async (user: IAuthUser, payload: { oldPassword: string, n
 };
 
 const forgotPassword = async (payload: { email: string }) => {
-    const userData = await prisma.users.findUniqueOrThrow({
+    const userData = await prisma.user.findUniqueOrThrow({
         where: {
             email: payload.email,
         }
@@ -129,7 +129,7 @@ const forgotPassword = async (payload: { email: string }) => {
 const resetPassword = async (token: string, payload: { id: string, password: string }) => {
     console.log({ token, payload })
 
-    const userData = await prisma.users.findUniqueOrThrow({
+    const userData = await prisma.user.findUniqueOrThrow({
         where: {
             id: payload.id,
         }
@@ -145,7 +145,7 @@ const resetPassword = async (token: string, payload: { id: string, password: str
     const password = await bcrypt.hash(payload.password, 12);
 
     // update into database
-    await prisma.users.update({
+    await prisma.user.update({
         where: {
             id: payload.id
         },
