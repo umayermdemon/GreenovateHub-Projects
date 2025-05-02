@@ -28,17 +28,24 @@ export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
  * 
  */
 export type Idea = $Result.DefaultSelection<Prisma.$IdeaPayload>
+/**
+ * Model Blog
+ * 
+ */
+export type Blog = $Result.DefaultSelection<Prisma.$BlogPayload>
 
 /**
  * Enums
  */
 export namespace $Enums {
-  export const userRole: {
-  admin: 'admin',
-  member: 'member'
+  export const ideaStatus: {
+  pending: 'pending',
+  draft: 'draft',
+  published: 'published',
+  unpublished: 'unpublished'
 };
 
-export type userRole = (typeof userRole)[keyof typeof userRole]
+export type ideaStatus = (typeof ideaStatus)[keyof typeof ideaStatus]
 
 
 export const categoryName: {
@@ -50,28 +57,26 @@ export const categoryName: {
 export type categoryName = (typeof categoryName)[keyof typeof categoryName]
 
 
-export const ideaStatus: {
-  pending: 'pending',
-  draft: 'draft',
-  published: 'published',
-  unpublished: 'unpublished'
+export const userRole: {
+  admin: 'admin',
+  member: 'member'
 };
 
-export type ideaStatus = (typeof ideaStatus)[keyof typeof ideaStatus]
+export type userRole = (typeof userRole)[keyof typeof userRole]
 
 }
 
-export type userRole = $Enums.userRole
+export type ideaStatus = $Enums.ideaStatus
 
-export const userRole: typeof $Enums.userRole
+export const ideaStatus: typeof $Enums.ideaStatus
 
 export type categoryName = $Enums.categoryName
 
 export const categoryName: typeof $Enums.categoryName
 
-export type ideaStatus = $Enums.ideaStatus
+export type userRole = $Enums.userRole
 
-export const ideaStatus: typeof $Enums.ideaStatus
+export const userRole: typeof $Enums.userRole
 
 /**
  * ##  Prisma Client ʲˢ
@@ -227,6 +232,16 @@ export class PrismaClient<
     * ```
     */
   get idea(): Prisma.IdeaDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.blog`: Exposes CRUD operations for the **Blog** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Blogs
+    * const blogs = await prisma.blog.findMany()
+    * ```
+    */
+  get blog(): Prisma.BlogDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -669,7 +684,8 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Category: 'Category',
-    Idea: 'Idea'
+    Idea: 'Idea',
+    Blog: 'Blog'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -688,7 +704,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "category" | "idea"
+      modelProps: "user" | "category" | "idea" | "blog"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -914,6 +930,80 @@ export namespace Prisma {
           }
         }
       }
+      Blog: {
+        payload: Prisma.$BlogPayload<ExtArgs>
+        fields: Prisma.BlogFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BlogFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BlogFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPayload>
+          }
+          findFirst: {
+            args: Prisma.BlogFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BlogFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPayload>
+          }
+          findMany: {
+            args: Prisma.BlogFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPayload>[]
+          }
+          create: {
+            args: Prisma.BlogCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPayload>
+          }
+          createMany: {
+            args: Prisma.BlogCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BlogCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPayload>[]
+          }
+          delete: {
+            args: Prisma.BlogDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPayload>
+          }
+          update: {
+            args: Prisma.BlogUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPayload>
+          }
+          deleteMany: {
+            args: Prisma.BlogDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BlogUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BlogUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPayload>[]
+          }
+          upsert: {
+            args: Prisma.BlogUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BlogPayload>
+          }
+          aggregate: {
+            args: Prisma.BlogAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBlog>
+          }
+          groupBy: {
+            args: Prisma.BlogGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BlogGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BlogCountArgs<ExtArgs>
+            result: $Utils.Optional<BlogCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1001,6 +1091,7 @@ export namespace Prisma {
     user?: UserOmit
     category?: CategoryOmit
     idea?: IdeaOmit
+    blog?: BlogOmit
   }
 
   /* Types for Logging */
@@ -1096,10 +1187,12 @@ export namespace Prisma {
 
   export type UserCountOutputType = {
     Idea: number
+    Blog: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Idea?: boolean | UserCountOutputTypeCountIdeaArgs
+    Blog?: boolean | UserCountOutputTypeCountBlogArgs
   }
 
   // Custom InputTypes
@@ -1120,6 +1213,13 @@ export namespace Prisma {
     where?: IdeaWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBlogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BlogWhereInput
+  }
+
 
   /**
    * Count Type CategoryCountOutputType
@@ -1127,10 +1227,12 @@ export namespace Prisma {
 
   export type CategoryCountOutputType = {
     Idea: number
+    Blog: number
   }
 
   export type CategoryCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Idea?: boolean | CategoryCountOutputTypeCountIdeaArgs
+    Blog?: boolean | CategoryCountOutputTypeCountBlogArgs
   }
 
   // Custom InputTypes
@@ -1149,6 +1251,13 @@ export namespace Prisma {
    */
   export type CategoryCountOutputTypeCountIdeaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: IdeaWhereInput
+  }
+
+  /**
+   * CategoryCountOutputType without action
+   */
+  export type CategoryCountOutputTypeCountBlogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BlogWhereInput
   }
 
 
@@ -1369,6 +1478,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     Idea?: boolean | User$IdeaArgs<ExtArgs>
+    Blog?: boolean | User$BlogArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1417,6 +1527,7 @@ export namespace Prisma {
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "role" | "password" | "needsPasswordChange" | "isDeleted" | "image" | "address" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Idea?: boolean | User$IdeaArgs<ExtArgs>
+    Blog?: boolean | User$BlogArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1426,6 +1537,7 @@ export namespace Prisma {
     name: "User"
     objects: {
       Idea: Prisma.$IdeaPayload<ExtArgs>[]
+      Blog: Prisma.$BlogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -1834,6 +1946,7 @@ export namespace Prisma {
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     Idea<T extends User$IdeaArgs<ExtArgs> = {}>(args?: Subset<T, User$IdeaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IdeaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Blog<T extends User$BlogArgs<ExtArgs> = {}>(args?: Subset<T, User$BlogArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2286,6 +2399,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.Blog
+   */
+  export type User$BlogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Blog
+     */
+    select?: BlogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Blog
+     */
+    omit?: BlogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogInclude<ExtArgs> | null
+    where?: BlogWhereInput
+    orderBy?: BlogOrderByWithRelationInput | BlogOrderByWithRelationInput[]
+    cursor?: BlogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BlogScalarFieldEnum | BlogScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2461,6 +2598,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     Idea?: boolean | Category$IdeaArgs<ExtArgs>
+    Blog?: boolean | Category$BlogArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["category"]>
 
@@ -2488,6 +2626,7 @@ export namespace Prisma {
   export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"category_id" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Idea?: boolean | Category$IdeaArgs<ExtArgs>
+    Blog?: boolean | Category$BlogArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type CategoryIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2497,6 +2636,7 @@ export namespace Prisma {
     name: "Category"
     objects: {
       Idea: Prisma.$IdeaPayload<ExtArgs>[]
+      Blog: Prisma.$BlogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       category_id: string
@@ -2898,6 +3038,7 @@ export namespace Prisma {
   export interface Prisma__CategoryClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     Idea<T extends Category$IdeaArgs<ExtArgs> = {}>(args?: Subset<T, Category$IdeaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IdeaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    Blog<T extends Category$BlogArgs<ExtArgs> = {}>(args?: Subset<T, Category$BlogArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3340,6 +3481,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: IdeaScalarFieldEnum | IdeaScalarFieldEnum[]
+  }
+
+  /**
+   * Category.Blog
+   */
+  export type Category$BlogArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Blog
+     */
+    select?: BlogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Blog
+     */
+    omit?: BlogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogInclude<ExtArgs> | null
+    where?: BlogWhereInput
+    orderBy?: BlogOrderByWithRelationInput | BlogOrderByWithRelationInput[]
+    cursor?: BlogWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: BlogScalarFieldEnum | BlogScalarFieldEnum[]
   }
 
   /**
@@ -4541,6 +4706,1107 @@ export namespace Prisma {
 
 
   /**
+   * Model Blog
+   */
+
+  export type AggregateBlog = {
+    _count: BlogCountAggregateOutputType | null
+    _min: BlogMinAggregateOutputType | null
+    _max: BlogMaxAggregateOutputType | null
+  }
+
+  export type BlogMinAggregateOutputType = {
+    blog_id: string | null
+    title: string | null
+    description: string | null
+    authorId: string | null
+    category_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BlogMaxAggregateOutputType = {
+    blog_id: string | null
+    title: string | null
+    description: string | null
+    authorId: string | null
+    category_id: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BlogCountAggregateOutputType = {
+    blog_id: number
+    title: number
+    images: number
+    description: number
+    authorId: number
+    category_id: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BlogMinAggregateInputType = {
+    blog_id?: true
+    title?: true
+    description?: true
+    authorId?: true
+    category_id?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BlogMaxAggregateInputType = {
+    blog_id?: true
+    title?: true
+    description?: true
+    authorId?: true
+    category_id?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BlogCountAggregateInputType = {
+    blog_id?: true
+    title?: true
+    images?: true
+    description?: true
+    authorId?: true
+    category_id?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BlogAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Blog to aggregate.
+     */
+    where?: BlogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Blogs to fetch.
+     */
+    orderBy?: BlogOrderByWithRelationInput | BlogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BlogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Blogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Blogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Blogs
+    **/
+    _count?: true | BlogCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BlogMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BlogMaxAggregateInputType
+  }
+
+  export type GetBlogAggregateType<T extends BlogAggregateArgs> = {
+        [P in keyof T & keyof AggregateBlog]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBlog[P]>
+      : GetScalarType<T[P], AggregateBlog[P]>
+  }
+
+
+
+
+  export type BlogGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BlogWhereInput
+    orderBy?: BlogOrderByWithAggregationInput | BlogOrderByWithAggregationInput[]
+    by: BlogScalarFieldEnum[] | BlogScalarFieldEnum
+    having?: BlogScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BlogCountAggregateInputType | true
+    _min?: BlogMinAggregateInputType
+    _max?: BlogMaxAggregateInputType
+  }
+
+  export type BlogGroupByOutputType = {
+    blog_id: string
+    title: string
+    images: string[]
+    description: string
+    authorId: string
+    category_id: string
+    createdAt: Date
+    updatedAt: Date
+    _count: BlogCountAggregateOutputType | null
+    _min: BlogMinAggregateOutputType | null
+    _max: BlogMaxAggregateOutputType | null
+  }
+
+  type GetBlogGroupByPayload<T extends BlogGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BlogGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BlogGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BlogGroupByOutputType[P]>
+            : GetScalarType<T[P], BlogGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BlogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    blog_id?: boolean
+    title?: boolean
+    images?: boolean
+    description?: boolean
+    authorId?: boolean
+    category_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["blog"]>
+
+  export type BlogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    blog_id?: boolean
+    title?: boolean
+    images?: boolean
+    description?: boolean
+    authorId?: boolean
+    category_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["blog"]>
+
+  export type BlogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    blog_id?: boolean
+    title?: boolean
+    images?: boolean
+    description?: boolean
+    authorId?: boolean
+    category_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["blog"]>
+
+  export type BlogSelectScalar = {
+    blog_id?: boolean
+    title?: boolean
+    images?: boolean
+    description?: boolean
+    authorId?: boolean
+    category_id?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BlogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"blog_id" | "title" | "images" | "description" | "authorId" | "category_id" | "createdAt" | "updatedAt", ExtArgs["result"]["blog"]>
+  export type BlogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }
+  export type BlogIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }
+  export type BlogIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    author?: boolean | UserDefaultArgs<ExtArgs>
+    category?: boolean | CategoryDefaultArgs<ExtArgs>
+  }
+
+  export type $BlogPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Blog"
+    objects: {
+      author: Prisma.$UserPayload<ExtArgs>
+      category: Prisma.$CategoryPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      blog_id: string
+      title: string
+      images: string[]
+      description: string
+      authorId: string
+      category_id: string
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["blog"]>
+    composites: {}
+  }
+
+  type BlogGetPayload<S extends boolean | null | undefined | BlogDefaultArgs> = $Result.GetResult<Prisma.$BlogPayload, S>
+
+  type BlogCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BlogFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BlogCountAggregateInputType | true
+    }
+
+  export interface BlogDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Blog'], meta: { name: 'Blog' } }
+    /**
+     * Find zero or one Blog that matches the filter.
+     * @param {BlogFindUniqueArgs} args - Arguments to find a Blog
+     * @example
+     * // Get one Blog
+     * const blog = await prisma.blog.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BlogFindUniqueArgs>(args: SelectSubset<T, BlogFindUniqueArgs<ExtArgs>>): Prisma__BlogClient<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Blog that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BlogFindUniqueOrThrowArgs} args - Arguments to find a Blog
+     * @example
+     * // Get one Blog
+     * const blog = await prisma.blog.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BlogFindUniqueOrThrowArgs>(args: SelectSubset<T, BlogFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BlogClient<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Blog that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlogFindFirstArgs} args - Arguments to find a Blog
+     * @example
+     * // Get one Blog
+     * const blog = await prisma.blog.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BlogFindFirstArgs>(args?: SelectSubset<T, BlogFindFirstArgs<ExtArgs>>): Prisma__BlogClient<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Blog that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlogFindFirstOrThrowArgs} args - Arguments to find a Blog
+     * @example
+     * // Get one Blog
+     * const blog = await prisma.blog.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BlogFindFirstOrThrowArgs>(args?: SelectSubset<T, BlogFindFirstOrThrowArgs<ExtArgs>>): Prisma__BlogClient<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Blogs that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlogFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Blogs
+     * const blogs = await prisma.blog.findMany()
+     * 
+     * // Get first 10 Blogs
+     * const blogs = await prisma.blog.findMany({ take: 10 })
+     * 
+     * // Only select the `blog_id`
+     * const blogWithBlog_idOnly = await prisma.blog.findMany({ select: { blog_id: true } })
+     * 
+     */
+    findMany<T extends BlogFindManyArgs>(args?: SelectSubset<T, BlogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Blog.
+     * @param {BlogCreateArgs} args - Arguments to create a Blog.
+     * @example
+     * // Create one Blog
+     * const Blog = await prisma.blog.create({
+     *   data: {
+     *     // ... data to create a Blog
+     *   }
+     * })
+     * 
+     */
+    create<T extends BlogCreateArgs>(args: SelectSubset<T, BlogCreateArgs<ExtArgs>>): Prisma__BlogClient<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Blogs.
+     * @param {BlogCreateManyArgs} args - Arguments to create many Blogs.
+     * @example
+     * // Create many Blogs
+     * const blog = await prisma.blog.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BlogCreateManyArgs>(args?: SelectSubset<T, BlogCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Blogs and returns the data saved in the database.
+     * @param {BlogCreateManyAndReturnArgs} args - Arguments to create many Blogs.
+     * @example
+     * // Create many Blogs
+     * const blog = await prisma.blog.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Blogs and only return the `blog_id`
+     * const blogWithBlog_idOnly = await prisma.blog.createManyAndReturn({
+     *   select: { blog_id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BlogCreateManyAndReturnArgs>(args?: SelectSubset<T, BlogCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Blog.
+     * @param {BlogDeleteArgs} args - Arguments to delete one Blog.
+     * @example
+     * // Delete one Blog
+     * const Blog = await prisma.blog.delete({
+     *   where: {
+     *     // ... filter to delete one Blog
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BlogDeleteArgs>(args: SelectSubset<T, BlogDeleteArgs<ExtArgs>>): Prisma__BlogClient<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Blog.
+     * @param {BlogUpdateArgs} args - Arguments to update one Blog.
+     * @example
+     * // Update one Blog
+     * const blog = await prisma.blog.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BlogUpdateArgs>(args: SelectSubset<T, BlogUpdateArgs<ExtArgs>>): Prisma__BlogClient<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Blogs.
+     * @param {BlogDeleteManyArgs} args - Arguments to filter Blogs to delete.
+     * @example
+     * // Delete a few Blogs
+     * const { count } = await prisma.blog.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BlogDeleteManyArgs>(args?: SelectSubset<T, BlogDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Blogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlogUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Blogs
+     * const blog = await prisma.blog.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BlogUpdateManyArgs>(args: SelectSubset<T, BlogUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Blogs and returns the data updated in the database.
+     * @param {BlogUpdateManyAndReturnArgs} args - Arguments to update many Blogs.
+     * @example
+     * // Update many Blogs
+     * const blog = await prisma.blog.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Blogs and only return the `blog_id`
+     * const blogWithBlog_idOnly = await prisma.blog.updateManyAndReturn({
+     *   select: { blog_id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BlogUpdateManyAndReturnArgs>(args: SelectSubset<T, BlogUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Blog.
+     * @param {BlogUpsertArgs} args - Arguments to update or create a Blog.
+     * @example
+     * // Update or create a Blog
+     * const blog = await prisma.blog.upsert({
+     *   create: {
+     *     // ... data to create a Blog
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Blog we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BlogUpsertArgs>(args: SelectSubset<T, BlogUpsertArgs<ExtArgs>>): Prisma__BlogClient<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Blogs.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlogCountArgs} args - Arguments to filter Blogs to count.
+     * @example
+     * // Count the number of Blogs
+     * const count = await prisma.blog.count({
+     *   where: {
+     *     // ... the filter for the Blogs we want to count
+     *   }
+     * })
+    **/
+    count<T extends BlogCountArgs>(
+      args?: Subset<T, BlogCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BlogCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Blog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlogAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BlogAggregateArgs>(args: Subset<T, BlogAggregateArgs>): Prisma.PrismaPromise<GetBlogAggregateType<T>>
+
+    /**
+     * Group by Blog.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BlogGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BlogGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BlogGroupByArgs['orderBy'] }
+        : { orderBy?: BlogGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BlogGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBlogGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Blog model
+   */
+  readonly fields: BlogFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Blog.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BlogClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Blog model
+   */
+  interface BlogFieldRefs {
+    readonly blog_id: FieldRef<"Blog", 'String'>
+    readonly title: FieldRef<"Blog", 'String'>
+    readonly images: FieldRef<"Blog", 'String[]'>
+    readonly description: FieldRef<"Blog", 'String'>
+    readonly authorId: FieldRef<"Blog", 'String'>
+    readonly category_id: FieldRef<"Blog", 'String'>
+    readonly createdAt: FieldRef<"Blog", 'DateTime'>
+    readonly updatedAt: FieldRef<"Blog", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Blog findUnique
+   */
+  export type BlogFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Blog
+     */
+    select?: BlogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Blog
+     */
+    omit?: BlogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogInclude<ExtArgs> | null
+    /**
+     * Filter, which Blog to fetch.
+     */
+    where: BlogWhereUniqueInput
+  }
+
+  /**
+   * Blog findUniqueOrThrow
+   */
+  export type BlogFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Blog
+     */
+    select?: BlogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Blog
+     */
+    omit?: BlogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogInclude<ExtArgs> | null
+    /**
+     * Filter, which Blog to fetch.
+     */
+    where: BlogWhereUniqueInput
+  }
+
+  /**
+   * Blog findFirst
+   */
+  export type BlogFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Blog
+     */
+    select?: BlogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Blog
+     */
+    omit?: BlogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogInclude<ExtArgs> | null
+    /**
+     * Filter, which Blog to fetch.
+     */
+    where?: BlogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Blogs to fetch.
+     */
+    orderBy?: BlogOrderByWithRelationInput | BlogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Blogs.
+     */
+    cursor?: BlogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Blogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Blogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Blogs.
+     */
+    distinct?: BlogScalarFieldEnum | BlogScalarFieldEnum[]
+  }
+
+  /**
+   * Blog findFirstOrThrow
+   */
+  export type BlogFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Blog
+     */
+    select?: BlogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Blog
+     */
+    omit?: BlogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogInclude<ExtArgs> | null
+    /**
+     * Filter, which Blog to fetch.
+     */
+    where?: BlogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Blogs to fetch.
+     */
+    orderBy?: BlogOrderByWithRelationInput | BlogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Blogs.
+     */
+    cursor?: BlogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Blogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Blogs.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Blogs.
+     */
+    distinct?: BlogScalarFieldEnum | BlogScalarFieldEnum[]
+  }
+
+  /**
+   * Blog findMany
+   */
+  export type BlogFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Blog
+     */
+    select?: BlogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Blog
+     */
+    omit?: BlogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogInclude<ExtArgs> | null
+    /**
+     * Filter, which Blogs to fetch.
+     */
+    where?: BlogWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Blogs to fetch.
+     */
+    orderBy?: BlogOrderByWithRelationInput | BlogOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Blogs.
+     */
+    cursor?: BlogWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Blogs from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Blogs.
+     */
+    skip?: number
+    distinct?: BlogScalarFieldEnum | BlogScalarFieldEnum[]
+  }
+
+  /**
+   * Blog create
+   */
+  export type BlogCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Blog
+     */
+    select?: BlogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Blog
+     */
+    omit?: BlogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Blog.
+     */
+    data: XOR<BlogCreateInput, BlogUncheckedCreateInput>
+  }
+
+  /**
+   * Blog createMany
+   */
+  export type BlogCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Blogs.
+     */
+    data: BlogCreateManyInput | BlogCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Blog createManyAndReturn
+   */
+  export type BlogCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Blog
+     */
+    select?: BlogSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Blog
+     */
+    omit?: BlogOmit<ExtArgs> | null
+    /**
+     * The data used to create many Blogs.
+     */
+    data: BlogCreateManyInput | BlogCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Blog update
+   */
+  export type BlogUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Blog
+     */
+    select?: BlogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Blog
+     */
+    omit?: BlogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Blog.
+     */
+    data: XOR<BlogUpdateInput, BlogUncheckedUpdateInput>
+    /**
+     * Choose, which Blog to update.
+     */
+    where: BlogWhereUniqueInput
+  }
+
+  /**
+   * Blog updateMany
+   */
+  export type BlogUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Blogs.
+     */
+    data: XOR<BlogUpdateManyMutationInput, BlogUncheckedUpdateManyInput>
+    /**
+     * Filter which Blogs to update
+     */
+    where?: BlogWhereInput
+    /**
+     * Limit how many Blogs to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Blog updateManyAndReturn
+   */
+  export type BlogUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Blog
+     */
+    select?: BlogSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Blog
+     */
+    omit?: BlogOmit<ExtArgs> | null
+    /**
+     * The data used to update Blogs.
+     */
+    data: XOR<BlogUpdateManyMutationInput, BlogUncheckedUpdateManyInput>
+    /**
+     * Filter which Blogs to update
+     */
+    where?: BlogWhereInput
+    /**
+     * Limit how many Blogs to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Blog upsert
+   */
+  export type BlogUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Blog
+     */
+    select?: BlogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Blog
+     */
+    omit?: BlogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Blog to update in case it exists.
+     */
+    where: BlogWhereUniqueInput
+    /**
+     * In case the Blog found by the `where` argument doesn't exist, create a new Blog with this data.
+     */
+    create: XOR<BlogCreateInput, BlogUncheckedCreateInput>
+    /**
+     * In case the Blog was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BlogUpdateInput, BlogUncheckedUpdateInput>
+  }
+
+  /**
+   * Blog delete
+   */
+  export type BlogDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Blog
+     */
+    select?: BlogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Blog
+     */
+    omit?: BlogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogInclude<ExtArgs> | null
+    /**
+     * Filter which Blog to delete.
+     */
+    where: BlogWhereUniqueInput
+  }
+
+  /**
+   * Blog deleteMany
+   */
+  export type BlogDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Blogs to delete
+     */
+    where?: BlogWhereInput
+    /**
+     * Limit how many Blogs to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Blog without action
+   */
+  export type BlogDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Blog
+     */
+    select?: BlogSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Blog
+     */
+    omit?: BlogOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BlogInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -4599,6 +5865,20 @@ export namespace Prisma {
   };
 
   export type IdeaScalarFieldEnum = (typeof IdeaScalarFieldEnum)[keyof typeof IdeaScalarFieldEnum]
+
+
+  export const BlogScalarFieldEnum: {
+    blog_id: 'blog_id',
+    title: 'title',
+    images: 'images',
+    description: 'description',
+    authorId: 'authorId',
+    category_id: 'category_id',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BlogScalarFieldEnum = (typeof BlogScalarFieldEnum)[keyof typeof BlogScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4740,6 +6020,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     Idea?: IdeaListRelationFilter
+    Blog?: BlogListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -4755,6 +6036,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     Idea?: IdeaOrderByRelationAggregateInput
+    Blog?: BlogOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -4773,6 +6055,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     Idea?: IdeaListRelationFilter
+    Blog?: BlogListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -4818,6 +6101,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
     Idea?: IdeaListRelationFilter
+    Blog?: BlogListRelationFilter
   }
 
   export type CategoryOrderByWithRelationInput = {
@@ -4826,6 +6110,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     Idea?: IdeaOrderByRelationAggregateInput
+    Blog?: BlogOrderByRelationAggregateInput
   }
 
   export type CategoryWhereUniqueInput = Prisma.AtLeast<{
@@ -4837,6 +6122,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
     Idea?: IdeaListRelationFilter
+    Blog?: BlogListRelationFilter
   }, "category_id">
 
   export type CategoryOrderByWithAggregationInput = {
@@ -4962,11 +6248,84 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Idea"> | Date | string
   }
 
+  export type BlogWhereInput = {
+    AND?: BlogWhereInput | BlogWhereInput[]
+    OR?: BlogWhereInput[]
+    NOT?: BlogWhereInput | BlogWhereInput[]
+    blog_id?: StringFilter<"Blog"> | string
+    title?: StringFilter<"Blog"> | string
+    images?: StringNullableListFilter<"Blog">
+    description?: StringFilter<"Blog"> | string
+    authorId?: StringFilter<"Blog"> | string
+    category_id?: StringFilter<"Blog"> | string
+    createdAt?: DateTimeFilter<"Blog"> | Date | string
+    updatedAt?: DateTimeFilter<"Blog"> | Date | string
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+  }
+
+  export type BlogOrderByWithRelationInput = {
+    blog_id?: SortOrder
+    title?: SortOrder
+    images?: SortOrder
+    description?: SortOrder
+    authorId?: SortOrder
+    category_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    author?: UserOrderByWithRelationInput
+    category?: CategoryOrderByWithRelationInput
+  }
+
+  export type BlogWhereUniqueInput = Prisma.AtLeast<{
+    blog_id?: string
+    title?: string
+    AND?: BlogWhereInput | BlogWhereInput[]
+    OR?: BlogWhereInput[]
+    NOT?: BlogWhereInput | BlogWhereInput[]
+    images?: StringNullableListFilter<"Blog">
+    description?: StringFilter<"Blog"> | string
+    authorId?: StringFilter<"Blog"> | string
+    category_id?: StringFilter<"Blog"> | string
+    createdAt?: DateTimeFilter<"Blog"> | Date | string
+    updatedAt?: DateTimeFilter<"Blog"> | Date | string
+    author?: XOR<UserScalarRelationFilter, UserWhereInput>
+    category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
+  }, "blog_id" | "title">
+
+  export type BlogOrderByWithAggregationInput = {
+    blog_id?: SortOrder
+    title?: SortOrder
+    images?: SortOrder
+    description?: SortOrder
+    authorId?: SortOrder
+    category_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BlogCountOrderByAggregateInput
+    _max?: BlogMaxOrderByAggregateInput
+    _min?: BlogMinOrderByAggregateInput
+  }
+
+  export type BlogScalarWhereWithAggregatesInput = {
+    AND?: BlogScalarWhereWithAggregatesInput | BlogScalarWhereWithAggregatesInput[]
+    OR?: BlogScalarWhereWithAggregatesInput[]
+    NOT?: BlogScalarWhereWithAggregatesInput | BlogScalarWhereWithAggregatesInput[]
+    blog_id?: StringWithAggregatesFilter<"Blog"> | string
+    title?: StringWithAggregatesFilter<"Blog"> | string
+    images?: StringNullableListFilter<"Blog">
+    description?: StringWithAggregatesFilter<"Blog"> | string
+    authorId?: StringWithAggregatesFilter<"Blog"> | string
+    category_id?: StringWithAggregatesFilter<"Blog"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Blog"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Blog"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name: string
     email: string
-    role: $Enums.userRole
+    role?: $Enums.userRole
     password: string
     needsPasswordChange?: boolean
     isDeleted?: boolean
@@ -4975,13 +6334,14 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     Idea?: IdeaCreateNestedManyWithoutUsersInput
+    Blog?: BlogCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateInput = {
     id?: string
     name: string
     email: string
-    role: $Enums.userRole
+    role?: $Enums.userRole
     password: string
     needsPasswordChange?: boolean
     isDeleted?: boolean
@@ -4990,6 +6350,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     Idea?: IdeaUncheckedCreateNestedManyWithoutUsersInput
+    Blog?: BlogUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUpdateInput = {
@@ -5005,6 +6366,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Idea?: IdeaUpdateManyWithoutUsersNestedInput
+    Blog?: BlogUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -5020,13 +6382,14 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Idea?: IdeaUncheckedUpdateManyWithoutUsersNestedInput
+    Blog?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserCreateManyInput = {
     id?: string
     name: string
     email: string
-    role: $Enums.userRole
+    role?: $Enums.userRole
     password: string
     needsPasswordChange?: boolean
     isDeleted?: boolean
@@ -5070,6 +6433,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     Idea?: IdeaCreateNestedManyWithoutCategoryInput
+    Blog?: BlogCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateInput = {
@@ -5078,6 +6442,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     Idea?: IdeaUncheckedCreateNestedManyWithoutCategoryInput
+    Blog?: BlogUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUpdateInput = {
@@ -5086,6 +6451,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Idea?: IdeaUpdateManyWithoutCategoryNestedInput
+    Blog?: BlogUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateInput = {
@@ -5094,6 +6460,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Idea?: IdeaUncheckedUpdateManyWithoutCategoryNestedInput
+    Blog?: BlogUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryCreateManyInput = {
@@ -5234,6 +6601,81 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BlogCreateInput = {
+    blog_id?: string
+    title: string
+    images?: BlogCreateimagesInput | string[]
+    description: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    author: UserCreateNestedOneWithoutBlogInput
+    category: CategoryCreateNestedOneWithoutBlogInput
+  }
+
+  export type BlogUncheckedCreateInput = {
+    blog_id?: string
+    title: string
+    images?: BlogCreateimagesInput | string[]
+    description: string
+    authorId: string
+    category_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BlogUpdateInput = {
+    blog_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    images?: BlogUpdateimagesInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutBlogNestedInput
+    category?: CategoryUpdateOneRequiredWithoutBlogNestedInput
+  }
+
+  export type BlogUncheckedUpdateInput = {
+    blog_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    images?: BlogUpdateimagesInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    category_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlogCreateManyInput = {
+    blog_id?: string
+    title: string
+    images?: BlogCreateimagesInput | string[]
+    description: string
+    authorId: string
+    category_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BlogUpdateManyMutationInput = {
+    blog_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    images?: BlogUpdateimagesInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlogUncheckedUpdateManyInput = {
+    blog_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    images?: BlogUpdateimagesInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    category_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -5293,12 +6735,22 @@ export namespace Prisma {
     none?: IdeaWhereInput
   }
 
+  export type BlogListRelationFilter = {
+    every?: BlogWhereInput
+    some?: BlogWhereInput
+    none?: BlogWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type IdeaOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type BlogOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -5534,6 +6986,37 @@ export namespace Prisma {
     _max?: NestedEnumideaStatusFilter<$PrismaModel>
   }
 
+  export type BlogCountOrderByAggregateInput = {
+    blog_id?: SortOrder
+    title?: SortOrder
+    images?: SortOrder
+    description?: SortOrder
+    authorId?: SortOrder
+    category_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BlogMaxOrderByAggregateInput = {
+    blog_id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    authorId?: SortOrder
+    category_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BlogMinOrderByAggregateInput = {
+    blog_id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    authorId?: SortOrder
+    category_id?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
   export type IdeaCreateNestedManyWithoutUsersInput = {
     create?: XOR<IdeaCreateWithoutUsersInput, IdeaUncheckedCreateWithoutUsersInput> | IdeaCreateWithoutUsersInput[] | IdeaUncheckedCreateWithoutUsersInput[]
     connectOrCreate?: IdeaCreateOrConnectWithoutUsersInput | IdeaCreateOrConnectWithoutUsersInput[]
@@ -5541,11 +7024,25 @@ export namespace Prisma {
     connect?: IdeaWhereUniqueInput | IdeaWhereUniqueInput[]
   }
 
+  export type BlogCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<BlogCreateWithoutAuthorInput, BlogUncheckedCreateWithoutAuthorInput> | BlogCreateWithoutAuthorInput[] | BlogUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: BlogCreateOrConnectWithoutAuthorInput | BlogCreateOrConnectWithoutAuthorInput[]
+    createMany?: BlogCreateManyAuthorInputEnvelope
+    connect?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+  }
+
   export type IdeaUncheckedCreateNestedManyWithoutUsersInput = {
     create?: XOR<IdeaCreateWithoutUsersInput, IdeaUncheckedCreateWithoutUsersInput> | IdeaCreateWithoutUsersInput[] | IdeaUncheckedCreateWithoutUsersInput[]
     connectOrCreate?: IdeaCreateOrConnectWithoutUsersInput | IdeaCreateOrConnectWithoutUsersInput[]
     createMany?: IdeaCreateManyUsersInputEnvelope
     connect?: IdeaWhereUniqueInput | IdeaWhereUniqueInput[]
+  }
+
+  export type BlogUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<BlogCreateWithoutAuthorInput, BlogUncheckedCreateWithoutAuthorInput> | BlogCreateWithoutAuthorInput[] | BlogUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: BlogCreateOrConnectWithoutAuthorInput | BlogCreateOrConnectWithoutAuthorInput[]
+    createMany?: BlogCreateManyAuthorInputEnvelope
+    connect?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -5582,6 +7079,20 @@ export namespace Prisma {
     deleteMany?: IdeaScalarWhereInput | IdeaScalarWhereInput[]
   }
 
+  export type BlogUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<BlogCreateWithoutAuthorInput, BlogUncheckedCreateWithoutAuthorInput> | BlogCreateWithoutAuthorInput[] | BlogUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: BlogCreateOrConnectWithoutAuthorInput | BlogCreateOrConnectWithoutAuthorInput[]
+    upsert?: BlogUpsertWithWhereUniqueWithoutAuthorInput | BlogUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: BlogCreateManyAuthorInputEnvelope
+    set?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    disconnect?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    delete?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    connect?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    update?: BlogUpdateWithWhereUniqueWithoutAuthorInput | BlogUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: BlogUpdateManyWithWhereWithoutAuthorInput | BlogUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: BlogScalarWhereInput | BlogScalarWhereInput[]
+  }
+
   export type IdeaUncheckedUpdateManyWithoutUsersNestedInput = {
     create?: XOR<IdeaCreateWithoutUsersInput, IdeaUncheckedCreateWithoutUsersInput> | IdeaCreateWithoutUsersInput[] | IdeaUncheckedCreateWithoutUsersInput[]
     connectOrCreate?: IdeaCreateOrConnectWithoutUsersInput | IdeaCreateOrConnectWithoutUsersInput[]
@@ -5596,6 +7107,20 @@ export namespace Prisma {
     deleteMany?: IdeaScalarWhereInput | IdeaScalarWhereInput[]
   }
 
+  export type BlogUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<BlogCreateWithoutAuthorInput, BlogUncheckedCreateWithoutAuthorInput> | BlogCreateWithoutAuthorInput[] | BlogUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: BlogCreateOrConnectWithoutAuthorInput | BlogCreateOrConnectWithoutAuthorInput[]
+    upsert?: BlogUpsertWithWhereUniqueWithoutAuthorInput | BlogUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: BlogCreateManyAuthorInputEnvelope
+    set?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    disconnect?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    delete?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    connect?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    update?: BlogUpdateWithWhereUniqueWithoutAuthorInput | BlogUpdateWithWhereUniqueWithoutAuthorInput[]
+    updateMany?: BlogUpdateManyWithWhereWithoutAuthorInput | BlogUpdateManyWithWhereWithoutAuthorInput[]
+    deleteMany?: BlogScalarWhereInput | BlogScalarWhereInput[]
+  }
+
   export type IdeaCreateNestedManyWithoutCategoryInput = {
     create?: XOR<IdeaCreateWithoutCategoryInput, IdeaUncheckedCreateWithoutCategoryInput> | IdeaCreateWithoutCategoryInput[] | IdeaUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: IdeaCreateOrConnectWithoutCategoryInput | IdeaCreateOrConnectWithoutCategoryInput[]
@@ -5603,11 +7128,25 @@ export namespace Prisma {
     connect?: IdeaWhereUniqueInput | IdeaWhereUniqueInput[]
   }
 
+  export type BlogCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<BlogCreateWithoutCategoryInput, BlogUncheckedCreateWithoutCategoryInput> | BlogCreateWithoutCategoryInput[] | BlogUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: BlogCreateOrConnectWithoutCategoryInput | BlogCreateOrConnectWithoutCategoryInput[]
+    createMany?: BlogCreateManyCategoryInputEnvelope
+    connect?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+  }
+
   export type IdeaUncheckedCreateNestedManyWithoutCategoryInput = {
     create?: XOR<IdeaCreateWithoutCategoryInput, IdeaUncheckedCreateWithoutCategoryInput> | IdeaCreateWithoutCategoryInput[] | IdeaUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: IdeaCreateOrConnectWithoutCategoryInput | IdeaCreateOrConnectWithoutCategoryInput[]
     createMany?: IdeaCreateManyCategoryInputEnvelope
     connect?: IdeaWhereUniqueInput | IdeaWhereUniqueInput[]
+  }
+
+  export type BlogUncheckedCreateNestedManyWithoutCategoryInput = {
+    create?: XOR<BlogCreateWithoutCategoryInput, BlogUncheckedCreateWithoutCategoryInput> | BlogCreateWithoutCategoryInput[] | BlogUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: BlogCreateOrConnectWithoutCategoryInput | BlogCreateOrConnectWithoutCategoryInput[]
+    createMany?: BlogCreateManyCategoryInputEnvelope
+    connect?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
   }
 
   export type EnumcategoryNameFieldUpdateOperationsInput = {
@@ -5628,6 +7167,20 @@ export namespace Prisma {
     deleteMany?: IdeaScalarWhereInput | IdeaScalarWhereInput[]
   }
 
+  export type BlogUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<BlogCreateWithoutCategoryInput, BlogUncheckedCreateWithoutCategoryInput> | BlogCreateWithoutCategoryInput[] | BlogUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: BlogCreateOrConnectWithoutCategoryInput | BlogCreateOrConnectWithoutCategoryInput[]
+    upsert?: BlogUpsertWithWhereUniqueWithoutCategoryInput | BlogUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: BlogCreateManyCategoryInputEnvelope
+    set?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    disconnect?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    delete?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    connect?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    update?: BlogUpdateWithWhereUniqueWithoutCategoryInput | BlogUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: BlogUpdateManyWithWhereWithoutCategoryInput | BlogUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: BlogScalarWhereInput | BlogScalarWhereInput[]
+  }
+
   export type IdeaUncheckedUpdateManyWithoutCategoryNestedInput = {
     create?: XOR<IdeaCreateWithoutCategoryInput, IdeaUncheckedCreateWithoutCategoryInput> | IdeaCreateWithoutCategoryInput[] | IdeaUncheckedCreateWithoutCategoryInput[]
     connectOrCreate?: IdeaCreateOrConnectWithoutCategoryInput | IdeaCreateOrConnectWithoutCategoryInput[]
@@ -5640,6 +7193,20 @@ export namespace Prisma {
     update?: IdeaUpdateWithWhereUniqueWithoutCategoryInput | IdeaUpdateWithWhereUniqueWithoutCategoryInput[]
     updateMany?: IdeaUpdateManyWithWhereWithoutCategoryInput | IdeaUpdateManyWithWhereWithoutCategoryInput[]
     deleteMany?: IdeaScalarWhereInput | IdeaScalarWhereInput[]
+  }
+
+  export type BlogUncheckedUpdateManyWithoutCategoryNestedInput = {
+    create?: XOR<BlogCreateWithoutCategoryInput, BlogUncheckedCreateWithoutCategoryInput> | BlogCreateWithoutCategoryInput[] | BlogUncheckedCreateWithoutCategoryInput[]
+    connectOrCreate?: BlogCreateOrConnectWithoutCategoryInput | BlogCreateOrConnectWithoutCategoryInput[]
+    upsert?: BlogUpsertWithWhereUniqueWithoutCategoryInput | BlogUpsertWithWhereUniqueWithoutCategoryInput[]
+    createMany?: BlogCreateManyCategoryInputEnvelope
+    set?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    disconnect?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    delete?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    connect?: BlogWhereUniqueInput | BlogWhereUniqueInput[]
+    update?: BlogUpdateWithWhereUniqueWithoutCategoryInput | BlogUpdateWithWhereUniqueWithoutCategoryInput[]
+    updateMany?: BlogUpdateManyWithWhereWithoutCategoryInput | BlogUpdateManyWithWhereWithoutCategoryInput[]
+    deleteMany?: BlogScalarWhereInput | BlogScalarWhereInput[]
   }
 
   export type IdeaCreateimagesInput = {
@@ -5681,6 +7248,43 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutIdeaInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutIdeaInput, UserUpdateWithoutIdeaInput>, UserUncheckedUpdateWithoutIdeaInput>
+  }
+
+  export type BlogCreateimagesInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutBlogInput = {
+    create?: XOR<UserCreateWithoutBlogInput, UserUncheckedCreateWithoutBlogInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBlogInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type CategoryCreateNestedOneWithoutBlogInput = {
+    create?: XOR<CategoryCreateWithoutBlogInput, CategoryUncheckedCreateWithoutBlogInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutBlogInput
+    connect?: CategoryWhereUniqueInput
+  }
+
+  export type BlogUpdateimagesInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserUpdateOneRequiredWithoutBlogNestedInput = {
+    create?: XOR<UserCreateWithoutBlogInput, UserUncheckedCreateWithoutBlogInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBlogInput
+    upsert?: UserUpsertWithoutBlogInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBlogInput, UserUpdateWithoutBlogInput>, UserUncheckedUpdateWithoutBlogInput>
+  }
+
+  export type CategoryUpdateOneRequiredWithoutBlogNestedInput = {
+    create?: XOR<CategoryCreateWithoutBlogInput, CategoryUncheckedCreateWithoutBlogInput>
+    connectOrCreate?: CategoryCreateOrConnectWithoutBlogInput
+    upsert?: CategoryUpsertWithoutBlogInput
+    connect?: CategoryWhereUniqueInput
+    update?: XOR<XOR<CategoryUpdateToOneWithWhereWithoutBlogInput, CategoryUpdateWithoutBlogInput>, CategoryUncheckedUpdateWithoutBlogInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -5898,6 +7502,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BlogCreateWithoutAuthorInput = {
+    blog_id?: string
+    title: string
+    images?: BlogCreateimagesInput | string[]
+    description: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    category: CategoryCreateNestedOneWithoutBlogInput
+  }
+
+  export type BlogUncheckedCreateWithoutAuthorInput = {
+    blog_id?: string
+    title: string
+    images?: BlogCreateimagesInput | string[]
+    description: string
+    category_id: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BlogCreateOrConnectWithoutAuthorInput = {
+    where: BlogWhereUniqueInput
+    create: XOR<BlogCreateWithoutAuthorInput, BlogUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type BlogCreateManyAuthorInputEnvelope = {
+    data: BlogCreateManyAuthorInput | BlogCreateManyAuthorInput[]
+    skipDuplicates?: boolean
+  }
+
   export type IdeaUpsertWithWhereUniqueWithoutUsersInput = {
     where: IdeaWhereUniqueInput
     update: XOR<IdeaUpdateWithoutUsersInput, IdeaUncheckedUpdateWithoutUsersInput>
@@ -5932,6 +7566,36 @@ export namespace Prisma {
     isDeleted?: BoolFilter<"Idea"> | boolean
     createdAt?: DateTimeFilter<"Idea"> | Date | string
     updatedAt?: DateTimeFilter<"Idea"> | Date | string
+  }
+
+  export type BlogUpsertWithWhereUniqueWithoutAuthorInput = {
+    where: BlogWhereUniqueInput
+    update: XOR<BlogUpdateWithoutAuthorInput, BlogUncheckedUpdateWithoutAuthorInput>
+    create: XOR<BlogCreateWithoutAuthorInput, BlogUncheckedCreateWithoutAuthorInput>
+  }
+
+  export type BlogUpdateWithWhereUniqueWithoutAuthorInput = {
+    where: BlogWhereUniqueInput
+    data: XOR<BlogUpdateWithoutAuthorInput, BlogUncheckedUpdateWithoutAuthorInput>
+  }
+
+  export type BlogUpdateManyWithWhereWithoutAuthorInput = {
+    where: BlogScalarWhereInput
+    data: XOR<BlogUpdateManyMutationInput, BlogUncheckedUpdateManyWithoutAuthorInput>
+  }
+
+  export type BlogScalarWhereInput = {
+    AND?: BlogScalarWhereInput | BlogScalarWhereInput[]
+    OR?: BlogScalarWhereInput[]
+    NOT?: BlogScalarWhereInput | BlogScalarWhereInput[]
+    blog_id?: StringFilter<"Blog"> | string
+    title?: StringFilter<"Blog"> | string
+    images?: StringNullableListFilter<"Blog">
+    description?: StringFilter<"Blog"> | string
+    authorId?: StringFilter<"Blog"> | string
+    category_id?: StringFilter<"Blog"> | string
+    createdAt?: DateTimeFilter<"Blog"> | Date | string
+    updatedAt?: DateTimeFilter<"Blog"> | Date | string
   }
 
   export type IdeaCreateWithoutCategoryInput = {
@@ -5976,6 +7640,36 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BlogCreateWithoutCategoryInput = {
+    blog_id?: string
+    title: string
+    images?: BlogCreateimagesInput | string[]
+    description: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    author: UserCreateNestedOneWithoutBlogInput
+  }
+
+  export type BlogUncheckedCreateWithoutCategoryInput = {
+    blog_id?: string
+    title: string
+    images?: BlogCreateimagesInput | string[]
+    description: string
+    authorId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BlogCreateOrConnectWithoutCategoryInput = {
+    where: BlogWhereUniqueInput
+    create: XOR<BlogCreateWithoutCategoryInput, BlogUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type BlogCreateManyCategoryInputEnvelope = {
+    data: BlogCreateManyCategoryInput | BlogCreateManyCategoryInput[]
+    skipDuplicates?: boolean
+  }
+
   export type IdeaUpsertWithWhereUniqueWithoutCategoryInput = {
     where: IdeaWhereUniqueInput
     update: XOR<IdeaUpdateWithoutCategoryInput, IdeaUncheckedUpdateWithoutCategoryInput>
@@ -5992,11 +7686,28 @@ export namespace Prisma {
     data: XOR<IdeaUpdateManyMutationInput, IdeaUncheckedUpdateManyWithoutCategoryInput>
   }
 
+  export type BlogUpsertWithWhereUniqueWithoutCategoryInput = {
+    where: BlogWhereUniqueInput
+    update: XOR<BlogUpdateWithoutCategoryInput, BlogUncheckedUpdateWithoutCategoryInput>
+    create: XOR<BlogCreateWithoutCategoryInput, BlogUncheckedCreateWithoutCategoryInput>
+  }
+
+  export type BlogUpdateWithWhereUniqueWithoutCategoryInput = {
+    where: BlogWhereUniqueInput
+    data: XOR<BlogUpdateWithoutCategoryInput, BlogUncheckedUpdateWithoutCategoryInput>
+  }
+
+  export type BlogUpdateManyWithWhereWithoutCategoryInput = {
+    where: BlogScalarWhereInput
+    data: XOR<BlogUpdateManyMutationInput, BlogUncheckedUpdateManyWithoutCategoryInput>
+  }
+
   export type CategoryCreateWithoutIdeaInput = {
     category_id?: string
     name: $Enums.categoryName
     createdAt?: Date | string
     updatedAt?: Date | string
+    Blog?: BlogCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryUncheckedCreateWithoutIdeaInput = {
@@ -6004,6 +7715,7 @@ export namespace Prisma {
     name: $Enums.categoryName
     createdAt?: Date | string
     updatedAt?: Date | string
+    Blog?: BlogUncheckedCreateNestedManyWithoutCategoryInput
   }
 
   export type CategoryCreateOrConnectWithoutIdeaInput = {
@@ -6015,7 +7727,7 @@ export namespace Prisma {
     id?: string
     name: string
     email: string
-    role: $Enums.userRole
+    role?: $Enums.userRole
     password: string
     needsPasswordChange?: boolean
     isDeleted?: boolean
@@ -6023,13 +7735,14 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    Blog?: BlogCreateNestedManyWithoutAuthorInput
   }
 
   export type UserUncheckedCreateWithoutIdeaInput = {
     id?: string
     name: string
     email: string
-    role: $Enums.userRole
+    role?: $Enums.userRole
     password: string
     needsPasswordChange?: boolean
     isDeleted?: boolean
@@ -6037,6 +7750,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    Blog?: BlogUncheckedCreateNestedManyWithoutAuthorInput
   }
 
   export type UserCreateOrConnectWithoutIdeaInput = {
@@ -6060,6 +7774,7 @@ export namespace Prisma {
     name?: EnumcategoryNameFieldUpdateOperationsInput | $Enums.categoryName
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Blog?: BlogUpdateManyWithoutCategoryNestedInput
   }
 
   export type CategoryUncheckedUpdateWithoutIdeaInput = {
@@ -6067,6 +7782,7 @@ export namespace Prisma {
     name?: EnumcategoryNameFieldUpdateOperationsInput | $Enums.categoryName
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Blog?: BlogUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type UserUpsertWithoutIdeaInput = {
@@ -6092,6 +7808,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Blog?: BlogUpdateManyWithoutAuthorNestedInput
   }
 
   export type UserUncheckedUpdateWithoutIdeaInput = {
@@ -6106,6 +7823,131 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Blog?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
+  }
+
+  export type UserCreateWithoutBlogInput = {
+    id?: string
+    name: string
+    email: string
+    role?: $Enums.userRole
+    password: string
+    needsPasswordChange?: boolean
+    isDeleted?: boolean
+    image: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Idea?: IdeaCreateNestedManyWithoutUsersInput
+  }
+
+  export type UserUncheckedCreateWithoutBlogInput = {
+    id?: string
+    name: string
+    email: string
+    role?: $Enums.userRole
+    password: string
+    needsPasswordChange?: boolean
+    isDeleted?: boolean
+    image: string
+    address?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Idea?: IdeaUncheckedCreateNestedManyWithoutUsersInput
+  }
+
+  export type UserCreateOrConnectWithoutBlogInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBlogInput, UserUncheckedCreateWithoutBlogInput>
+  }
+
+  export type CategoryCreateWithoutBlogInput = {
+    category_id?: string
+    name: $Enums.categoryName
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Idea?: IdeaCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryUncheckedCreateWithoutBlogInput = {
+    category_id?: string
+    name: $Enums.categoryName
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    Idea?: IdeaUncheckedCreateNestedManyWithoutCategoryInput
+  }
+
+  export type CategoryCreateOrConnectWithoutBlogInput = {
+    where: CategoryWhereUniqueInput
+    create: XOR<CategoryCreateWithoutBlogInput, CategoryUncheckedCreateWithoutBlogInput>
+  }
+
+  export type UserUpsertWithoutBlogInput = {
+    update: XOR<UserUpdateWithoutBlogInput, UserUncheckedUpdateWithoutBlogInput>
+    create: XOR<UserCreateWithoutBlogInput, UserUncheckedCreateWithoutBlogInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBlogInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBlogInput, UserUncheckedUpdateWithoutBlogInput>
+  }
+
+  export type UserUpdateWithoutBlogInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumuserRoleFieldUpdateOperationsInput | $Enums.userRole
+    password?: StringFieldUpdateOperationsInput | string
+    needsPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Idea?: IdeaUpdateManyWithoutUsersNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBlogInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    role?: EnumuserRoleFieldUpdateOperationsInput | $Enums.userRole
+    password?: StringFieldUpdateOperationsInput | string
+    needsPasswordChange?: BoolFieldUpdateOperationsInput | boolean
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    image?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Idea?: IdeaUncheckedUpdateManyWithoutUsersNestedInput
+  }
+
+  export type CategoryUpsertWithoutBlogInput = {
+    update: XOR<CategoryUpdateWithoutBlogInput, CategoryUncheckedUpdateWithoutBlogInput>
+    create: XOR<CategoryCreateWithoutBlogInput, CategoryUncheckedCreateWithoutBlogInput>
+    where?: CategoryWhereInput
+  }
+
+  export type CategoryUpdateToOneWithWhereWithoutBlogInput = {
+    where?: CategoryWhereInput
+    data: XOR<CategoryUpdateWithoutBlogInput, CategoryUncheckedUpdateWithoutBlogInput>
+  }
+
+  export type CategoryUpdateWithoutBlogInput = {
+    category_id?: StringFieldUpdateOperationsInput | string
+    name?: EnumcategoryNameFieldUpdateOperationsInput | $Enums.categoryName
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Idea?: IdeaUpdateManyWithoutCategoryNestedInput
+  }
+
+  export type CategoryUncheckedUpdateWithoutBlogInput = {
+    category_id?: StringFieldUpdateOperationsInput | string
+    name?: EnumcategoryNameFieldUpdateOperationsInput | $Enums.categoryName
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    Idea?: IdeaUncheckedUpdateManyWithoutCategoryNestedInput
   }
 
   export type IdeaCreateManyUsersInput = {
@@ -6120,6 +7962,16 @@ export namespace Prisma {
     price: string
     status?: $Enums.ideaStatus
     isDeleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BlogCreateManyAuthorInput = {
+    blog_id?: string
+    title: string
+    images?: BlogCreateimagesInput | string[]
+    description: string
+    category_id: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -6172,6 +8024,36 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type BlogUpdateWithoutAuthorInput = {
+    blog_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    images?: BlogUpdateimagesInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    category?: CategoryUpdateOneRequiredWithoutBlogNestedInput
+  }
+
+  export type BlogUncheckedUpdateWithoutAuthorInput = {
+    blog_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    images?: BlogUpdateimagesInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    category_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlogUncheckedUpdateManyWithoutAuthorInput = {
+    blog_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    images?: BlogUpdateimagesInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    category_id?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type IdeaCreateManyCategoryInput = {
     idea_id?: string
     title: string
@@ -6184,6 +8066,16 @@ export namespace Prisma {
     price: string
     status?: $Enums.ideaStatus
     isDeleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BlogCreateManyCategoryInput = {
+    blog_id?: string
+    title: string
+    images?: BlogCreateimagesInput | string[]
+    description: string
+    authorId: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -6232,6 +8124,36 @@ export namespace Prisma {
     price?: StringFieldUpdateOperationsInput | string
     status?: EnumideaStatusFieldUpdateOperationsInput | $Enums.ideaStatus
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlogUpdateWithoutCategoryInput = {
+    blog_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    images?: BlogUpdateimagesInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    author?: UserUpdateOneRequiredWithoutBlogNestedInput
+  }
+
+  export type BlogUncheckedUpdateWithoutCategoryInput = {
+    blog_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    images?: BlogUpdateimagesInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BlogUncheckedUpdateManyWithoutCategoryInput = {
+    blog_id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    images?: BlogUpdateimagesInput | string[]
+    description?: StringFieldUpdateOperationsInput | string
+    authorId?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

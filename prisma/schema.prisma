@@ -12,7 +12,7 @@ model User {
   id                  String   @unique @default(uuid())
   name                String
   email               String   @unique
-  role                userRole
+  role                userRole @default(member)
   password            String
   needsPasswordChange Boolean  @default(true)
   isDeleted           Boolean  @default(false)
@@ -21,14 +21,11 @@ model User {
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
   Idea                Idea[]
+  Blog                Blog[]
 
   @@map("users")
 }
 
-enum userRole {
-  admin
-  member
-}
 
 model Category {
   category_id String       @id @default(uuid())
@@ -36,14 +33,9 @@ model Category {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   Idea        Idea[]
+  Blog        Blog[]
 
   @@map("categories")
-}
-
-enum categoryName {
-  energy
-  waste
-  transportation
 }
 
 model Idea {
@@ -67,9 +59,31 @@ model Idea {
   @@map("ideas")
 }
 
+model Blog {
+  blog_id     String   @id @default(uuid())
+  title       String @unique
+  images      String[]
+  description String
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+  category_id String
+  category    Category @relation(fields: [category_id], references: [category_id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
 enum ideaStatus {
   pending
   draft
   published
   unpublished
+}
+enum categoryName {
+  energy
+  waste
+  transportation
+}
+enum userRole {
+  admin
+  member
 }
