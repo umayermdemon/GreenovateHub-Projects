@@ -17,7 +17,7 @@ model User {
   needsPasswordChange Boolean  @default(true)
   isDeleted           Boolean  @default(false)
   image               String
-  address             String
+  address             String?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
   Idea                Idea[]

@@ -28,7 +28,7 @@ const getMyProfile = async (user: IAuthUser) => {
   });
   return userData;
 };
-const updateUser = async (user: IAuthUser, upadedPayload: Partial<IUser>) => {
+const updateUser = async (user: IAuthUser, updatedPayload: Partial<IUser>) => {
   const userData = await prisma.user.findUniqueOrThrow({
     where: {
       email: user.email,
@@ -41,7 +41,7 @@ const updateUser = async (user: IAuthUser, upadedPayload: Partial<IUser>) => {
     where: {
       id: userData.id,
     },
-    data: upadedPayload,
+    data: updatedPayload,
   });
   return result;
 };

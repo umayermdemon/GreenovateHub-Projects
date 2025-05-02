@@ -153,6 +153,7 @@ exports.Prisma.IdeaScalarFieldEnum = {
   isPremium: 'isPremium',
   price: 'price',
   status: 'status',
+  isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -165,6 +166,11 @@ exports.Prisma.SortOrder = {
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.userRole = exports.$Enums.userRole = {
   admin: 'admin',

@@ -1334,7 +1334,7 @@ export namespace Prisma {
     needsPasswordChange: boolean
     isDeleted: boolean
     image: string
-    address: string
+    address: string | null
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -1436,7 +1436,7 @@ export namespace Prisma {
       needsPasswordChange: boolean
       isDeleted: boolean
       image: string
-      address: string
+      address: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -3382,6 +3382,7 @@ export namespace Prisma {
     isPremium: boolean | null
     price: string | null
     status: $Enums.ideaStatus | null
+    isDeleted: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3397,6 +3398,7 @@ export namespace Prisma {
     isPremium: boolean | null
     price: string | null
     status: $Enums.ideaStatus | null
+    isDeleted: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3413,6 +3415,7 @@ export namespace Prisma {
     isPremium: number
     price: number
     status: number
+    isDeleted: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3430,6 +3433,7 @@ export namespace Prisma {
     isPremium?: true
     price?: true
     status?: true
+    isDeleted?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3445,6 +3449,7 @@ export namespace Prisma {
     isPremium?: true
     price?: true
     status?: true
+    isDeleted?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3461,6 +3466,7 @@ export namespace Prisma {
     isPremium?: true
     price?: true
     status?: true
+    isDeleted?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3550,6 +3556,7 @@ export namespace Prisma {
     isPremium: boolean
     price: string
     status: $Enums.ideaStatus
+    isDeleted: boolean
     createdAt: Date
     updatedAt: Date
     _count: IdeaCountAggregateOutputType | null
@@ -3583,6 +3590,7 @@ export namespace Prisma {
     isPremium?: boolean
     price?: boolean
     status?: boolean
+    isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -3601,6 +3609,7 @@ export namespace Prisma {
     isPremium?: boolean
     price?: boolean
     status?: boolean
+    isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -3619,6 +3628,7 @@ export namespace Prisma {
     isPremium?: boolean
     price?: boolean
     status?: boolean
+    isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -3637,11 +3647,12 @@ export namespace Prisma {
     isPremium?: boolean
     price?: boolean
     status?: boolean
+    isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type IdeaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idea_id" | "title" | "description" | "categoryId" | "images" | "authorId" | "problem_statement" | "proposed_solution" | "isPremium" | "price" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["idea"]>
+  export type IdeaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idea_id" | "title" | "description" | "categoryId" | "images" | "authorId" | "problem_statement" | "proposed_solution" | "isPremium" | "price" | "status" | "isDeleted" | "createdAt" | "updatedAt", ExtArgs["result"]["idea"]>
   export type IdeaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     users?: boolean | UserDefaultArgs<ExtArgs>
@@ -3673,6 +3684,7 @@ export namespace Prisma {
       isPremium: boolean
       price: string
       status: $Enums.ideaStatus
+      isDeleted: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["idea"]>
@@ -4111,6 +4123,7 @@ export namespace Prisma {
     readonly isPremium: FieldRef<"Idea", 'Boolean'>
     readonly price: FieldRef<"Idea", 'String'>
     readonly status: FieldRef<"Idea", 'ideaStatus'>
+    readonly isDeleted: FieldRef<"Idea", 'Boolean'>
     readonly createdAt: FieldRef<"Idea", 'DateTime'>
     readonly updatedAt: FieldRef<"Idea", 'DateTime'>
   }
@@ -4580,6 +4593,7 @@ export namespace Prisma {
     isPremium: 'isPremium',
     price: 'price',
     status: 'status',
+    isDeleted: 'isDeleted',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -4601,6 +4615,14 @@ export namespace Prisma {
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const NullsOrder: {
+    first: 'first',
+    last: 'last'
+  };
+
+  export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
 
 
   /**
@@ -4714,7 +4736,7 @@ export namespace Prisma {
     needsPasswordChange?: BoolFilter<"User"> | boolean
     isDeleted?: BoolFilter<"User"> | boolean
     image?: StringFilter<"User"> | string
-    address?: StringFilter<"User"> | string
+    address?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     Idea?: IdeaListRelationFilter
@@ -4729,7 +4751,7 @@ export namespace Prisma {
     needsPasswordChange?: SortOrder
     isDeleted?: SortOrder
     image?: SortOrder
-    address?: SortOrder
+    address?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     Idea?: IdeaOrderByRelationAggregateInput
@@ -4747,7 +4769,7 @@ export namespace Prisma {
     needsPasswordChange?: BoolFilter<"User"> | boolean
     isDeleted?: BoolFilter<"User"> | boolean
     image?: StringFilter<"User"> | string
-    address?: StringFilter<"User"> | string
+    address?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     Idea?: IdeaListRelationFilter
@@ -4762,7 +4784,7 @@ export namespace Prisma {
     needsPasswordChange?: SortOrder
     isDeleted?: SortOrder
     image?: SortOrder
-    address?: SortOrder
+    address?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -4782,7 +4804,7 @@ export namespace Prisma {
     needsPasswordChange?: BoolWithAggregatesFilter<"User"> | boolean
     isDeleted?: BoolWithAggregatesFilter<"User"> | boolean
     image?: StringWithAggregatesFilter<"User"> | string
-    address?: StringWithAggregatesFilter<"User"> | string
+    address?: StringNullableWithAggregatesFilter<"User"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -4852,6 +4874,7 @@ export namespace Prisma {
     isPremium?: BoolFilter<"Idea"> | boolean
     price?: StringFilter<"Idea"> | string
     status?: EnumideaStatusFilter<"Idea"> | $Enums.ideaStatus
+    isDeleted?: BoolFilter<"Idea"> | boolean
     createdAt?: DateTimeFilter<"Idea"> | Date | string
     updatedAt?: DateTimeFilter<"Idea"> | Date | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
@@ -4870,6 +4893,7 @@ export namespace Prisma {
     isPremium?: SortOrder
     price?: SortOrder
     status?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     category?: CategoryOrderByWithRelationInput
@@ -4891,6 +4915,7 @@ export namespace Prisma {
     isPremium?: BoolFilter<"Idea"> | boolean
     price?: StringFilter<"Idea"> | string
     status?: EnumideaStatusFilter<"Idea"> | $Enums.ideaStatus
+    isDeleted?: BoolFilter<"Idea"> | boolean
     createdAt?: DateTimeFilter<"Idea"> | Date | string
     updatedAt?: DateTimeFilter<"Idea"> | Date | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
@@ -4909,6 +4934,7 @@ export namespace Prisma {
     isPremium?: SortOrder
     price?: SortOrder
     status?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: IdeaCountOrderByAggregateInput
@@ -4931,6 +4957,7 @@ export namespace Prisma {
     isPremium?: BoolWithAggregatesFilter<"Idea"> | boolean
     price?: StringWithAggregatesFilter<"Idea"> | string
     status?: EnumideaStatusWithAggregatesFilter<"Idea"> | $Enums.ideaStatus
+    isDeleted?: BoolWithAggregatesFilter<"Idea"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Idea"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Idea"> | Date | string
   }
@@ -4944,7 +4971,7 @@ export namespace Prisma {
     needsPasswordChange?: boolean
     isDeleted?: boolean
     image: string
-    address: string
+    address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Idea?: IdeaCreateNestedManyWithoutUsersInput
@@ -4959,7 +4986,7 @@ export namespace Prisma {
     needsPasswordChange?: boolean
     isDeleted?: boolean
     image: string
-    address: string
+    address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     Idea?: IdeaUncheckedCreateNestedManyWithoutUsersInput
@@ -4974,7 +5001,7 @@ export namespace Prisma {
     needsPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Idea?: IdeaUpdateManyWithoutUsersNestedInput
@@ -4989,7 +5016,7 @@ export namespace Prisma {
     needsPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Idea?: IdeaUncheckedUpdateManyWithoutUsersNestedInput
@@ -5004,7 +5031,7 @@ export namespace Prisma {
     needsPasswordChange?: boolean
     isDeleted?: boolean
     image: string
-    address: string
+    address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -5018,7 +5045,7 @@ export namespace Prisma {
     needsPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5032,7 +5059,7 @@ export namespace Prisma {
     needsPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5099,7 +5126,8 @@ export namespace Prisma {
     proposed_solution: string
     isPremium?: boolean
     price: string
-    status: $Enums.ideaStatus
+    status?: $Enums.ideaStatus
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutIdeaInput
@@ -5117,7 +5145,8 @@ export namespace Prisma {
     proposed_solution: string
     isPremium?: boolean
     price: string
-    status: $Enums.ideaStatus
+    status?: $Enums.ideaStatus
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -5132,6 +5161,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     price?: StringFieldUpdateOperationsInput | string
     status?: EnumideaStatusFieldUpdateOperationsInput | $Enums.ideaStatus
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutIdeaNestedInput
@@ -5150,6 +5180,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     price?: StringFieldUpdateOperationsInput | string
     status?: EnumideaStatusFieldUpdateOperationsInput | $Enums.ideaStatus
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5165,7 +5196,8 @@ export namespace Prisma {
     proposed_solution: string
     isPremium?: boolean
     price: string
-    status: $Enums.ideaStatus
+    status?: $Enums.ideaStatus
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -5180,6 +5212,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     price?: StringFieldUpdateOperationsInput | string
     status?: EnumideaStatusFieldUpdateOperationsInput | $Enums.ideaStatus
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5196,6 +5229,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     price?: StringFieldUpdateOperationsInput | string
     status?: EnumideaStatusFieldUpdateOperationsInput | $Enums.ideaStatus
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5227,6 +5261,21 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -5242,6 +5291,11 @@ export namespace Prisma {
     every?: IdeaWhereInput
     some?: IdeaWhereInput
     none?: IdeaWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
   }
 
   export type IdeaOrderByRelationAggregateInput = {
@@ -5324,6 +5378,24 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -5415,6 +5487,7 @@ export namespace Prisma {
     isPremium?: SortOrder
     price?: SortOrder
     status?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -5430,6 +5503,7 @@ export namespace Prisma {
     isPremium?: SortOrder
     price?: SortOrder
     status?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -5445,6 +5519,7 @@ export namespace Prisma {
     isPremium?: SortOrder
     price?: SortOrder
     status?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -5483,6 +5558,10 @@ export namespace Prisma {
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -5630,6 +5709,20 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -5685,6 +5778,34 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -5744,7 +5865,8 @@ export namespace Prisma {
     proposed_solution: string
     isPremium?: boolean
     price: string
-    status: $Enums.ideaStatus
+    status?: $Enums.ideaStatus
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutIdeaInput
@@ -5760,7 +5882,8 @@ export namespace Prisma {
     proposed_solution: string
     isPremium?: boolean
     price: string
-    status: $Enums.ideaStatus
+    status?: $Enums.ideaStatus
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -5806,6 +5929,7 @@ export namespace Prisma {
     isPremium?: BoolFilter<"Idea"> | boolean
     price?: StringFilter<"Idea"> | string
     status?: EnumideaStatusFilter<"Idea"> | $Enums.ideaStatus
+    isDeleted?: BoolFilter<"Idea"> | boolean
     createdAt?: DateTimeFilter<"Idea"> | Date | string
     updatedAt?: DateTimeFilter<"Idea"> | Date | string
   }
@@ -5819,7 +5943,8 @@ export namespace Prisma {
     proposed_solution: string
     isPremium?: boolean
     price: string
-    status: $Enums.ideaStatus
+    status?: $Enums.ideaStatus
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     users: UserCreateNestedOneWithoutIdeaInput
@@ -5835,7 +5960,8 @@ export namespace Prisma {
     proposed_solution: string
     isPremium?: boolean
     price: string
-    status: $Enums.ideaStatus
+    status?: $Enums.ideaStatus
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -5894,7 +6020,7 @@ export namespace Prisma {
     needsPasswordChange?: boolean
     isDeleted?: boolean
     image: string
-    address: string
+    address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -5908,7 +6034,7 @@ export namespace Prisma {
     needsPasswordChange?: boolean
     isDeleted?: boolean
     image: string
-    address: string
+    address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -5963,7 +6089,7 @@ export namespace Prisma {
     needsPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5977,7 +6103,7 @@ export namespace Prisma {
     needsPasswordChange?: BoolFieldUpdateOperationsInput | boolean
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     image?: StringFieldUpdateOperationsInput | string
-    address?: StringFieldUpdateOperationsInput | string
+    address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5992,7 +6118,8 @@ export namespace Prisma {
     proposed_solution: string
     isPremium?: boolean
     price: string
-    status: $Enums.ideaStatus
+    status?: $Enums.ideaStatus
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -6007,6 +6134,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     price?: StringFieldUpdateOperationsInput | string
     status?: EnumideaStatusFieldUpdateOperationsInput | $Enums.ideaStatus
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutIdeaNestedInput
@@ -6023,6 +6151,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     price?: StringFieldUpdateOperationsInput | string
     status?: EnumideaStatusFieldUpdateOperationsInput | $Enums.ideaStatus
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6038,6 +6167,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     price?: StringFieldUpdateOperationsInput | string
     status?: EnumideaStatusFieldUpdateOperationsInput | $Enums.ideaStatus
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6052,7 +6182,8 @@ export namespace Prisma {
     proposed_solution: string
     isPremium?: boolean
     price: string
-    status: $Enums.ideaStatus
+    status?: $Enums.ideaStatus
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -6067,6 +6198,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     price?: StringFieldUpdateOperationsInput | string
     status?: EnumideaStatusFieldUpdateOperationsInput | $Enums.ideaStatus
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     users?: UserUpdateOneRequiredWithoutIdeaNestedInput
@@ -6083,6 +6215,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     price?: StringFieldUpdateOperationsInput | string
     status?: EnumideaStatusFieldUpdateOperationsInput | $Enums.ideaStatus
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6098,6 +6231,7 @@ export namespace Prisma {
     isPremium?: BoolFieldUpdateOperationsInput | boolean
     price?: StringFieldUpdateOperationsInput | string
     status?: EnumideaStatusFieldUpdateOperationsInput | $Enums.ideaStatus
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

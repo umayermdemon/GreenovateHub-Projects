@@ -17,10 +17,10 @@ model User {
   needsPasswordChange Boolean  @default(true)
   isDeleted           Boolean  @default(false)
   image               String
-  address             String
+  address             String?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
-  Idea Idea[]
+  Idea                Idea[]
 
   @@map("users")
 }
@@ -59,7 +59,8 @@ model Idea {
   proposed_solution String
   isPremium         Boolean    @default(false)
   price             String
-  status            ideaStatus
+  status            ideaStatus @default(pending)
+  isDeleted         Boolean    @default(false)
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
 
@@ -72,4 +73,3 @@ enum ideaStatus {
   published
   unpublished
 }
-
