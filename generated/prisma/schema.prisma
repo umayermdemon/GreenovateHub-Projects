@@ -14,13 +14,20 @@ model User {
   email               String   @unique
   role                userRole
   password            String
+<<<<<<< HEAD
   needsPasswordChange Boolean  @default(true)
+=======
+  needsPasswordChange Boolean  @default(false)
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
   isDeleted           Boolean  @default(false)
   image               String
   address             String?
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
+<<<<<<< HEAD
   Idea                Idea[]
+=======
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
 
   @@map("users")
 }

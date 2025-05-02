@@ -191,9 +191,13 @@ exports.ideaStatus = exports.$Enums.ideaStatus = {
 };
 
 exports.Prisma.ModelName = {
+<<<<<<< HEAD
   User: 'User',
   Category: 'Category',
   Idea: 'Idea'
+=======
+  User: 'User'
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
 };
 
 /**

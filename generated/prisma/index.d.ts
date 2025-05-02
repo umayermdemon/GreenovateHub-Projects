@@ -18,6 +18,7 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
  * 
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
+<<<<<<< HEAD
 /**
  * Model Category
  * 
@@ -28,6 +29,8 @@ export type Category = $Result.DefaultSelection<Prisma.$CategoryPayload>
  * 
  */
 export type Idea = $Result.DefaultSelection<Prisma.$IdeaPayload>
+=======
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
 
 /**
  * Enums
@@ -207,6 +210,7 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+<<<<<<< HEAD
 
   /**
    * `prisma.category`: Exposes CRUD operations for the **Category** model.
@@ -227,6 +231,8 @@ export class PrismaClient<
     * ```
     */
   get idea(): Prisma.IdeaDelegate<ExtArgs, ClientOptions>;
+=======
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
 }
 
 export namespace Prisma {
@@ -667,9 +673,13 @@ export namespace Prisma {
 
 
   export const ModelName: {
+<<<<<<< HEAD
     User: 'User',
     Category: 'Category',
     Idea: 'Idea'
+=======
+    User: 'User'
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -688,7 +698,11 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
+<<<<<<< HEAD
       modelProps: "user" | "category" | "idea"
+=======
+      modelProps: "user"
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -763,6 +777,7 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+<<<<<<< HEAD
           }
         }
       }
@@ -911,6 +926,8 @@ export namespace Prisma {
           count: {
             args: Prisma.IdeaCountArgs<ExtArgs>
             result: $Utils.Optional<IdeaCountAggregateOutputType> | number
+=======
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
           }
         }
       }
@@ -999,8 +1016,11 @@ export namespace Prisma {
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
+<<<<<<< HEAD
     category?: CategoryOmit
     idea?: IdeaOmit
+=======
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
   }
 
   /* Types for Logging */
@@ -1368,8 +1388,11 @@ export namespace Prisma {
     address?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+<<<<<<< HEAD
     Idea?: boolean | User$IdeaArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
+=======
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1415,6 +1438,7 @@ export namespace Prisma {
   }
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "role" | "password" | "needsPasswordChange" | "isDeleted" | "image" | "address" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+<<<<<<< HEAD
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Idea?: boolean | User$IdeaArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -1427,6 +1451,12 @@ export namespace Prisma {
     objects: {
       Idea: Prisma.$IdeaPayload<ExtArgs>[]
     }
+=======
+
+  export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "User"
+    objects: {}
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
@@ -1891,12 +1921,17 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+<<<<<<< HEAD
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
      * Filter, which User to fetch.
      */
+=======
+     * Filter, which User to fetch.
+     */
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
     where: UserWhereUniqueInput
   }
 
@@ -1913,12 +1948,17 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+<<<<<<< HEAD
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
      * Filter, which User to fetch.
      */
+=======
+     * Filter, which User to fetch.
+     */
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
     where: UserWhereUniqueInput
   }
 
@@ -1935,12 +1975,17 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+<<<<<<< HEAD
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
      * Filter, which User to fetch.
      */
+=======
+     * Filter, which User to fetch.
+     */
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
     where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
@@ -1987,12 +2032,17 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+<<<<<<< HEAD
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
      * Filter, which User to fetch.
      */
+=======
+     * Filter, which User to fetch.
+     */
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
     where?: UserWhereInput
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
@@ -2038,10 +2088,13 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+<<<<<<< HEAD
     /**
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+=======
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
     /**
      * Filter, which Users to fetch.
      */
@@ -2086,12 +2139,17 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+<<<<<<< HEAD
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
      * The data needed to create a User.
      */
+=======
+     * The data needed to create a User.
+     */
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
     data: XOR<UserCreateInput, UserUncheckedCreateInput>
   }
 
@@ -2138,6 +2196,7 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+<<<<<<< HEAD
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
@@ -2148,6 +2207,14 @@ export namespace Prisma {
     /**
      * Choose, which User to update.
      */
+=======
+     * The data needed to update a User.
+     */
+    data: XOR<UserUpdateInput, UserUncheckedUpdateInput>
+    /**
+     * Choose, which User to update.
+     */
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
     where: UserWhereUniqueInput
   }
 
@@ -2208,6 +2275,7 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+<<<<<<< HEAD
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
@@ -2222,6 +2290,18 @@ export namespace Prisma {
     /**
      * In case the User was found with the provided `where` argument, update it with this data.
      */
+=======
+     * The filter to search for the User to update in case it exists.
+     */
+    where: UserWhereUniqueInput
+    /**
+     * In case the User found by the `where` argument doesn't exist, create a new User with this data.
+     */
+    create: XOR<UserCreateInput, UserUncheckedCreateInput>
+    /**
+     * In case the User was found with the provided `where` argument, update it with this data.
+     */
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
     update: XOR<UserUpdateInput, UserUncheckedUpdateInput>
   }
 
@@ -2238,12 +2318,17 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+<<<<<<< HEAD
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
     /**
      * Filter which User to delete.
      */
+=======
+     * Filter which User to delete.
+     */
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
     where: UserWhereUniqueInput
   }
 
@@ -2262,6 +2347,7 @@ export namespace Prisma {
   }
 
   /**
+<<<<<<< HEAD
    * User.Idea
    */
   export type User$IdeaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4537,6 +4623,19 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: IdeaInclude<ExtArgs> | null
+=======
+   * User without action
+   */
+  export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the User
+     */
+    select?: UserSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the User
+     */
+    omit?: UserOmit<ExtArgs> | null
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
   }
 
 
@@ -4569,6 +4668,7 @@ export namespace Prisma {
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+<<<<<<< HEAD
 
 
   export const CategoryScalarFieldEnum: {
@@ -4599,6 +4699,8 @@ export namespace Prisma {
   };
 
   export type IdeaScalarFieldEnum = (typeof IdeaScalarFieldEnum)[keyof typeof IdeaScalarFieldEnum]
+=======
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
 
 
   export const SortOrder: {
@@ -4736,10 +4838,16 @@ export namespace Prisma {
     needsPasswordChange?: BoolFilter<"User"> | boolean
     isDeleted?: BoolFilter<"User"> | boolean
     image?: StringFilter<"User"> | string
+<<<<<<< HEAD
     address?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     Idea?: IdeaListRelationFilter
+=======
+    address?: StringFilter<"User"> | string
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
   }
 
   export type UserOrderByWithRelationInput = {
@@ -4769,10 +4877,16 @@ export namespace Prisma {
     needsPasswordChange?: BoolFilter<"User"> | boolean
     isDeleted?: BoolFilter<"User"> | boolean
     image?: StringFilter<"User"> | string
+<<<<<<< HEAD
     address?: StringNullableFilter<"User"> | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     Idea?: IdeaListRelationFilter
+=======
+    address?: StringFilter<"User"> | string
+    createdAt?: DateTimeFilter<"User"> | Date | string
+    updatedAt?: DateTimeFilter<"User"> | Date | string
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -4804,11 +4918,16 @@ export namespace Prisma {
     needsPasswordChange?: BoolWithAggregatesFilter<"User"> | boolean
     isDeleted?: BoolWithAggregatesFilter<"User"> | boolean
     image?: StringWithAggregatesFilter<"User"> | string
+<<<<<<< HEAD
     address?: StringNullableWithAggregatesFilter<"User"> | string | null
+=======
+    address?: StringWithAggregatesFilter<"User"> | string
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
+<<<<<<< HEAD
   export type CategoryWhereInput = {
     AND?: CategoryWhereInput | CategoryWhereInput[]
     OR?: CategoryWhereInput[]
@@ -4962,6 +5081,8 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Idea"> | Date | string
   }
 
+=======
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
   export type UserCreateInput = {
     id?: string
     name: string
@@ -5287,6 +5408,7 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+<<<<<<< HEAD
   export type IdeaListRelationFilter = {
     every?: IdeaWhereInput
     some?: IdeaWhereInput
@@ -5302,6 +5424,8 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+=======
+>>>>>>> 86a600b4531938fe8fe7f34e351fb7fb4b222cb6
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
