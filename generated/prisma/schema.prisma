@@ -22,6 +22,7 @@ model User {
   updatedAt           DateTime @updatedAt
   Idea                Idea[]
   Blog                Blog[]
+  Vote                Vote[]
 
   @@map("users")
 }
@@ -54,6 +55,7 @@ model Idea {
   isDeleted         Boolean    @default(false)
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
+  Vote              Vote[]
 
   @@map("ideas")
 }
@@ -69,6 +71,21 @@ model Blog {
   category    Category @relation(fields: [category_id], references: [category_id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  Vote        Vote[]
+}
+
+model Vote {
+  vote_id String    @id @default(uuid())
+  voterId String
+  value   voteValue
+  voter   User      @relation(fields: [voterId], references: [id])
+  ideaId  String?
+  idea    Idea?     @relation(fields: [ideaId], references: [idea_id])
+  blogId  String?
+  blog    Blog?     @relation(fields: [blogId], references: [blog_id])
+
+  @@unique([voterId, ideaId])
+  @@unique([voterId, blogId])
 }
 
 enum ideaStatus {
@@ -87,4 +104,10 @@ enum categoryName {
 enum userRole {
   admin
   member
+}
+
+enum voteValue {
+  up
+  down
+  no
 }

@@ -169,6 +169,14 @@ exports.Prisma.BlogScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.VoteScalarFieldEnum = {
+  vote_id: 'vote_id',
+  voterId: 'voterId',
+  value: 'value',
+  ideaId: 'ideaId',
+  blogId: 'blogId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -201,11 +209,18 @@ exports.ideaStatus = exports.$Enums.ideaStatus = {
   unpublished: 'unpublished'
 };
 
+exports.voteValue = exports.$Enums.voteValue = {
+  up: 'up',
+  down: 'down',
+  no: 'no'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Category: 'Category',
   Idea: 'Idea',
-  Blog: 'Blog'
+  Blog: 'Blog',
+  Vote: 'Vote'
 };
 
 /**
