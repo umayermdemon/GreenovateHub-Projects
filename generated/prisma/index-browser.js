@@ -120,7 +120,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UsersScalarFieldEnum = {
+exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
@@ -130,6 +130,29 @@ exports.Prisma.UsersScalarFieldEnum = {
   isDeleted: 'isDeleted',
   image: 'image',
   address: 'address',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  category_id: 'category_id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.IdeaScalarFieldEnum = {
+  idea_id: 'idea_id',
+  title: 'title',
+  description: 'description',
+  categoryId: 'categoryId',
+  images: 'images',
+  authorId: 'authorId',
+  problem_statement: 'problem_statement',
+  proposed_solution: 'proposed_solution',
+  isPremium: 'isPremium',
+  price: 'price',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -144,12 +167,27 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 exports.userRole = exports.$Enums.userRole = {
-  ADMIN: 'ADMIN',
-  MEMBER: 'MEMBER'
+  admin: 'admin',
+  member: 'member'
+};
+
+exports.categoryName = exports.$Enums.categoryName = {
+  energy: 'energy',
+  waste: 'waste',
+  transportation: 'transportation'
+};
+
+exports.ideaStatus = exports.$Enums.ideaStatus = {
+  pending: 'pending',
+  draft: 'draft',
+  published: 'published',
+  unpublished: 'unpublished'
 };
 
 exports.Prisma.ModelName = {
-  Users: 'Users'
+  User: 'User',
+  Category: 'Category',
+  Idea: 'Idea'
 };
 
 /**
