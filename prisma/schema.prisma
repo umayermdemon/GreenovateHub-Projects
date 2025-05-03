@@ -75,17 +75,15 @@ model Blog {
 }
 
 model Vote {
-  vote_id String    @id @default(uuid())
-  voterId String
-  value   voteValue
-  voter   User      @relation(fields: [voterId], references: [id])
-  ideaId  String?
-  idea    Idea?     @relation(fields: [ideaId], references: [idea_id])
-  blogId  String?
-  blog    Blog?     @relation(fields: [blogId], references: [blog_id])
-
-  @@unique([voterId, ideaId])
-  @@unique([voterId, blogId])
+  vote_id   String    @id @default(uuid())
+  voterId   String
+  value     voteValue
+  voter     User      @relation(fields: [voterId], references: [id])
+  ideaId    String?
+  idea      Idea?     @relation(fields: [ideaId], references: [idea_id])
+  blogId    String?
+  blog      Blog?     @relation(fields: [blogId], references: [blog_id])
+  isDeleted Boolean   @default(false)
 }
 
 enum ideaStatus {
@@ -109,5 +107,4 @@ enum userRole {
 enum voteValue {
   up
   down
-  no
 }

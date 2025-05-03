@@ -31,10 +31,14 @@ const getSingleBlog = async (blog_id: string) => {
     return result
 }
 
-const updateBlog = async () => {
-    return {
-        message:"hei what's the reaseon?"
-    }
+const updateBlog = async (blog_id: string, payload: Partial<IBlog>) => {
+    const result = await prisma.blog.update({
+        where: {
+            blog_id
+        },
+        data: payload
+    })
+    return result
 }
 export const blogServices = {
     createBlog,

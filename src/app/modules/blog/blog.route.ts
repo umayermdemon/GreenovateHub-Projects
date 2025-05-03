@@ -10,8 +10,8 @@ const router = Router();
 
 router.post("/create-blog", validateRequest(createBlogValidationSchema), auth(userRole.admin, userRole.member), blgoController.createBlog);
 router.get("/get-all-blogs", blgoController.getBlogs);
-router.get("/get-single-blog", blgoController.getSingleBlog);
-router.patch("/update-blog", blgoController.updateBlog);
+router.get("/get-single-blog/:id", blgoController.getSingleBlog);
+router.patch("/update-blog/:id", blgoController.updateBlog);
 
 
 export const blogRouter = router;

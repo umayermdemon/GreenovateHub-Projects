@@ -174,7 +174,8 @@ exports.Prisma.VoteScalarFieldEnum = {
   voterId: 'voterId',
   value: 'value',
   ideaId: 'ideaId',
-  blogId: 'blogId'
+  blogId: 'blogId',
+  isDeleted: 'isDeleted'
 };
 
 exports.Prisma.SortOrder = {
@@ -211,8 +212,7 @@ exports.ideaStatus = exports.$Enums.ideaStatus = {
 
 exports.voteValue = exports.$Enums.voteValue = {
   up: 'up',
-  down: 'down',
-  no: 'no'
+  down: 'down'
 };
 
 exports.Prisma.ModelName = {

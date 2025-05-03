@@ -13,7 +13,17 @@ const createIdeaIntoDb = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const getAllIdea = catchAsync(async (req: Request, res: Response) => {
+  const result = await ideaServices.getAllIdea();
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    success: true,
+    message: "Idea retrived Successfully",
+    data: result,
+  });
+});
 
 export const ideaControllers = {
   createIdeaIntoDb,
+  getAllIdea
 };
