@@ -1,23 +1,25 @@
-import { prisma } from "../../utils/prisma"
-import { IAuthUser } from "../user/user.interface"
-import { IBlog } from "./blog.interface"
+import { prisma } from "../../utils/prisma";
+import { IAuthUser } from "../user/user.interface";
+import { Blog } from "../../../../generated/prisma";
 
-
-const createBlog = async (payload: IBlog, user: IAuthUser) => {
-    const userData = await prisma.user.findUniqueOrThrow({
-        where: {
-            email: user.email
-        }
-    })
-    const result = await prisma.blog.create({
-        data: {
-            ...payload,
-            authorId: userData.id,
-            category_id: payload.categoryId
-        }
-    })
-    return result
-}
+const createBlog = async (payload: Blog, user: IAuthUser) => {
+  const userData = await prisma.user.findUniqueOrThrow({
+    where: {
+      email: user.email,
+    },
+  });
+  const blogData = {
+    title: payload.title,
+    description: payload.description,
+    category_id: payload.category_id,
+    images: payload.images,
+    authorId: userData.id,
+  };
+  const result = await prisma.blog.create({
+    data: blogData,
+  });
+  return result;
+};
 
 const getBlogs = async () => {
   const result = await prisma.blog.findMany({
@@ -40,26 +42,26 @@ const getBlogs = async () => {
   return enhancedIdeas;
 };
 const getSingleBlog = async (blog_id: string) => {
-    const result = await prisma.blog.findUnique({
-        where: {
-            blog_id
-        }
-    });
-    return result
-}
+  const result = await prisma.blog.findUnique({
+    where: {
+      blog_id,
+    },
+  });
+  return result;
+};
 
-const updateBlog = async (blog_id: string, payload: Partial<IBlog>) => {
-    const result = await prisma.blog.update({
-        where: {
-            blog_id
-        },
-        data: payload
-    })
-    return result
-}
+const updateBlog = async (blog_id: string, payload: Partial<Blog>) => {
+  const result = await prisma.blog.update({
+    where: {
+      blog_id,
+    },
+    data: payload,
+  });
+  return result;
+};
 export const blogServices = {
-    createBlog,
-    getBlogs,
-    getSingleBlog,
-    updateBlog
-}
+  createBlog,
+  getBlogs,
+  getSingleBlog,
+  updateBlog,
+};

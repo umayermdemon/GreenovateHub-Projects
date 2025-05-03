@@ -26,13 +26,13 @@ const moduleRoutes: any = [
     route: categoryRouter,
   },
   {
-    path:"/blog",
-    route:blogRouter
+    path: "/blog",
+    route: blogRouter,
   },
   {
-    path:"/vote",
-    route:voteRouter
-  }
+    path: "/vote",
+    route: voteRouter,
+  },
 ];
 
 moduleRoutes.forEach((route: any) => router.use(route.path, route.route));
