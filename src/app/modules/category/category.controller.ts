@@ -4,7 +4,7 @@ import sendResponse from "../../utils/sendResponse";
 import status from "http-status";
 import { categoryServices } from "./category.service";
 
-const createCategoryIntoDb = catchAsync(async (req: Request, res: Response) => {
+const createCategoryIntoDb = catchAsync(async (req, res) => {
   const result = await categoryServices.createCategoryIntoDb(req.body);
   sendResponse(res, {
     statusCode: status.CREATED,

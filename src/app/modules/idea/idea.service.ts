@@ -1,5 +1,6 @@
 import { Idea } from "../../../../generated/prisma";
 import { prisma } from "../../utils/prisma";
+import { IAuthUser } from "../user/user.interface";
 
 const createIdeaIntoDb = async (payload: Idea) => {
   const result = await prisma.idea.create({
@@ -16,27 +17,100 @@ const createIdeaIntoDb = async (payload: Idea) => {
   });
   return result;
 };
-const getAllIdea = async () => {
-  const result = await prisma.idea.findMany({
-    include: {
-      Vote: true
+// const getAllIdea = async () => {
+//   const result = await prisma.idea.findMany({
+//     include: {
+//       Vote: true,
+//     },
+//   });
+//   const enhancedIdeas = result.map((idea) => {
+//     const votes = idea.Vote || [];
+
+//     const upVotes = votes.filter((v) => v.value === "up").length;
+//     const downVotes = votes.filter((v) => v.value === "down").length;
+
+//     return {
+//       ...idea,
+//       up_votes: upVotes,
+//       down_votes: downVotes,
+//     };
+//   });
+//   return enhancedIdeas;
+// };
+
+const getAllIdeasFromDb = async () => {
+  const result = await prisma.idea.findMany();
+  return result;
+};
+const getSingleIdeaFromDb = async (user: IAuthUser, id: string) => {
+  const isUserExists = await prisma.user.findUnique({
+    where: {
+      email: user.email,
+    },
+  });
+  if (!isUserExists) {
+    throw new Error("User not found");
+  }
+  let result;
+  if (user.role === "admin") {
+    result = await prisma.idea.findUniqueOrThrow({
+      where: {
+        idea_id: id,
+      },
+    });
+  }
+
+  if (user.role === "member") {
+    const individualIdea = await prisma.idea.findUnique({
+      where: {
+        idea_id: id,
+      },
+    });
+    if (!individualIdea) {
+      throw new Error("Idea not found");
     }
-  });
-  const enhancedIdeas = result.map((idea) => {
-    const votes = idea.Vote || [];
+    if (individualIdea?.authorId !== isUserExists.id) {
+      throw new Error("You are not authorized to view this idea");
+    }
+    result = individualIdea;
+  }
 
-    const upVotes = votes.filter(v => v.value === 'up').length;
-    const downVotes = votes.filter(v => v.value === 'down').length;
-
-    return {
-      ...idea,
-      up_votes: upVotes,
-      down_votes: downVotes,
-    };
+  if (!result) {
+    throw new Error("No idea found");
+  }
+  return result;
+};
+const getAllIdeasForMemberFromDb = async (user: IAuthUser) => {
+  if (user.role !== "member") {
+    throw new Error("User is not a member");
+  }
+  const isUserExists = await prisma.user.findUnique({
+    where: {
+      email: user.email,
+    },
   });
-  return enhancedIdeas
-}
+  if (!isUserExists) {
+    throw new Error("User not found");
+  }
+
+  const result = await prisma.idea.findMany({
+    where: {
+      authorId: isUserExists.id,
+    },
+    include: {
+      category: true,
+      author: true,
+    },
+  });
+  if (result.length === 0) {
+    throw new Error("No ideas found for this user");
+  }
+  return result;
+};
 export const ideaServices = {
   createIdeaIntoDb,
-  getAllIdea
+  getAllIdeasFromDb,
+  getAllIdeasForMemberFromDb,
+  getSingleIdeaFromDb,
+  // getAllIdea,
 };

@@ -46,7 +46,7 @@ model Idea {
   category          Category   @relation(fields: [categoryId], references: [category_id])
   images            String[]
   authorId          String
-  users             User       @relation(fields: [authorId], references: [id])
+  author            User       @relation(fields: [authorId], references: [id])
   problem_statement String
   proposed_solution String
   isPremium         Boolean    @default(false)
