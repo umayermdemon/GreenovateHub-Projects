@@ -22,8 +22,45 @@ const getAllIdeasFromDb = async () => {
   const result = await prisma.idea.findMany();
   return result;
 };
+const getSingleIdeaFromDb = async (user: IAuthUser, id: string) => {
+  const isUserExists = await prisma.user.findUnique({
+    where: {
+      email: user.email,
+    },
+  });
+  if (!isUserExists) {
+    throw new Error("User not found");
+  }
+  let result;
+  if (user.role === "admin") {
+    result = await prisma.idea.findUniqueOrThrow({
+      where: {
+        idea_id: id,
+      },
+    });
+  }
+
+  if (user.role === "member") {
+    const individualIdea = await prisma.idea.findUnique({
+      where: {
+        idea_id: id,
+      },
+    });
+    if (!individualIdea) {
+      throw new Error("Idea not found");
+    }
+    if (individualIdea?.authorId !== isUserExists.id) {
+      throw new Error("You are not authorized to view this idea");
+    }
+    result = individualIdea;
+  }
+
+  if (!result) {
+    throw new Error("No idea found");
+  }
+  return result;
+};
 const getAllIdeasForMemberFromDb = async (user: IAuthUser) => {
-  console.log(user);
   if (user.role !== "member") {
     throw new Error("User is not a member");
   }
@@ -55,4 +92,5 @@ export const ideaServices = {
   createIdeaIntoDb,
   getAllIdeasFromDb,
   getAllIdeasForMemberFromDb,
+  getSingleIdeaFromDb,
 };

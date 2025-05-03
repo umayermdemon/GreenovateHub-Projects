@@ -14,6 +14,11 @@ router.post(
 );
 router.get("/", auth(userRole.admin), ideaControllers.getAllIdeasFromDb);
 router.get(
+  "/:id",
+  auth(userRole.admin, userRole.member),
+  ideaControllers.getSingleIdeaFromDb
+);
+router.get(
   "/all-ideas/me",
   auth(userRole.member),
   ideaControllers.getAllIdeasForMemberFromDb
