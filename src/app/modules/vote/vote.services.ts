@@ -30,7 +30,6 @@ const createVote = async (payload: IVote) => {
             }
         })
     }
-    console.log(isVoteExists);
     let result;
 
     if (isVoteExists) {
@@ -65,8 +64,34 @@ const createVote = async (payload: IVote) => {
 
     return result
 }
-const removeVote = async (payload: any) => {
-    return payload
+const removeVote = async (payload: Partial<IVote>) => {
+    let result;
+    if (payload.ideaId) {
+        result = await prisma.vote.update({
+            where: {
+                voterId_ideaId: {
+                    voterId: payload.voterId!,
+                    ideaId: payload.ideaId
+                }
+            },
+            data: {
+                isDeleted: true
+            }
+        })
+    } else if (payload.blogId) {
+        result = await prisma.vote.update({
+            where: {
+                voterId_blogId: {
+                    voterId: payload.voterId!,
+                    blogId: payload.blogId
+                }
+            },
+            data: {
+                isDeleted: true
+            }
+        })
+    }
+    return result
 }
 export const voteServices = {
     createVote,

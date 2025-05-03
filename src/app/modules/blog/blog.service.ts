@@ -18,10 +18,27 @@ const createBlog = async (payload: IBlog, user: IAuthUser) => {
     })
     return result
 }
+
 const getBlogs = async () => {
-    const result = await prisma.blog.findMany();
-    return result
-}
+  const result = await prisma.blog.findMany({
+    include: {
+      Vote: true,
+    },
+  });
+  const enhancedIdeas = result.map((blog) => {
+    const votes = blog.Vote || [];
+
+    const upVotes = votes.filter((v) => v.value === "up").length;
+    const downVotes = votes.filter((v) => v.value === "down").length;
+
+    return {
+      ...blog,
+      up_votes: upVotes,
+      down_votes: downVotes,
+    };
+  });
+  return enhancedIdeas;
+};
 const getSingleBlog = async (blog_id: string) => {
     const result = await prisma.blog.findUnique({
         where: {
