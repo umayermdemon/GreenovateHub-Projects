@@ -84,6 +84,9 @@ model Vote {
   blogId    String?
   blog      Blog?     @relation(fields: [blogId], references: [blog_id])
   isDeleted Boolean   @default(false)
+
+  @@unique([voterId, ideaId])
+  @@unique([voterId, blogId])
 }
 
 enum ideaStatus {

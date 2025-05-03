@@ -10,33 +10,53 @@ interface IVote {
 const createVote = async (payload: IVote) => {
     let isVoteExists;
     if (payload.ideaId) {
-        isVoteExists = await prisma.vote.findFirst({
+        isVoteExists = await prisma.vote.findUnique({
             where: {
-                voterId: payload.voterId,
-                ideaId: payload.ideaId,
+                voterId_ideaId: {
+                    voterId: payload.voterId,
+                    ideaId: payload.ideaId
+                }
             }
         })
     }
     if (payload.blogId) {
-        isVoteExists = await prisma.vote.findFirst({
+        isVoteExists = await prisma.vote.findUnique({
             where: {
-                voterId: payload.voterId,
-                blogId: payload.blogId,
+                voterId_blogId: {
+                    voterId: payload.voterId,
+                    blogId: payload.blogId
+
+                }
             }
         })
     }
+    console.log(isVoteExists);
     let result;
 
-    if (isVoteExists?.isDeleted === true) {
-        result = await prisma.vote.update({
-            where: {
-                vote_id: isVoteExists?.vote_id
-            },
-            data: {
-                isDeleted: false
-            }
-        })
-    } else {
+    if (isVoteExists) {
+        if (isVoteExists.isDeleted === true) {
+            result = await prisma.vote.update({
+                where: {
+                    vote_id: isVoteExists?.vote_id
+                },
+                data: {
+                    isDeleted: false
+                }
+            })
+        }
+        else if ((isVoteExists.blogId === payload.blogId && isVoteExists.voterId === payload.voterId) || (isVoteExists.ideaId === payload.ideaId && isVoteExists.voterId === payload.voterId)) {
+            result = await prisma.vote.update({
+                where: {
+                    vote_id: isVoteExists.vote_id
+                },
+                data: {
+                    value: payload.value
+                }
+            })
+        }
+
+    }
+    else {
         result = await prisma.vote.create({
             data: payload
         })

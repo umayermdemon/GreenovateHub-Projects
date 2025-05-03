@@ -7772,6 +7772,8 @@ export namespace Prisma {
 
   export type VoteWhereUniqueInput = Prisma.AtLeast<{
     vote_id?: string
+    voterId_ideaId?: VoteVoterIdIdeaIdCompoundUniqueInput
+    voterId_blogId?: VoteVoterIdBlogIdCompoundUniqueInput
     AND?: VoteWhereInput | VoteWhereInput[]
     OR?: VoteWhereInput[]
     NOT?: VoteWhereInput | VoteWhereInput[]
@@ -7783,7 +7785,7 @@ export namespace Prisma {
     voter?: XOR<UserScalarRelationFilter, UserWhereInput>
     idea?: XOR<IdeaNullableScalarRelationFilter, IdeaWhereInput> | null
     blog?: XOR<BlogNullableScalarRelationFilter, BlogWhereInput> | null
-  }, "vote_id">
+  }, "vote_id" | "voterId_ideaId" | "voterId_blogId">
 
   export type VoteOrderByWithAggregationInput = {
     vote_id?: SortOrder
@@ -8602,6 +8604,16 @@ export namespace Prisma {
   export type BlogNullableScalarRelationFilter = {
     is?: BlogWhereInput | null
     isNot?: BlogWhereInput | null
+  }
+
+  export type VoteVoterIdIdeaIdCompoundUniqueInput = {
+    voterId: string
+    ideaId: string
+  }
+
+  export type VoteVoterIdBlogIdCompoundUniqueInput = {
+    voterId: string
+    blogId: string
   }
 
   export type VoteCountOrderByAggregateInput = {

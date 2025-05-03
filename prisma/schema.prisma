@@ -46,7 +46,7 @@ model Idea {
   category          Category   @relation(fields: [categoryId], references: [category_id])
   images            String[]
   authorId          String
-  author             User       @relation(fields: [authorId], references: [id])
+  author            User       @relation(fields: [authorId], references: [id])
   problem_statement String
   proposed_solution String
   isPremium         Boolean    @default(false)
@@ -84,6 +84,9 @@ model Vote {
   blogId    String?
   blog      Blog?     @relation(fields: [blogId], references: [blog_id])
   isDeleted Boolean   @default(false)
+
+  @@unique([voterId, ideaId])
+  @@unique([voterId, blogId])
 }
 
 enum ideaStatus {
