@@ -14,7 +14,17 @@ const createVote = catchAsync(async (req: Request, res: Response) => {
         data: result,
     });
 });
+const removeVote = catchAsync(async (req: Request, res: Response) => {
+    const result = await voteServices.removeVote(req.body);
+    sendResponse(res, {
+        statusCode: status.CREATED,
+        success: true,
+        message: "Your removed Successfully",
+        data: result,
+    });
+});
 
 export const voteController = {
-    createVote
+    createVote,
+    removeVote
 }

@@ -65,7 +65,10 @@ const createVote = async (payload: IVote) => {
 
     return result
 }
-
+const removeVote = async (payload: any) => {
+    return payload
+}
 export const voteServices = {
-    createVote
+    createVote,
+    removeVote
 }
