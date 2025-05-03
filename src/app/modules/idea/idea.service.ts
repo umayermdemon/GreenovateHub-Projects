@@ -3,6 +3,25 @@ import { prisma } from "../../utils/prisma";
 import { IAuthUser } from "../user/user.interface";
 
 const createIdeaIntoDb = async (payload: Idea) => {
+  const isUserExists = await prisma.user.findUnique({
+    where: {
+      id: payload.authorId,
+    },
+  });
+  if (!isUserExists) {
+    throw new Error("User not found");
+  }
+  const isCategoryExists = await prisma.category.findUnique({
+    where: {
+      category_id: payload.categoryId,
+    },
+  });
+  if (!isCategoryExists) {
+    throw new Error("Category not found");
+  }
+  if (isUserExists.role !== "member") {
+    throw new Error("Only members can create ideas");
+  }
   const result = await prisma.idea.create({
     data: {
       title: payload.title,

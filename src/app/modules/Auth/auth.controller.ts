@@ -7,7 +7,6 @@ import { IAuthUser } from "../user/user.interface";
 
 const loginUser = catchAsync(async (req: Request, res: Response) => {
   const result = await AuthServices.login(req.body);
-
   const { refreshToken } = result;
 
   res.cookie("refreshToken", refreshToken, {
@@ -18,7 +17,9 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
-    message: "Logged in successfully!",
+    message: `${
+      result.role.charAt(0).toUpperCase() + result.role.slice(1)
+    } logged in successfully!`,
     data: {
       accessToken: result.accessToken,
       needsPasswordChange: result.needsPasswordChange,
