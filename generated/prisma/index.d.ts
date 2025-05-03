@@ -3961,13 +3961,9 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     category?: boolean | CategoryDefaultArgs<ExtArgs>
-<<<<<<< HEAD
     author?: boolean | UserDefaultArgs<ExtArgs>
-=======
-    users?: boolean | UserDefaultArgs<ExtArgs>
     Vote?: boolean | Idea$VoteArgs<ExtArgs>
     _count?: boolean | IdeaCountOutputTypeDefaultArgs<ExtArgs>
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
   }, ExtArgs["result"]["idea"]>
 
   export type IdeaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4028,13 +4024,9 @@ export namespace Prisma {
   export type IdeaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idea_id" | "title" | "description" | "categoryId" | "images" | "authorId" | "problem_statement" | "proposed_solution" | "isPremium" | "price" | "status" | "isDeleted" | "createdAt" | "updatedAt", ExtArgs["result"]["idea"]>
   export type IdeaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
-<<<<<<< HEAD
     author?: boolean | UserDefaultArgs<ExtArgs>
-=======
-    users?: boolean | UserDefaultArgs<ExtArgs>
     Vote?: boolean | Idea$VoteArgs<ExtArgs>
     _count?: boolean | IdeaCountOutputTypeDefaultArgs<ExtArgs>
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
   }
   export type IdeaIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -4049,12 +4041,8 @@ export namespace Prisma {
     name: "Idea"
     objects: {
       category: Prisma.$CategoryPayload<ExtArgs>
-<<<<<<< HEAD
       author: Prisma.$UserPayload<ExtArgs>
-=======
-      users: Prisma.$UserPayload<ExtArgs>
       Vote: Prisma.$VotePayload<ExtArgs>[]
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
     }
     scalars: $Extensions.GetPayloadResult<{
       idea_id: string
@@ -4466,12 +4454,8 @@ export namespace Prisma {
   export interface Prisma__IdeaClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     category<T extends CategoryDefaultArgs<ExtArgs> = {}>(args?: Subset<T, CategoryDefaultArgs<ExtArgs>>): Prisma__CategoryClient<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-<<<<<<< HEAD
     author<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-=======
-    users<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     Vote<T extends Idea$VoteArgs<ExtArgs> = {}>(args?: Subset<T, Idea$VoteArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -7596,12 +7580,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Idea"> | Date | string
     updatedAt?: DateTimeFilter<"Idea"> | Date | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
-<<<<<<< HEAD
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
-=======
-    users?: XOR<UserScalarRelationFilter, UserWhereInput>
     Vote?: VoteListRelationFilter
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
   }
 
   export type IdeaOrderByWithRelationInput = {
@@ -7620,12 +7600,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     category?: CategoryOrderByWithRelationInput
-<<<<<<< HEAD
     author?: UserOrderByWithRelationInput
-=======
-    users?: UserOrderByWithRelationInput
     Vote?: VoteOrderByRelationAggregateInput
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
   }
 
   export type IdeaWhereUniqueInput = Prisma.AtLeast<{
@@ -7647,12 +7623,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Idea"> | Date | string
     updatedAt?: DateTimeFilter<"Idea"> | Date | string
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
-<<<<<<< HEAD
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
-=======
-    users?: XOR<UserScalarRelationFilter, UserWhereInput>
     Vote?: VoteListRelationFilter
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
   }, "idea_id">
 
   export type IdeaOrderByWithAggregationInput = {
@@ -7849,13 +7821,9 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-<<<<<<< HEAD
     Idea?: IdeaCreateNestedManyWithoutAuthorInput
-=======
-    Idea?: IdeaCreateNestedManyWithoutUsersInput
     Blog?: BlogCreateNestedManyWithoutAuthorInput
     Vote?: VoteCreateNestedManyWithoutVoterInput
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
   }
 
   export type UserUncheckedCreateInput = {
@@ -7870,13 +7838,9 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-<<<<<<< HEAD
     Idea?: IdeaUncheckedCreateNestedManyWithoutAuthorInput
-=======
-    Idea?: IdeaUncheckedCreateNestedManyWithoutUsersInput
     Blog?: BlogUncheckedCreateNestedManyWithoutAuthorInput
     Vote?: VoteUncheckedCreateNestedManyWithoutVoterInput
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
   }
 
   export type UserUpdateInput = {
@@ -7891,13 +7855,9 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-<<<<<<< HEAD
     Idea?: IdeaUpdateManyWithoutAuthorNestedInput
-=======
-    Idea?: IdeaUpdateManyWithoutUsersNestedInput
     Blog?: BlogUpdateManyWithoutAuthorNestedInput
     Vote?: VoteUpdateManyWithoutVoterNestedInput
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
   }
 
   export type UserUncheckedUpdateInput = {
@@ -7912,13 +7872,9 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-<<<<<<< HEAD
     Idea?: IdeaUncheckedUpdateManyWithoutAuthorNestedInput
-=======
-    Idea?: IdeaUncheckedUpdateManyWithoutUsersNestedInput
     Blog?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
     Vote?: VoteUncheckedUpdateManyWithoutVoterNestedInput
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
   }
 
   export type UserCreateManyInput = {
@@ -8034,12 +7990,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutIdeaInput
-<<<<<<< HEAD
     author: UserCreateNestedOneWithoutIdeaInput
-=======
-    users: UserCreateNestedOneWithoutIdeaInput
     Vote?: VoteCreateNestedManyWithoutIdeaInput
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
   }
 
   export type IdeaUncheckedCreateInput = {
@@ -8074,12 +8026,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutIdeaNestedInput
-<<<<<<< HEAD
     author?: UserUpdateOneRequiredWithoutIdeaNestedInput
-=======
-    users?: UserUpdateOneRequiredWithoutIdeaNestedInput
     Vote?: VoteUpdateManyWithoutIdeaNestedInput
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
   }
 
   export type IdeaUncheckedUpdateInput = {
@@ -8608,19 +8556,6 @@ export namespace Prisma {
     _max?: NestedEnumideaStatusFilter<$PrismaModel>
   }
 
-<<<<<<< HEAD
-  export type IdeaCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<IdeaCreateWithoutAuthorInput, IdeaUncheckedCreateWithoutAuthorInput> | IdeaCreateWithoutAuthorInput[] | IdeaUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: IdeaCreateOrConnectWithoutAuthorInput | IdeaCreateOrConnectWithoutAuthorInput[]
-    createMany?: IdeaCreateManyAuthorInputEnvelope
-    connect?: IdeaWhereUniqueInput | IdeaWhereUniqueInput[]
-  }
-
-  export type IdeaUncheckedCreateNestedManyWithoutAuthorInput = {
-    create?: XOR<IdeaCreateWithoutAuthorInput, IdeaUncheckedCreateWithoutAuthorInput> | IdeaCreateWithoutAuthorInput[] | IdeaUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: IdeaCreateOrConnectWithoutAuthorInput | IdeaCreateOrConnectWithoutAuthorInput[]
-    createMany?: IdeaCreateManyAuthorInputEnvelope
-=======
   export type BlogCountOrderByAggregateInput = {
     blog_id?: SortOrder
     title?: SortOrder
@@ -8706,10 +8641,10 @@ export namespace Prisma {
     _max?: NestedEnumvoteValueFilter<$PrismaModel>
   }
 
-  export type IdeaCreateNestedManyWithoutUsersInput = {
-    create?: XOR<IdeaCreateWithoutUsersInput, IdeaUncheckedCreateWithoutUsersInput> | IdeaCreateWithoutUsersInput[] | IdeaUncheckedCreateWithoutUsersInput[]
-    connectOrCreate?: IdeaCreateOrConnectWithoutUsersInput | IdeaCreateOrConnectWithoutUsersInput[]
-    createMany?: IdeaCreateManyUsersInputEnvelope
+  export type IdeaCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<IdeaCreateWithoutAuthorInput, IdeaUncheckedCreateWithoutAuthorInput> | IdeaCreateWithoutAuthorInput[] | IdeaUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: IdeaCreateOrConnectWithoutAuthorInput | IdeaCreateOrConnectWithoutAuthorInput[]
+    createMany?: IdeaCreateManyAuthorInputEnvelope
     connect?: IdeaWhereUniqueInput | IdeaWhereUniqueInput[]
   }
 
@@ -8727,11 +8662,10 @@ export namespace Prisma {
     connect?: VoteWhereUniqueInput | VoteWhereUniqueInput[]
   }
 
-  export type IdeaUncheckedCreateNestedManyWithoutUsersInput = {
-    create?: XOR<IdeaCreateWithoutUsersInput, IdeaUncheckedCreateWithoutUsersInput> | IdeaCreateWithoutUsersInput[] | IdeaUncheckedCreateWithoutUsersInput[]
-    connectOrCreate?: IdeaCreateOrConnectWithoutUsersInput | IdeaCreateOrConnectWithoutUsersInput[]
-    createMany?: IdeaCreateManyUsersInputEnvelope
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
+  export type IdeaUncheckedCreateNestedManyWithoutAuthorInput = {
+    create?: XOR<IdeaCreateWithoutAuthorInput, IdeaUncheckedCreateWithoutAuthorInput> | IdeaCreateWithoutAuthorInput[] | IdeaUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: IdeaCreateOrConnectWithoutAuthorInput | IdeaCreateOrConnectWithoutAuthorInput[]
+    createMany?: IdeaCreateManyAuthorInputEnvelope
     connect?: IdeaWhereUniqueInput | IdeaWhereUniqueInput[]
   }
 
@@ -8783,13 +8717,6 @@ export namespace Prisma {
     deleteMany?: IdeaScalarWhereInput | IdeaScalarWhereInput[]
   }
 
-<<<<<<< HEAD
-  export type IdeaUncheckedUpdateManyWithoutAuthorNestedInput = {
-    create?: XOR<IdeaCreateWithoutAuthorInput, IdeaUncheckedCreateWithoutAuthorInput> | IdeaCreateWithoutAuthorInput[] | IdeaUncheckedCreateWithoutAuthorInput[]
-    connectOrCreate?: IdeaCreateOrConnectWithoutAuthorInput | IdeaCreateOrConnectWithoutAuthorInput[]
-    upsert?: IdeaUpsertWithWhereUniqueWithoutAuthorInput | IdeaUpsertWithWhereUniqueWithoutAuthorInput[]
-    createMany?: IdeaCreateManyAuthorInputEnvelope
-=======
   export type BlogUpdateManyWithoutAuthorNestedInput = {
     create?: XOR<BlogCreateWithoutAuthorInput, BlogUncheckedCreateWithoutAuthorInput> | BlogCreateWithoutAuthorInput[] | BlogUncheckedCreateWithoutAuthorInput[]
     connectOrCreate?: BlogCreateOrConnectWithoutAuthorInput | BlogCreateOrConnectWithoutAuthorInput[]
@@ -8818,12 +8745,11 @@ export namespace Prisma {
     deleteMany?: VoteScalarWhereInput | VoteScalarWhereInput[]
   }
 
-  export type IdeaUncheckedUpdateManyWithoutUsersNestedInput = {
-    create?: XOR<IdeaCreateWithoutUsersInput, IdeaUncheckedCreateWithoutUsersInput> | IdeaCreateWithoutUsersInput[] | IdeaUncheckedCreateWithoutUsersInput[]
-    connectOrCreate?: IdeaCreateOrConnectWithoutUsersInput | IdeaCreateOrConnectWithoutUsersInput[]
-    upsert?: IdeaUpsertWithWhereUniqueWithoutUsersInput | IdeaUpsertWithWhereUniqueWithoutUsersInput[]
-    createMany?: IdeaCreateManyUsersInputEnvelope
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
+  export type IdeaUncheckedUpdateManyWithoutAuthorNestedInput = {
+    create?: XOR<IdeaCreateWithoutAuthorInput, IdeaUncheckedCreateWithoutAuthorInput> | IdeaCreateWithoutAuthorInput[] | IdeaUncheckedCreateWithoutAuthorInput[]
+    connectOrCreate?: IdeaCreateOrConnectWithoutAuthorInput | IdeaCreateOrConnectWithoutAuthorInput[]
+    upsert?: IdeaUpsertWithWhereUniqueWithoutAuthorInput | IdeaUpsertWithWhereUniqueWithoutAuthorInput[]
+    createMany?: IdeaCreateManyAuthorInputEnvelope
     set?: IdeaWhereUniqueInput | IdeaWhereUniqueInput[]
     disconnect?: IdeaWhereUniqueInput | IdeaWhereUniqueInput[]
     delete?: IdeaWhereUniqueInput | IdeaWhereUniqueInput[]
@@ -9334,9 +9260,6 @@ export namespace Prisma {
     _max?: NestedEnumideaStatusFilter<$PrismaModel>
   }
 
-<<<<<<< HEAD
-  export type IdeaCreateWithoutAuthorInput = {
-=======
   export type NestedEnumvoteValueFilter<$PrismaModel = never> = {
     equals?: $Enums.voteValue | EnumvoteValueFieldRefInput<$PrismaModel>
     in?: $Enums.voteValue[] | ListEnumvoteValueFieldRefInput<$PrismaModel>
@@ -9354,8 +9277,7 @@ export namespace Prisma {
     _max?: NestedEnumvoteValueFilter<$PrismaModel>
   }
 
-  export type IdeaCreateWithoutUsersInput = {
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
+  export type IdeaCreateWithoutAuthorInput = {
     idea_id?: string
     title: string
     description: string
@@ -9399,9 +9321,6 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-<<<<<<< HEAD
-  export type IdeaUpsertWithWhereUniqueWithoutAuthorInput = {
-=======
   export type BlogCreateWithoutAuthorInput = {
     blog_id?: string
     title: string
@@ -9460,8 +9379,7 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type IdeaUpsertWithWhereUniqueWithoutUsersInput = {
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
+  export type IdeaUpsertWithWhereUniqueWithoutAuthorInput = {
     where: IdeaWhereUniqueInput
     update: XOR<IdeaUpdateWithoutAuthorInput, IdeaUncheckedUpdateWithoutAuthorInput>
     create: XOR<IdeaCreateWithoutAuthorInput, IdeaUncheckedCreateWithoutAuthorInput>
@@ -9568,12 +9486,8 @@ export namespace Prisma {
     isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
-<<<<<<< HEAD
     author: UserCreateNestedOneWithoutIdeaInput
-=======
-    users: UserCreateNestedOneWithoutIdeaInput
     Vote?: VoteCreateNestedManyWithoutIdeaInput
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
   }
 
   export type IdeaUncheckedCreateWithoutCategoryInput = {
@@ -9849,7 +9763,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    Idea?: IdeaCreateNestedManyWithoutUsersInput
+    Idea?: IdeaCreateNestedManyWithoutAuthorInput
     Vote?: VoteCreateNestedManyWithoutVoterInput
   }
 
@@ -9865,7 +9779,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    Idea?: IdeaUncheckedCreateNestedManyWithoutUsersInput
+    Idea?: IdeaUncheckedCreateNestedManyWithoutAuthorInput
     Vote?: VoteUncheckedCreateNestedManyWithoutVoterInput
   }
 
@@ -9944,7 +9858,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Idea?: IdeaUpdateManyWithoutUsersNestedInput
+    Idea?: IdeaUpdateManyWithoutAuthorNestedInput
     Vote?: VoteUpdateManyWithoutVoterNestedInput
   }
 
@@ -9960,7 +9874,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Idea?: IdeaUncheckedUpdateManyWithoutUsersNestedInput
+    Idea?: IdeaUncheckedUpdateManyWithoutAuthorNestedInput
     Vote?: VoteUncheckedUpdateManyWithoutVoterNestedInput
   }
 
@@ -10019,7 +9933,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    Idea?: IdeaCreateNestedManyWithoutUsersInput
+    Idea?: IdeaCreateNestedManyWithoutAuthorInput
     Blog?: BlogCreateNestedManyWithoutAuthorInput
   }
 
@@ -10035,7 +9949,7 @@ export namespace Prisma {
     address?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    Idea?: IdeaUncheckedCreateNestedManyWithoutUsersInput
+    Idea?: IdeaUncheckedCreateNestedManyWithoutAuthorInput
     Blog?: BlogUncheckedCreateNestedManyWithoutAuthorInput
   }
 
@@ -10058,7 +9972,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutIdeaInput
-    users: UserCreateNestedOneWithoutIdeaInput
+    author: UserCreateNestedOneWithoutIdeaInput
   }
 
   export type IdeaUncheckedCreateWithoutVoteInput = {
@@ -10133,7 +10047,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Idea?: IdeaUpdateManyWithoutUsersNestedInput
+    Idea?: IdeaUpdateManyWithoutAuthorNestedInput
     Blog?: BlogUpdateManyWithoutAuthorNestedInput
   }
 
@@ -10149,7 +10063,7 @@ export namespace Prisma {
     address?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    Idea?: IdeaUncheckedUpdateManyWithoutUsersNestedInput
+    Idea?: IdeaUncheckedUpdateManyWithoutAuthorNestedInput
     Blog?: BlogUncheckedUpdateManyWithoutAuthorNestedInput
   }
 
@@ -10178,7 +10092,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutIdeaNestedInput
-    users?: UserUpdateOneRequiredWithoutIdeaNestedInput
+    author?: UserUpdateOneRequiredWithoutIdeaNestedInput
   }
 
   export type IdeaUncheckedUpdateWithoutVoteInput = {
@@ -10247,9 +10161,6 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
-<<<<<<< HEAD
-  export type IdeaUpdateWithoutAuthorInput = {
-=======
   export type BlogCreateManyAuthorInput = {
     blog_id?: string
     title: string
@@ -10268,8 +10179,7 @@ export namespace Prisma {
     isDeleted?: boolean
   }
 
-  export type IdeaUpdateWithoutUsersInput = {
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
+  export type IdeaUpdateWithoutAuthorInput = {
     idea_id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
@@ -10414,12 +10324,8 @@ export namespace Prisma {
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-<<<<<<< HEAD
     author?: UserUpdateOneRequiredWithoutIdeaNestedInput
-=======
-    users?: UserUpdateOneRequiredWithoutIdeaNestedInput
     Vote?: VoteUpdateManyWithoutIdeaNestedInput
->>>>>>> 6010cd197031fcd6fad976a79bb6f96ba52c569c
   }
 
   export type IdeaUncheckedUpdateWithoutCategoryInput = {
