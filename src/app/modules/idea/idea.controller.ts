@@ -54,10 +54,20 @@ const getAllIdeasForMemberFromDb = catchAsync(
     });
   }
 );
+// const getAllIdea = catchAsync(async (req: Request, res: Response) => {
+//   const result = await ideaServices.getAllIdea();
+//   sendResponse(res, {
+//     statusCode: status.OK,
+//     success: true,
+//     message: "Idea retrieved Successfully",
+//     data: result,
+//   });
+// });
 
 export const ideaControllers = {
   createIdeaIntoDb,
   getAllIdeasFromDb,
   getSingleIdeaFromDb,
   getAllIdeasForMemberFromDb,
+  // getAllIdea,
 };

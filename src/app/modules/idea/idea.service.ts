@@ -17,6 +17,26 @@ const createIdeaIntoDb = async (payload: Idea) => {
   });
   return result;
 };
+// const getAllIdea = async () => {
+//   const result = await prisma.idea.findMany({
+//     include: {
+//       Vote: true,
+//     },
+//   });
+//   const enhancedIdeas = result.map((idea) => {
+//     const votes = idea.Vote || [];
+
+//     const upVotes = votes.filter((v) => v.value === "up").length;
+//     const downVotes = votes.filter((v) => v.value === "down").length;
+
+//     return {
+//       ...idea,
+//       up_votes: upVotes,
+//       down_votes: downVotes,
+//     };
+//   });
+//   return enhancedIdeas;
+// };
 
 const getAllIdeasFromDb = async () => {
   const result = await prisma.idea.findMany();
@@ -87,10 +107,10 @@ const getAllIdeasForMemberFromDb = async (user: IAuthUser) => {
   }
   return result;
 };
-
 export const ideaServices = {
   createIdeaIntoDb,
   getAllIdeasFromDb,
   getAllIdeasForMemberFromDb,
   getSingleIdeaFromDb,
+  // getAllIdea,
 };

@@ -24,4 +24,5 @@ router.get(
   ideaControllers.getAllIdeasForMemberFromDb
 );
 
+// router.get("/get-all-idea", ideaControllers.getAllIdea);
 export const ideaRouter = router;

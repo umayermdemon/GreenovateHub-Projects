@@ -12,7 +12,7 @@ model User {
   id                  String   @unique @default(uuid())
   name                String
   email               String   @unique
-  role                userRole
+  role                userRole @default(member)
   password            String
   needsPasswordChange Boolean  @default(true)
   isDeleted           Boolean  @default(false)
@@ -21,13 +21,10 @@ model User {
   createdAt           DateTime @default(now())
   updatedAt           DateTime @updatedAt
   Idea                Idea[]
+  Blog                Blog[]
+  Vote                Vote[]
 
   @@map("users")
-}
-
-enum userRole {
-  admin
-  member
 }
 
 model Category {
@@ -36,14 +33,9 @@ model Category {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   Idea        Idea[]
+  Blog        Blog[]
 
   @@map("categories")
-}
-
-enum categoryName {
-  energy
-  waste
-  transportation
 }
 
 model Idea {
@@ -63,8 +55,35 @@ model Idea {
   isDeleted         Boolean    @default(false)
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
+  Vote              Vote[]
 
   @@map("ideas")
+}
+
+model Blog {
+  blog_id     String   @id @default(uuid())
+  title       String   @unique
+  images      String[]
+  description String
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+  category_id String
+  category    Category @relation(fields: [category_id], references: [category_id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Vote        Vote[]
+}
+
+model Vote {
+  vote_id   String    @id @default(uuid())
+  voterId   String
+  value     voteValue
+  voter     User      @relation(fields: [voterId], references: [id])
+  ideaId    String?
+  idea      Idea?     @relation(fields: [ideaId], references: [idea_id])
+  blogId    String?
+  blog      Blog?     @relation(fields: [blogId], references: [blog_id])
+  isDeleted Boolean   @default(false)
 }
 
 enum ideaStatus {
@@ -72,4 +91,20 @@ enum ideaStatus {
   draft
   published
   unpublished
+}
+
+enum categoryName {
+  energy
+  waste
+  transportation
+}
+
+enum userRole {
+  admin
+  member
+}
+
+enum voteValue {
+  up
+  down
 }
