@@ -16,11 +16,11 @@ const moduleRoutes: any = [
     route: AuthRouter,
   },
   {
-    path: "/idea",
+    path: "/ideas",
     route: ideaRouter,
   },
   {
-    path: "/category",
+    path: "/categories",
     route: categoryRouter,
   },
 ];
