@@ -10,4 +10,5 @@ router.post(
   validateRequest(ideaValidationSchemas.createIdeaValidationSchema),
   ideaControllers.createIdeaIntoDb
 );
+router.get("/get-all-idea",ideaControllers.getAllIdea)
 export const ideaRouter = router;

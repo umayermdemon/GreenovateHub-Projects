@@ -8,7 +8,7 @@ import { createUserValidationSchema } from "./user.validation";
 const router = Router();
 
 router.post(
-  "/",
+  "/register",
   validateRequest(createUserValidationSchema),
   userController.registerUser
 );

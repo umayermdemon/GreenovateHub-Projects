@@ -36,13 +36,13 @@ const login = async (payload: { email: string; password: string }) => {
     config.jwt_refresh_secret as string,
     config.jwt_refresh_expires_in as string
   );
-
   return {
     accessToken,
     refreshToken,
     needsPasswordChange: userData.needsPasswordChange,
   };
 };
+
 const refreshToken = async (token: string) => {
   let decodedData;
   try {
