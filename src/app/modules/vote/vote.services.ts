@@ -32,17 +32,17 @@ const createVote = async (payload: IVote, user: IAuthUser) => {
         if (isVoteExists.isDeleted === true) {
             result = await prisma.vote.update({
                 where: {
-                    vote_id: isVoteExists?.vote_id
+                    id: isVoteExists?.id
                 },
                 data: {
                     isDeleted: false
                 }
             })
         }
-        else if ((isVoteExists.blogId === payload.blogId && isVoteExists.voterId === payload.voterId) || (isVoteExists.ideaId === payload.ideaId && isVoteExists.voterId === payload.voterId)) {
+        else if ((isVoteExists.blogId === payload.blogId && isVoteExists.voterId === user.userId) || (isVoteExists.ideaId === payload.ideaId && isVoteExists.voterId === user.userId)) {
             result = await prisma.vote.update({
                 where: {
-                    vote_id: isVoteExists.vote_id
+                    id: isVoteExists.id
                 },
                 data: {
                     value: payload.value
@@ -59,7 +59,6 @@ const createVote = async (payload: IVote, user: IAuthUser) => {
             }
         })
     }
-
     return result
 }
 const removeVote = async (payload: Partial<IVote>, user: IAuthUser) => {
@@ -89,7 +88,7 @@ const removeVote = async (payload: Partial<IVote>, user: IAuthUser) => {
     }
     const result = await prisma.vote.update({
         where: {
-            vote_id: isVoteExists.vote_id
+            id: isVoteExists.id
         },
         data: {
             isDeleted: true

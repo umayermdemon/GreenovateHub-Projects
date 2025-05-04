@@ -15,6 +15,6 @@ router.post("/create-idea", (0, auth_1.default)(prisma_1.userRole.member), (0, v
 router.get("/", idea_controller_1.ideaControllers.getAllIdeasFromDb);
 router.get("/:id", idea_controller_1.ideaControllers.getSingleIdeaFromDb);
 router.get("/all-ideas/me", (0, auth_1.default)(prisma_1.userRole.member), idea_controller_1.ideaControllers.getAllIdeasForMemberFromDb);
-router.put("/:id", (0, auth_1.default)(prisma_1.userRole.member), idea_controller_1.ideaControllers.updateIdeaIntoDb);
+router.put("/:id", (0, auth_1.default)(prisma_1.userRole.member), (0, validateRequest_1.default)(idea_validation_1.ideaValidationSchemas.updateIdeaValidationSchema), idea_controller_1.ideaControllers.updateIdeaIntoDb);
 router.patch("/:id", (0, auth_1.default)(prisma_1.userRole.member, prisma_1.userRole.admin), idea_controller_1.ideaControllers.deleteIdeaFromDb);
 exports.ideaRouter = router;
