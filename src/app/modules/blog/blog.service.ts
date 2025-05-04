@@ -1,42 +1,22 @@
 import { prisma } from "../../utils/prisma";
 import { IAuthUser } from "../user/user.interface";
-import { Blog } from "../../../../generated/prisma";
+import { Blog, userRole } from "../../../../generated/prisma";
 
-const createBlog = async (payload: Blog, user: IAuthUser) => {
-  const userData = await prisma.user.findUniqueOrThrow({
-    where: {
-      email: user.email,
-    },
-  });
+const writeBlog = async (payload: Blog, user: IAuthUser) => {
+  if (!user.userId) {
+    throw new Error("This user not found in the DB")
+  }
   const result = await prisma.blog.create({
     data: {
-      title: payload.title,
-      description: payload.description,
-      categoryId: payload.categoryId,
-      images: payload.images,
-      authorId: userData.id,
+      ...payload,
+      authorId: user?.userId
     },
   });
   return result;
 };
 
-// const createBlog = async (payload: IBlog, user: IAuthUser) => {
-//     const userData = await prisma.user.findUniqueOrThrow({
-//         where: {
-//             email: user.email
-//         }
-//     })
 
-//     const result = await prisma.blog.create({
-//         data: {
-//             ...payload,
-//             authorId: userData.id
-//         }
-//     })
-//     return result
-// }
-
-const getBlogs = async () => {
+const getAllBlogs = async () => {
   const result = await prisma.blog.findMany({
     include: {
       Vote: true,
@@ -56,27 +36,52 @@ const getBlogs = async () => {
   });
   return enhancedIdeas;
 };
-const getSingleBlog = async (blog_id: string) => {
+const getBlog = async (id: string) => {
   const result = await prisma.blog.findUnique({
     where: {
-      blog_id,
+      id,
     },
   });
   return result;
 };
 
-const updateBlog = async (blog_id: string, payload: Partial<Blog>) => {
+const editBlog = async (id: string, payload: Partial<Blog>, user: IAuthUser) => {
+  const blogData = await prisma.blog.findUnique({
+    where: {
+      id
+    }
+  })
+  if (blogData?.authorId !== user.userId || user.role !== userRole.admin) {
+    throw new Error("You cannot update this blog")
+  }
   const result = await prisma.blog.update({
     where: {
-      blog_id,
+      id,
     },
     data: payload,
   });
   return result;
 };
+const deleteBlog = async (id: string, user: IAuthUser) => {
+  const blogData = await prisma.blog.findUnique({
+    where: {
+      id
+    }
+  })
+  if (blogData?.authorId !== user.userId || user.role !== userRole.admin) {
+    throw new Error("You cannot delete this blog")
+  }
+  const result = await prisma.blog.delete({
+    where: {
+      id
+    }
+  })
+  return result
+}
 export const blogServices = {
-  createBlog,
-  getBlogs,
-  getSingleBlog,
-  updateBlog,
+  writeBlog,
+  getAllBlogs,
+  getBlog,
+  editBlog,
+  deleteBlog
 };

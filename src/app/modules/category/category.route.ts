@@ -10,6 +10,7 @@ router.post(
   "/create-category",
   auth("admin"),
   validateRequest(categoryValidationSchemas.createCategoryValidationSchema),
-  categoryControllers.createCategoryIntoDb
+  categoryControllers.createCategory
 );
+router.get("/get-all-categories", categoryControllers.getAllCategories)
 export const categoryRouter = router;

@@ -29,12 +29,12 @@ model User {
 }
 
 model Category {
-  category_id String       @id @default(uuid())
-  name        categoryName
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  Idea        Idea[]
-  Blog        Blog[]
+  id        String       @id @default(uuid())
+  name      categoryName
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  Idea      Idea[]
+  Blog      Blog[]
 
   @@map("categories")
 }
@@ -44,7 +44,7 @@ model Idea {
   title             String
   description       String
   categoryId        String
-  category          Category   @relation(fields: [categoryId], references: [category_id])
+  category          Category   @relation(fields: [categoryId], references: [id])
   images            String[]
   authorId          String
   author            User       @relation(fields: [authorId], references: [id])
@@ -63,14 +63,14 @@ model Idea {
 }
 
 model Blog {
-  blog_id     String   @id @default(uuid())
+  id          String   @id @default(uuid())
   title       String   @unique
   images      String[]
   description String
   authorId    String
   author      User     @relation(fields: [authorId], references: [id])
   categoryId  String
-  category    Category @relation(fields: [categoryId], references: [category_id])
+  category    Category @relation(fields: [categoryId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   Vote        Vote[]
@@ -84,7 +84,7 @@ model Vote {
   ideaId    String?
   idea      Idea?     @relation(fields: [ideaId], references: [idea_id])
   blogId    String?
-  blog      Blog?     @relation(fields: [blogId], references: [blog_id])
+  blog      Blog?     @relation(fields: [blogId], references: [id])
   isDeleted Boolean   @default(false)
 
   @@unique([voterId, ideaId])
