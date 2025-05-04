@@ -6244,7 +6244,7 @@ export namespace Prisma {
   }
 
   export type VoteMinAggregateOutputType = {
-    vote_id: string | null
+    id: string | null
     voterId: string | null
     value: $Enums.voteValue | null
     ideaId: string | null
@@ -6253,7 +6253,7 @@ export namespace Prisma {
   }
 
   export type VoteMaxAggregateOutputType = {
-    vote_id: string | null
+    id: string | null
     voterId: string | null
     value: $Enums.voteValue | null
     ideaId: string | null
@@ -6262,7 +6262,7 @@ export namespace Prisma {
   }
 
   export type VoteCountAggregateOutputType = {
-    vote_id: number
+    id: number
     voterId: number
     value: number
     ideaId: number
@@ -6273,7 +6273,7 @@ export namespace Prisma {
 
 
   export type VoteMinAggregateInputType = {
-    vote_id?: true
+    id?: true
     voterId?: true
     value?: true
     ideaId?: true
@@ -6282,7 +6282,7 @@ export namespace Prisma {
   }
 
   export type VoteMaxAggregateInputType = {
-    vote_id?: true
+    id?: true
     voterId?: true
     value?: true
     ideaId?: true
@@ -6291,7 +6291,7 @@ export namespace Prisma {
   }
 
   export type VoteCountAggregateInputType = {
-    vote_id?: true
+    id?: true
     voterId?: true
     value?: true
     ideaId?: true
@@ -6373,7 +6373,7 @@ export namespace Prisma {
   }
 
   export type VoteGroupByOutputType = {
-    vote_id: string
+    id: string
     voterId: string
     value: $Enums.voteValue
     ideaId: string | null
@@ -6399,7 +6399,7 @@ export namespace Prisma {
 
 
   export type VoteSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    vote_id?: boolean
+    id?: boolean
     voterId?: boolean
     value?: boolean
     ideaId?: boolean
@@ -6411,7 +6411,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["vote"]>
 
   export type VoteSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    vote_id?: boolean
+    id?: boolean
     voterId?: boolean
     value?: boolean
     ideaId?: boolean
@@ -6423,7 +6423,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["vote"]>
 
   export type VoteSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    vote_id?: boolean
+    id?: boolean
     voterId?: boolean
     value?: boolean
     ideaId?: boolean
@@ -6435,7 +6435,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["vote"]>
 
   export type VoteSelectScalar = {
-    vote_id?: boolean
+    id?: boolean
     voterId?: boolean
     value?: boolean
     ideaId?: boolean
@@ -6443,7 +6443,7 @@ export namespace Prisma {
     isDeleted?: boolean
   }
 
-  export type VoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"vote_id" | "voterId" | "value" | "ideaId" | "blogId" | "isDeleted", ExtArgs["result"]["vote"]>
+  export type VoteOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "voterId" | "value" | "ideaId" | "blogId" | "isDeleted", ExtArgs["result"]["vote"]>
   export type VoteInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     voter?: boolean | UserDefaultArgs<ExtArgs>
     idea?: boolean | Vote$ideaArgs<ExtArgs>
@@ -6468,7 +6468,7 @@ export namespace Prisma {
       blog: Prisma.$BlogPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
-      vote_id: string
+      id: string
       voterId: string
       value: $Enums.voteValue
       ideaId: string | null
@@ -6557,8 +6557,8 @@ export namespace Prisma {
      * // Get first 10 Votes
      * const votes = await prisma.vote.findMany({ take: 10 })
      * 
-     * // Only select the `vote_id`
-     * const voteWithVote_idOnly = await prisma.vote.findMany({ select: { vote_id: true } })
+     * // Only select the `id`
+     * const voteWithIdOnly = await prisma.vote.findMany({ select: { id: true } })
      * 
      */
     findMany<T extends VoteFindManyArgs>(args?: SelectSubset<T, VoteFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VotePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -6602,9 +6602,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many Votes and only return the `vote_id`
-     * const voteWithVote_idOnly = await prisma.vote.createManyAndReturn({
-     *   select: { vote_id: true },
+     * // Create many Votes and only return the `id`
+     * const voteWithIdOnly = await prisma.vote.createManyAndReturn({
+     *   select: { id: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -6693,9 +6693,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Votes and only return the `vote_id`
-     * const voteWithVote_idOnly = await prisma.vote.updateManyAndReturn({
-     *   select: { vote_id: true },
+     * // Update zero or more Votes and only return the `id`
+     * const voteWithIdOnly = await prisma.vote.updateManyAndReturn({
+     *   select: { id: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6900,7 +6900,7 @@ export namespace Prisma {
    * Fields of the Vote model
    */
   interface VoteFieldRefs {
-    readonly vote_id: FieldRef<"Vote", 'String'>
+    readonly id: FieldRef<"Vote", 'String'>
     readonly voterId: FieldRef<"Vote", 'String'>
     readonly value: FieldRef<"Vote", 'voteValue'>
     readonly ideaId: FieldRef<"Vote", 'String'>
@@ -8513,7 +8513,7 @@ export namespace Prisma {
 
 
   export const VoteScalarFieldEnum: {
-    vote_id: 'vote_id',
+    id: 'id',
     voterId: 'voterId',
     value: 'value',
     ideaId: 'ideaId',
@@ -9009,7 +9009,7 @@ export namespace Prisma {
     AND?: VoteWhereInput | VoteWhereInput[]
     OR?: VoteWhereInput[]
     NOT?: VoteWhereInput | VoteWhereInput[]
-    vote_id?: StringFilter<"Vote"> | string
+    id?: StringFilter<"Vote"> | string
     voterId?: StringFilter<"Vote"> | string
     value?: EnumvoteValueFilter<"Vote"> | $Enums.voteValue
     ideaId?: StringNullableFilter<"Vote"> | string | null
@@ -9021,7 +9021,7 @@ export namespace Prisma {
   }
 
   export type VoteOrderByWithRelationInput = {
-    vote_id?: SortOrder
+    id?: SortOrder
     voterId?: SortOrder
     value?: SortOrder
     ideaId?: SortOrderInput | SortOrder
@@ -9033,7 +9033,7 @@ export namespace Prisma {
   }
 
   export type VoteWhereUniqueInput = Prisma.AtLeast<{
-    vote_id?: string
+    id?: string
     voterId_ideaId?: VoteVoterIdIdeaIdCompoundUniqueInput
     voterId_blogId?: VoteVoterIdBlogIdCompoundUniqueInput
     AND?: VoteWhereInput | VoteWhereInput[]
@@ -9047,10 +9047,10 @@ export namespace Prisma {
     voter?: XOR<UserScalarRelationFilter, UserWhereInput>
     idea?: XOR<IdeaNullableScalarRelationFilter, IdeaWhereInput> | null
     blog?: XOR<BlogNullableScalarRelationFilter, BlogWhereInput> | null
-  }, "vote_id" | "voterId_ideaId" | "voterId_blogId">
+  }, "id" | "voterId_ideaId" | "voterId_blogId">
 
   export type VoteOrderByWithAggregationInput = {
-    vote_id?: SortOrder
+    id?: SortOrder
     voterId?: SortOrder
     value?: SortOrder
     ideaId?: SortOrderInput | SortOrder
@@ -9065,7 +9065,7 @@ export namespace Prisma {
     AND?: VoteScalarWhereWithAggregatesInput | VoteScalarWhereWithAggregatesInput[]
     OR?: VoteScalarWhereWithAggregatesInput[]
     NOT?: VoteScalarWhereWithAggregatesInput | VoteScalarWhereWithAggregatesInput[]
-    vote_id?: StringWithAggregatesFilter<"Vote"> | string
+    id?: StringWithAggregatesFilter<"Vote"> | string
     voterId?: StringWithAggregatesFilter<"Vote"> | string
     value?: EnumvoteValueWithAggregatesFilter<"Vote"> | $Enums.voteValue
     ideaId?: StringNullableWithAggregatesFilter<"Vote"> | string | null
@@ -9512,7 +9512,7 @@ export namespace Prisma {
   }
 
   export type VoteCreateInput = {
-    vote_id?: string
+    id?: string
     value: $Enums.voteValue
     isDeleted?: boolean
     voter: UserCreateNestedOneWithoutVoteInput
@@ -9521,7 +9521,7 @@ export namespace Prisma {
   }
 
   export type VoteUncheckedCreateInput = {
-    vote_id?: string
+    id?: string
     voterId: string
     value: $Enums.voteValue
     ideaId?: string | null
@@ -9530,7 +9530,7 @@ export namespace Prisma {
   }
 
   export type VoteUpdateInput = {
-    vote_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     value?: EnumvoteValueFieldUpdateOperationsInput | $Enums.voteValue
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     voter?: UserUpdateOneRequiredWithoutVoteNestedInput
@@ -9539,7 +9539,7 @@ export namespace Prisma {
   }
 
   export type VoteUncheckedUpdateInput = {
-    vote_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     voterId?: StringFieldUpdateOperationsInput | string
     value?: EnumvoteValueFieldUpdateOperationsInput | $Enums.voteValue
     ideaId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9548,7 +9548,7 @@ export namespace Prisma {
   }
 
   export type VoteCreateManyInput = {
-    vote_id?: string
+    id?: string
     voterId: string
     value: $Enums.voteValue
     ideaId?: string | null
@@ -9557,13 +9557,13 @@ export namespace Prisma {
   }
 
   export type VoteUpdateManyMutationInput = {
-    vote_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     value?: EnumvoteValueFieldUpdateOperationsInput | $Enums.voteValue
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
   }
 
   export type VoteUncheckedUpdateManyInput = {
-    vote_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     voterId?: StringFieldUpdateOperationsInput | string
     value?: EnumvoteValueFieldUpdateOperationsInput | $Enums.voteValue
     ideaId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -10021,7 +10021,7 @@ export namespace Prisma {
   }
 
   export type VoteCountOrderByAggregateInput = {
-    vote_id?: SortOrder
+    id?: SortOrder
     voterId?: SortOrder
     value?: SortOrder
     ideaId?: SortOrder
@@ -10030,7 +10030,7 @@ export namespace Prisma {
   }
 
   export type VoteMaxOrderByAggregateInput = {
-    vote_id?: SortOrder
+    id?: SortOrder
     voterId?: SortOrder
     value?: SortOrder
     ideaId?: SortOrder
@@ -10039,7 +10039,7 @@ export namespace Prisma {
   }
 
   export type VoteMinOrderByAggregateInput = {
-    vote_id?: SortOrder
+    id?: SortOrder
     voterId?: SortOrder
     value?: SortOrder
     ideaId?: SortOrder
@@ -10916,7 +10916,7 @@ export namespace Prisma {
   }
 
   export type VoteCreateWithoutVoterInput = {
-    vote_id?: string
+    id?: string
     value: $Enums.voteValue
     isDeleted?: boolean
     idea?: IdeaCreateNestedOneWithoutVoteInput
@@ -10924,7 +10924,7 @@ export namespace Prisma {
   }
 
   export type VoteUncheckedCreateWithoutVoterInput = {
-    vote_id?: string
+    id?: string
     value: $Enums.voteValue
     ideaId?: string | null
     blogId?: string | null
@@ -11053,7 +11053,7 @@ export namespace Prisma {
     AND?: VoteScalarWhereInput | VoteScalarWhereInput[]
     OR?: VoteScalarWhereInput[]
     NOT?: VoteScalarWhereInput | VoteScalarWhereInput[]
-    vote_id?: StringFilter<"Vote"> | string
+    id?: StringFilter<"Vote"> | string
     voterId?: StringFilter<"Vote"> | string
     value?: EnumvoteValueFilter<"Vote"> | $Enums.voteValue
     ideaId?: StringNullableFilter<"Vote"> | string | null
@@ -11260,7 +11260,7 @@ export namespace Prisma {
   }
 
   export type VoteCreateWithoutIdeaInput = {
-    vote_id?: string
+    id?: string
     value: $Enums.voteValue
     isDeleted?: boolean
     voter: UserCreateNestedOneWithoutVoteInput
@@ -11268,7 +11268,7 @@ export namespace Prisma {
   }
 
   export type VoteUncheckedCreateWithoutIdeaInput = {
-    vote_id?: string
+    id?: string
     voterId: string
     value: $Enums.voteValue
     blogId?: string | null
@@ -11476,7 +11476,7 @@ export namespace Prisma {
   }
 
   export type VoteCreateWithoutBlogInput = {
-    vote_id?: string
+    id?: string
     value: $Enums.voteValue
     isDeleted?: boolean
     voter: UserCreateNestedOneWithoutVoteInput
@@ -11484,7 +11484,7 @@ export namespace Prisma {
   }
 
   export type VoteUncheckedCreateWithoutBlogInput = {
-    vote_id?: string
+    id?: string
     voterId: string
     value: $Enums.voteValue
     ideaId?: string | null
@@ -12020,7 +12020,7 @@ export namespace Prisma {
   }
 
   export type VoteCreateManyVoterInput = {
-    vote_id?: string
+    id?: string
     value: $Enums.voteValue
     ideaId?: string | null
     blogId?: string | null
@@ -12120,7 +12120,7 @@ export namespace Prisma {
   }
 
   export type VoteUpdateWithoutVoterInput = {
-    vote_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     value?: EnumvoteValueFieldUpdateOperationsInput | $Enums.voteValue
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     idea?: IdeaUpdateOneWithoutVoteNestedInput
@@ -12128,7 +12128,7 @@ export namespace Prisma {
   }
 
   export type VoteUncheckedUpdateWithoutVoterInput = {
-    vote_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     value?: EnumvoteValueFieldUpdateOperationsInput | $Enums.voteValue
     ideaId?: NullableStringFieldUpdateOperationsInput | string | null
     blogId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12136,7 +12136,7 @@ export namespace Prisma {
   }
 
   export type VoteUncheckedUpdateManyWithoutVoterInput = {
-    vote_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     value?: EnumvoteValueFieldUpdateOperationsInput | $Enums.voteValue
     ideaId?: NullableStringFieldUpdateOperationsInput | string | null
     blogId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12278,7 +12278,7 @@ export namespace Prisma {
   }
 
   export type VoteCreateManyIdeaInput = {
-    vote_id?: string
+    id?: string
     voterId: string
     value: $Enums.voteValue
     blogId?: string | null
@@ -12294,7 +12294,7 @@ export namespace Prisma {
   }
 
   export type VoteUpdateWithoutIdeaInput = {
-    vote_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     value?: EnumvoteValueFieldUpdateOperationsInput | $Enums.voteValue
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     voter?: UserUpdateOneRequiredWithoutVoteNestedInput
@@ -12302,7 +12302,7 @@ export namespace Prisma {
   }
 
   export type VoteUncheckedUpdateWithoutIdeaInput = {
-    vote_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     voterId?: StringFieldUpdateOperationsInput | string
     value?: EnumvoteValueFieldUpdateOperationsInput | $Enums.voteValue
     blogId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12310,7 +12310,7 @@ export namespace Prisma {
   }
 
   export type VoteUncheckedUpdateManyWithoutIdeaInput = {
-    vote_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     voterId?: StringFieldUpdateOperationsInput | string
     value?: EnumvoteValueFieldUpdateOperationsInput | $Enums.voteValue
     blogId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12342,7 +12342,7 @@ export namespace Prisma {
   }
 
   export type VoteCreateManyBlogInput = {
-    vote_id?: string
+    id?: string
     voterId: string
     value: $Enums.voteValue
     ideaId?: string | null
@@ -12350,7 +12350,7 @@ export namespace Prisma {
   }
 
   export type VoteUpdateWithoutBlogInput = {
-    vote_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     value?: EnumvoteValueFieldUpdateOperationsInput | $Enums.voteValue
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     voter?: UserUpdateOneRequiredWithoutVoteNestedInput
@@ -12358,7 +12358,7 @@ export namespace Prisma {
   }
 
   export type VoteUncheckedUpdateWithoutBlogInput = {
-    vote_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     voterId?: StringFieldUpdateOperationsInput | string
     value?: EnumvoteValueFieldUpdateOperationsInput | $Enums.voteValue
     ideaId?: NullableStringFieldUpdateOperationsInput | string | null
@@ -12366,7 +12366,7 @@ export namespace Prisma {
   }
 
   export type VoteUncheckedUpdateManyWithoutBlogInput = {
-    vote_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     voterId?: StringFieldUpdateOperationsInput | string
     value?: EnumvoteValueFieldUpdateOperationsInput | $Enums.voteValue
     ideaId?: NullableStringFieldUpdateOperationsInput | string | null

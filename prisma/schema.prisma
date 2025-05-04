@@ -77,7 +77,7 @@ model Blog {
 }
 
 model Vote {
-  vote_id   String    @id @default(uuid())
+  id        String    @id @default(uuid())
   voterId   String
   value     voteValue
   voter     User      @relation(fields: [voterId], references: [id])
