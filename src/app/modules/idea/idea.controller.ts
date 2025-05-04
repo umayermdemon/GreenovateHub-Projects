@@ -6,6 +6,7 @@ import { Request, Response } from "express";
 import { IAuthUser } from "../user/user.interface";
 import pick from "../../utils/pick";
 import { ideaFilterableFields } from "./idea.constant";
+import { paginationQueries } from "../../utils/prisma";
 
 const createIdea = catchAsync(
   async (req: Request & { user?: IAuthUser }, res: Response) => {
@@ -24,7 +25,7 @@ const createIdea = catchAsync(
 );
 const getAllIdeas = catchAsync(async (req, res) => {
   const ideaFilters = pick(req.query, ideaFilterableFields);
-  const paginationOptions = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder'])
+  const paginationOptions = pick(req.query, paginationQueries)
   console.log(ideaFilters);
   const result = await ideaServices.getAllIdeas(ideaFilters, paginationOptions);
   sendResponse(res, {

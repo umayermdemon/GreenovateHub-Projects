@@ -84,7 +84,7 @@ const getAllIdeas = async (filters: TIdeaFilterRequest, paginationOptions: IPagi
     where: whereConditions,
     skip,
     take: limit,
-    orderBy: sortBy && sortOrder ? { [sortBy]: [sortOrder] } : { createdAt: 'desc' },
+    orderBy: sortBy && sortOrder ? { [sortBy]: sortOrder } : { createdAt: 'desc' },
     include: {
       Vote: true,
       category: true,

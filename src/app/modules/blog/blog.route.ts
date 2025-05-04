@@ -8,7 +8,7 @@ import { createBlogValidationSchema } from "./blog.validations";
 const router = Router();
 
 router.post(
-  "/create-blog",
+  "/write-blog",
   validateRequest(createBlogValidationSchema),
   auth(userRole.admin, userRole.member),
   blogController.writeBlog

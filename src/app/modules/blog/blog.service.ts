@@ -1,6 +1,10 @@
 import { prisma } from "../../utils/prisma";
 import { IAuthUser } from "../user/user.interface";
-import { Blog, userRole } from "../../../../generated/prisma";
+import { Blog, Prisma, userRole } from "../../../../generated/prisma";
+import { TBlogFilterRequest } from "./blog.interface";
+import { IPaginationOptions } from "../../interface/pagination";
+import { blogSearchableFields } from "./blog.constant";
+import calculatePagination from "../../utils/calculatePagination";
 
 const writeBlog = async (payload: Blog, user: IAuthUser) => {
   if (!user.userId) {
@@ -16,12 +20,64 @@ const writeBlog = async (payload: Blog, user: IAuthUser) => {
 };
 
 
-const getAllBlogs = async () => {
+const getAllBlogs = async (filters: TBlogFilterRequest, paginationOptions: IPaginationOptions) => {
+  const { searchTerm, author, category, ...filterData } = filters;
+  const { page, limit, skip, sortBy, sortOrder } = calculatePagination(paginationOptions);
+  const andCondition: Prisma.BlogWhereInput[] = [];
+
+  if (searchTerm) {
+    andCondition.push({
+      OR: blogSearchableFields.map(field => ({
+        [field]: {
+          contains: searchTerm,
+          mode: 'insensitive'
+        }
+      }))
+    })
+  }
+  if (category) {
+    andCondition.push({
+      category: {
+        name: {
+          equals: category
+        }
+      }
+    })
+  }
+  if (author) {
+    andCondition.push({
+      author: {
+        name: {
+          contains: author,
+          mode: 'insensitive'
+        }
+      }
+    })
+  }
+  if (Object.keys(filterData).length > 0) {
+    const filterConditions = Object.keys(filterData).map(key => ({
+      [key]: {
+        equals: filterData[key as keyof typeof filterData]
+      }
+    }))
+    andCondition.push(...filterConditions)
+  }
+  const whereConditions: Prisma.BlogWhereInput = andCondition.length > 0 ? { AND: andCondition } : {}
+
   const result = await prisma.blog.findMany({
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: sortBy && sortOrder ? { [sortBy]: sortOrder } : { createdAt: "desc" },
     include: {
       Vote: true,
+      author: true
     },
   });
+
+  const total = await prisma.blog.count({
+    where: whereConditions
+  })
   const enhancedIdeas = result.map((blog) => {
     const votes = blog.Vote || [];
 
@@ -34,8 +90,17 @@ const getAllBlogs = async () => {
       down_votes: downVotes,
     };
   });
-  return enhancedIdeas;
+  return {
+    meta: {
+      page,
+      limit,
+      total
+    },
+    data: enhancedIdeas
+  }
 };
+
+
 const getBlog = async (id: string) => {
   const result = await prisma.blog.findUnique({
     where: {
@@ -62,6 +127,8 @@ const editBlog = async (id: string, payload: Partial<Blog>, user: IAuthUser) => 
   });
   return result;
 };
+
+
 const deleteBlog = async (id: string, user: IAuthUser) => {
   const blogData = await prisma.blog.findUnique({
     where: {

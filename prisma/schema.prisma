@@ -63,16 +63,17 @@ model Idea {
 }
 
 model Blog {
-  id          String   @id @default(uuid())
-  title       String   @unique
+  id          String     @id @default(uuid())
+  title       String     @unique
   images      String[]
   description String
   authorId    String
-  author      User     @relation(fields: [authorId], references: [id])
+  author      User       @relation(fields: [authorId], references: [id])
   categoryId  String
-  category    Category @relation(fields: [categoryId], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  category    Category   @relation(fields: [categoryId], references: [id])
+  status      blogStatus
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
   Vote        Vote[]
 }
 
@@ -103,6 +104,13 @@ model Comment {
 }
 
 enum ideaStatus {
+  pending
+  draft
+  published
+  unpublished
+}
+
+enum blogStatus {
   pending
   draft
   published

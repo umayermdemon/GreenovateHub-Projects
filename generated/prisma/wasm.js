@@ -165,6 +165,7 @@ exports.Prisma.BlogScalarFieldEnum = {
   description: 'description',
   authorId: 'authorId',
   categoryId: 'categoryId',
+  status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -213,6 +214,13 @@ exports.categoryName = exports.$Enums.categoryName = {
 };
 
 exports.ideaStatus = exports.$Enums.ideaStatus = {
+  pending: 'pending',
+  draft: 'draft',
+  published: 'published',
+  unpublished: 'unpublished'
+};
+
+exports.blogStatus = exports.$Enums.blogStatus = {
   pending: 'pending',
   draft: 'draft',
   published: 'published',
