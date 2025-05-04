@@ -5,6 +5,8 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { IAuthUser } from "../user/user.interface";
 import sendEmail from "./sendEmail";
+import AppError from "../../errors/AppError";
+import status from "http-status";
 
 const login = async (payload: { email: string; password: string }) => {
   const userData = await prisma.user.findUniqueOrThrow({
@@ -17,7 +19,7 @@ const login = async (payload: { email: string; password: string }) => {
     userData.password
   );
   if (!isCorrectPassword) {
-    throw new Error("Password doesn't match");
+    throw new AppError(status.NOT_ACCEPTABLE, "Password doesn't match");
   }
   const accessToken = jwtHelpers.generateToken(
     {
@@ -50,10 +52,10 @@ const refreshToken = async (token: string) => {
   try {
     decodedData = jwt.verify(token, config.jwt_refresh_secret as string);
   } catch (err) {
-    throw new Error("You are not authorized");
+    throw new AppError(status.UNAUTHORIZED, "You are not authorized");
   }
   if (typeof decodedData === "string" || !("email" in decodedData)) {
-    throw new Error("Invalid token payload");
+    throw new AppError(status.NOT_ACCEPTABLE, "Invalid token payload");
   }
   const userData = await prisma.user.findUniqueOrThrow({
     where: {
@@ -88,7 +90,7 @@ const changePassword = async (
   );
 
   if (!isCorrectPassword) {
-    throw new Error("Password incorrect!");
+    throw new AppError(status.NOT_ACCEPTABLE, "Password incorrect!");
   }
 
   const hashedPassword: string = await bcrypt.hash(payload.newPassword, 12);
@@ -161,7 +163,7 @@ const resetPassword = async (
   );
 
   if (!isValidToken) {
-    throw new Error("Forbidden!");
+    throw new AppError(status.FORBIDDEN, "Forbidden!");
   }
 
   // hash password

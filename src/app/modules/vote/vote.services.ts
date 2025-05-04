@@ -5,6 +5,8 @@ import { IVote } from "./vote.interface";
 
 const createVote = async (payload: IVote, user: IAuthUser) => {
     let isVoteExists;
+    let isIdeaExists;
+    let isBlogExists;
     if (payload.ideaId) {
         isVoteExists = await prisma.vote.findUnique({
             where: {
@@ -12,6 +14,11 @@ const createVote = async (payload: IVote, user: IAuthUser) => {
                     voterId: user.userId,
                     ideaId: payload.ideaId
                 }
+            }
+        })
+        isIdeaExists = await prisma.idea.findUnique({
+            where: {
+                id: payload.ideaId
             }
         })
     }
@@ -25,6 +32,17 @@ const createVote = async (payload: IVote, user: IAuthUser) => {
                 }
             }
         })
+        isBlogExists = await prisma.blog.findUnique({
+            where: {
+                id: payload.blogId
+            }
+        })
+    }
+    if (!isIdeaExists) {
+        throw new Error("Idea doesnot exists");
+    }
+    if (!isBlogExists) {
+        throw new Error("Blog doesnot exists");
     }
     let result;
 
