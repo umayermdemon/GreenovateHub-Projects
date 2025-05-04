@@ -5,10 +5,10 @@ import { ideaServices } from "./idea.service";
 import { Request, Response } from "express";
 import { IAuthUser } from "../user/user.interface";
 
-const createIdeaIntoDb = catchAsync(
+const createIdea = catchAsync(
   async (req: Request & { user?: IAuthUser }, res: Response) => {
     const { user } = req;
-    const result = await ideaServices.createIdeaIntoDb(
+    const result = await ideaServices.createIdea(
       req.body,
       user as IAuthUser
     );
@@ -20,8 +20,8 @@ const createIdeaIntoDb = catchAsync(
     });
   }
 );
-const getAllIdeasFromDb = catchAsync(async (req, res) => {
-  const result = await ideaServices.getAllIdeasFromDb();
+const getAllIdeas = catchAsync(async (req, res) => {
+  const result = await ideaServices.getAllIdeas();
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
@@ -29,9 +29,9 @@ const getAllIdeasFromDb = catchAsync(async (req, res) => {
     data: result,
   });
 });
-const getSingleIdeaFromDb = catchAsync(async (req, res) => {
+const getSingleIdea = catchAsync(async (req, res) => {
   const { id } = req.params;
-  const result = await ideaServices.getSingleIdeaFromDb(id);
+  const result = await ideaServices.getSingleIdea(id);
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
@@ -40,25 +40,25 @@ const getSingleIdeaFromDb = catchAsync(async (req, res) => {
   });
 });
 
-const getAllIdeasForMemberFromDb = catchAsync(
+const getMyIdeas = catchAsync(
   async (req: Request & { user?: IAuthUser }, res: Response) => {
     const { user } = req;
-    const result = await ideaServices.getAllIdeasForMemberFromDb(
+    const result = await ideaServices.getMyIdeas(
       user as IAuthUser
     );
     sendResponse(res, {
       statusCode: status.OK,
       success: true,
-      message: "All Ideas Retrieved Successfully",
+      message: "My Ideas Retrieved Successfully",
       data: result,
     });
   }
 );
-const updateIdeaIntoDb = catchAsync(
+const updateIdea = catchAsync(
   async (req: Request & { user?: IAuthUser }, res: Response) => {
     const { user } = req;
     const { id } = req.params;
-    const result = await ideaServices.updateIdeaIntoDb(
+    const result = await ideaServices.updateIdea(
       user as IAuthUser,
       id,
       req.body
@@ -71,11 +71,11 @@ const updateIdeaIntoDb = catchAsync(
     });
   }
 );
-const deleteIdeaFromDb = catchAsync(
+const deleteIdea = catchAsync(
   async (req: Request & { user?: IAuthUser }, res: Response) => {
     const { user } = req;
     const { id } = req.params;
-    const result = await ideaServices.deleteIdeaFromDb(user as IAuthUser, id);
+    const result = await ideaServices.deleteIdea(user as IAuthUser, id);
     sendResponse(res, {
       statusCode: status.OK,
       success: true,
@@ -85,10 +85,10 @@ const deleteIdeaFromDb = catchAsync(
   }
 );
 export const ideaControllers = {
-  createIdeaIntoDb,
-  getAllIdeasFromDb,
-  getSingleIdeaFromDb,
-  getAllIdeasForMemberFromDb,
-  updateIdeaIntoDb,
-  deleteIdeaFromDb,
+  createIdea,
+  getAllIdeas,
+  getSingleIdea,
+  getMyIdeas,
+  updateIdea,
+  deleteIdea,
 };

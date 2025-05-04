@@ -142,7 +142,7 @@ exports.Prisma.CategoryScalarFieldEnum = {
 };
 
 exports.Prisma.IdeaScalarFieldEnum = {
-  idea_id: 'idea_id',
+  id: 'id',
   title: 'title',
   description: 'description',
   categoryId: 'categoryId',
