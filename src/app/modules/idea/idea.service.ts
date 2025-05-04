@@ -41,6 +41,9 @@ const createIdeaIntoDb = async (payload: Idea, user: IAuthUser) => {
 
 const getAllIdeasFromDb = async () => {
   const result = await prisma.idea.findMany({
+    where: {
+      isDeleted: false,
+    },
     include: {
       Vote: true,
     },
@@ -64,6 +67,7 @@ const getSingleIdeaFromDb = async (id: string) => {
   const isIdeaExists = await prisma.idea.findUnique({
     where: {
       idea_id: id,
+      isDeleted: false,
     },
   });
 
@@ -98,6 +102,7 @@ const getAllIdeasForMemberFromDb = async (user: IAuthUser) => {
   const result = await prisma.idea.findMany({
     where: {
       authorId: isUserExists.id,
+      isDeleted: false,
     },
     include: {
       category: true,
@@ -115,7 +120,6 @@ const updateIdeaIntoDb = async (user: IAuthUser, id: string, payload: Idea) => {
       email: user.email,
     },
   });
-  console.log({ isUserExists });
   if (!isUserExists) {
     throw new Error("User not found");
   }
@@ -134,8 +138,41 @@ const updateIdeaIntoDb = async (user: IAuthUser, id: string, payload: Idea) => {
   const result = await prisma.idea.update({
     where: {
       idea_id: id,
+      isDeleted: false,
     },
     data: payload,
+  });
+  return result;
+};
+const deleteIdeaFromDb = async (user: IAuthUser, id: string) => {
+  const isUserExists = await prisma.user.findUnique({
+    where: {
+      email: user.email,
+    },
+  });
+  if (!isUserExists) {
+    throw new Error("User not found");
+  }
+  const isIdeaExists = await prisma.idea.findUnique({
+    where: {
+      idea_id: id,
+    },
+  });
+  if (!isIdeaExists) {
+    throw new Error("Idea not found");
+  }
+
+  if (isUserExists.id !== isIdeaExists.authorId) {
+    throw new Error("You are not the author of this idea");
+  }
+  const result = await prisma.idea.update({
+    where: {
+      idea_id: id,
+      isDeleted: false,
+    },
+    data: {
+      isDeleted: true,
+    },
   });
   return result;
 };
@@ -145,4 +182,5 @@ export const ideaServices = {
   getAllIdeasForMemberFromDb,
   getSingleIdeaFromDb,
   updateIdeaIntoDb,
+  deleteIdeaFromDb,
 };

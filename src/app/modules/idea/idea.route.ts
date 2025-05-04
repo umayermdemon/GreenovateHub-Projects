@@ -15,11 +15,16 @@ router.post(
 );
 router.get("/", ideaControllers.getAllIdeasFromDb);
 router.get("/:id", ideaControllers.getSingleIdeaFromDb);
-router.put("/:id", auth(userRole.member), ideaControllers.updateIdeaIntoDb);
 router.get(
   "/all-ideas/me",
   auth(userRole.member),
   ideaControllers.getAllIdeasForMemberFromDb
+);
+router.put("/:id", auth(userRole.member), ideaControllers.updateIdeaIntoDb);
+router.patch(
+  "/:id",
+  auth(userRole.member, userRole.admin),
+  ideaControllers.deleteIdeaFromDb
 );
 
 export const ideaRouter = router;

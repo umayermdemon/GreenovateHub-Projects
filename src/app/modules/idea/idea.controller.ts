@@ -71,10 +71,24 @@ const updateIdeaIntoDb = catchAsync(
     });
   }
 );
+const deleteIdeaFromDb = catchAsync(
+  async (req: Request & { user?: IAuthUser }, res: Response) => {
+    const { user } = req;
+    const { id } = req.params;
+    const result = await ideaServices.deleteIdeaFromDb(user as IAuthUser, id);
+    sendResponse(res, {
+      statusCode: status.OK,
+      success: true,
+      message: "Idea deleted Successfully",
+      data: result,
+    });
+  }
+);
 export const ideaControllers = {
   createIdeaIntoDb,
   getAllIdeasFromDb,
   getSingleIdeaFromDb,
   getAllIdeasForMemberFromDb,
   updateIdeaIntoDb,
+  deleteIdeaFromDb,
 };
