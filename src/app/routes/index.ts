@@ -28,14 +28,6 @@ const moduleRoutes: any = [
   },
   {
     path: "/blog",
-<<<<<<< HEAD
-    route: blogRouter,
-  },
-  {
-    path: "/vote",
-    route: voteRouter,
-  },
-=======
     route: blogRouter
   },
   {
@@ -46,7 +38,6 @@ const moduleRoutes: any = [
     path: '/comments',
     route: commentRouter
   }
->>>>>>> 26c995b7d2424d17ce1ac81b13a6360ed007efdf
 ];
 
 moduleRoutes.forEach((route: any) => router.use(route.path, route.route));
