@@ -1,36 +1,26 @@
-import { Idea } from "../../../../generated/prisma";
+import { Idea, userRole } from "../../../../generated/prisma";
 import { prisma } from "../../utils/prisma";
 import { IAuthUser } from "../user/user.interface";
 
-const createIdeaIntoDb = async (payload: Idea, user: IAuthUser) => {
-  const isUserExists = await prisma.user.findUnique({
-    where: {
-      email: user.email,
-    },
-  });
-  if (!isUserExists) {
+const createIdea = async (payload: Idea, user: IAuthUser) => {
+
+  if (!user.userId) {
     throw new Error("User not found");
   }
   const isCategoryExists = await prisma.category.findUnique({
     where: {
-      category_id: payload.categoryId,
+      id: payload.categoryId,
     },
   });
   if (!isCategoryExists) {
     throw new Error("Category not found");
   }
-  const authorId = isUserExists?.id;
 
   const result = await prisma.idea.create({
     data: {
-      title: payload.title,
-      description: payload.description,
-      categoryId: payload.categoryId,
-      images: payload.images,
-      authorId: authorId,
-      price: payload.price,
-      problem_statement: payload.problem_statement,
-      proposed_solution: payload.proposed_solution,
+      ...payload,
+      authorId: user.userId,
+
     },
     include: {
       author: true,
@@ -39,7 +29,7 @@ const createIdeaIntoDb = async (payload: Idea, user: IAuthUser) => {
   return result;
 };
 
-const getAllIdeasFromDb = async () => {
+const getAllIdeas = async () => {
   const result = await prisma.idea.findMany({
     where: {
       isDeleted: false,
@@ -63,10 +53,10 @@ const getAllIdeasFromDb = async () => {
   });
   return enhancedIdeas;
 };
-const getSingleIdeaFromDb = async (id: string) => {
+const getSingleIdea = async (id: string) => {
   const isIdeaExists = await prisma.idea.findUnique({
     where: {
-      idea_id: id,
+      id,
       isDeleted: false,
     },
   });
@@ -76,7 +66,7 @@ const getSingleIdeaFromDb = async (id: string) => {
   }
   const result = await prisma.idea.findUnique({
     where: {
-      idea_id: id,
+      id,
     },
   });
 
@@ -86,7 +76,7 @@ const getSingleIdeaFromDb = async (id: string) => {
   return result;
 };
 
-const getAllIdeasForMemberFromDb = async (user: IAuthUser) => {
+const getMyIdeas = async (user: IAuthUser) => {
   if (user.role !== "member") {
     throw new Error("User is not a member");
   }
@@ -114,60 +104,52 @@ const getAllIdeasForMemberFromDb = async (user: IAuthUser) => {
   }
   return result;
 };
-const updateIdeaIntoDb = async (user: IAuthUser, id: string, payload: Idea) => {
-  const isUserExists = await prisma.user.findUnique({
-    where: {
-      email: user.email,
-    },
-  });
-  if (!isUserExists) {
+const updateIdea = async (user: IAuthUser, id: string, payload: Idea) => {
+
+  if (!user.userId) {
     throw new Error("User not found");
   }
   const isIdeaExists = await prisma.idea.findUnique({
     where: {
-      idea_id: id,
+      id,
     },
   });
   if (!isIdeaExists) {
     throw new Error("Idea not found");
   }
 
-  if (isUserExists.id !== isIdeaExists.authorId) {
-    throw new Error("You are not the author of this idea");
+  if (user.userId !== isIdeaExists.authorId && user.role !== userRole.admin) {
+    throw new Error("You cannot update this");
   }
   const result = await prisma.idea.update({
     where: {
-      idea_id: id,
+      id,
       isDeleted: false,
     },
     data: payload,
   });
   return result;
 };
-const deleteIdeaFromDb = async (user: IAuthUser, id: string) => {
-  const isUserExists = await prisma.user.findUnique({
-    where: {
-      email: user.email,
-    },
-  });
-  if (!isUserExists) {
+const deleteIdea = async (user: IAuthUser, id: string) => {
+
+  if (!user.userId) {
     throw new Error("User not found");
   }
   const isIdeaExists = await prisma.idea.findUnique({
     where: {
-      idea_id: id,
+      id,
     },
   });
   if (!isIdeaExists) {
     throw new Error("Idea not found");
   }
 
-  if (isUserExists.id !== isIdeaExists.authorId) {
-    throw new Error("You are not the author of this idea");
+  if (user.userId !== isIdeaExists.authorId && user.role !== userRole.admin) {
+    throw new Error("You cannot delete this");
   }
   const result = await prisma.idea.update({
     where: {
-      idea_id: id,
+      id,
       isDeleted: false,
     },
     data: {
@@ -177,10 +159,10 @@ const deleteIdeaFromDb = async (user: IAuthUser, id: string) => {
   return result;
 };
 export const ideaServices = {
-  createIdeaIntoDb,
-  getAllIdeasFromDb,
-  getAllIdeasForMemberFromDb,
-  getSingleIdeaFromDb,
-  updateIdeaIntoDb,
-  deleteIdeaFromDb,
+  createIdea,
+  getAllIdeas,
+  getMyIdeas,
+  getSingleIdea,
+  updateIdea,
+  deleteIdea,
 };

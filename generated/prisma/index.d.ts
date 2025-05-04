@@ -3876,7 +3876,7 @@ export namespace Prisma {
   }
 
   export type IdeaMinAggregateOutputType = {
-    idea_id: string | null
+    id: string | null
     title: string | null
     description: string | null
     categoryId: string | null
@@ -3892,7 +3892,7 @@ export namespace Prisma {
   }
 
   export type IdeaMaxAggregateOutputType = {
-    idea_id: string | null
+    id: string | null
     title: string | null
     description: string | null
     categoryId: string | null
@@ -3908,7 +3908,7 @@ export namespace Prisma {
   }
 
   export type IdeaCountAggregateOutputType = {
-    idea_id: number
+    id: number
     title: number
     description: number
     categoryId: number
@@ -3927,7 +3927,7 @@ export namespace Prisma {
 
 
   export type IdeaMinAggregateInputType = {
-    idea_id?: true
+    id?: true
     title?: true
     description?: true
     categoryId?: true
@@ -3943,7 +3943,7 @@ export namespace Prisma {
   }
 
   export type IdeaMaxAggregateInputType = {
-    idea_id?: true
+    id?: true
     title?: true
     description?: true
     categoryId?: true
@@ -3959,7 +3959,7 @@ export namespace Prisma {
   }
 
   export type IdeaCountAggregateInputType = {
-    idea_id?: true
+    id?: true
     title?: true
     description?: true
     categoryId?: true
@@ -4049,7 +4049,7 @@ export namespace Prisma {
   }
 
   export type IdeaGroupByOutputType = {
-    idea_id: string
+    id: string
     title: string
     description: string
     categoryId: string
@@ -4083,7 +4083,7 @@ export namespace Prisma {
 
 
   export type IdeaSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    idea_id?: boolean
+    id?: boolean
     title?: boolean
     description?: boolean
     categoryId?: boolean
@@ -4105,7 +4105,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["idea"]>
 
   export type IdeaSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    idea_id?: boolean
+    id?: boolean
     title?: boolean
     description?: boolean
     categoryId?: boolean
@@ -4124,7 +4124,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["idea"]>
 
   export type IdeaSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    idea_id?: boolean
+    id?: boolean
     title?: boolean
     description?: boolean
     categoryId?: boolean
@@ -4143,7 +4143,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["idea"]>
 
   export type IdeaSelectScalar = {
-    idea_id?: boolean
+    id?: boolean
     title?: boolean
     description?: boolean
     categoryId?: boolean
@@ -4159,7 +4159,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type IdeaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"idea_id" | "title" | "description" | "categoryId" | "images" | "authorId" | "problem_statement" | "proposed_solution" | "isPremium" | "price" | "status" | "isDeleted" | "createdAt" | "updatedAt", ExtArgs["result"]["idea"]>
+  export type IdeaOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "categoryId" | "images" | "authorId" | "problem_statement" | "proposed_solution" | "isPremium" | "price" | "status" | "isDeleted" | "createdAt" | "updatedAt", ExtArgs["result"]["idea"]>
   export type IdeaInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     category?: boolean | CategoryDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
@@ -4185,7 +4185,7 @@ export namespace Prisma {
       Comment: Prisma.$CommentPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      idea_id: string
+      id: string
       title: string
       description: string
       categoryId: string
@@ -4282,8 +4282,8 @@ export namespace Prisma {
      * // Get first 10 Ideas
      * const ideas = await prisma.idea.findMany({ take: 10 })
      * 
-     * // Only select the `idea_id`
-     * const ideaWithIdea_idOnly = await prisma.idea.findMany({ select: { idea_id: true } })
+     * // Only select the `id`
+     * const ideaWithIdOnly = await prisma.idea.findMany({ select: { id: true } })
      * 
      */
     findMany<T extends IdeaFindManyArgs>(args?: SelectSubset<T, IdeaFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$IdeaPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -4327,9 +4327,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many Ideas and only return the `idea_id`
-     * const ideaWithIdea_idOnly = await prisma.idea.createManyAndReturn({
-     *   select: { idea_id: true },
+     * // Create many Ideas and only return the `id`
+     * const ideaWithIdOnly = await prisma.idea.createManyAndReturn({
+     *   select: { id: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -4418,9 +4418,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Ideas and only return the `idea_id`
-     * const ideaWithIdea_idOnly = await prisma.idea.updateManyAndReturn({
-     *   select: { idea_id: true },
+     * // Update zero or more Ideas and only return the `id`
+     * const ideaWithIdOnly = await prisma.idea.updateManyAndReturn({
+     *   select: { id: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -4626,7 +4626,7 @@ export namespace Prisma {
    * Fields of the Idea model
    */
   interface IdeaFieldRefs {
-    readonly idea_id: FieldRef<"Idea", 'String'>
+    readonly id: FieldRef<"Idea", 'String'>
     readonly title: FieldRef<"Idea", 'String'>
     readonly description: FieldRef<"Idea", 'String'>
     readonly categoryId: FieldRef<"Idea", 'String'>
@@ -8479,7 +8479,7 @@ export namespace Prisma {
 
 
   export const IdeaScalarFieldEnum: {
-    idea_id: 'idea_id',
+    id: 'id',
     title: 'title',
     description: 'description',
     categoryId: 'categoryId',
@@ -8824,7 +8824,7 @@ export namespace Prisma {
     AND?: IdeaWhereInput | IdeaWhereInput[]
     OR?: IdeaWhereInput[]
     NOT?: IdeaWhereInput | IdeaWhereInput[]
-    idea_id?: StringFilter<"Idea"> | string
+    id?: StringFilter<"Idea"> | string
     title?: StringFilter<"Idea"> | string
     description?: StringFilter<"Idea"> | string
     categoryId?: StringFilter<"Idea"> | string
@@ -8845,7 +8845,7 @@ export namespace Prisma {
   }
 
   export type IdeaOrderByWithRelationInput = {
-    idea_id?: SortOrder
+    id?: SortOrder
     title?: SortOrder
     description?: SortOrder
     categoryId?: SortOrder
@@ -8866,7 +8866,7 @@ export namespace Prisma {
   }
 
   export type IdeaWhereUniqueInput = Prisma.AtLeast<{
-    idea_id?: string
+    id?: string
     AND?: IdeaWhereInput | IdeaWhereInput[]
     OR?: IdeaWhereInput[]
     NOT?: IdeaWhereInput | IdeaWhereInput[]
@@ -8887,10 +8887,10 @@ export namespace Prisma {
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     Vote?: VoteListRelationFilter
     Comment?: CommentListRelationFilter
-  }, "idea_id">
+  }, "id">
 
   export type IdeaOrderByWithAggregationInput = {
-    idea_id?: SortOrder
+    id?: SortOrder
     title?: SortOrder
     description?: SortOrder
     categoryId?: SortOrder
@@ -8913,7 +8913,7 @@ export namespace Prisma {
     AND?: IdeaScalarWhereWithAggregatesInput | IdeaScalarWhereWithAggregatesInput[]
     OR?: IdeaScalarWhereWithAggregatesInput[]
     NOT?: IdeaScalarWhereWithAggregatesInput | IdeaScalarWhereWithAggregatesInput[]
-    idea_id?: StringWithAggregatesFilter<"Idea"> | string
+    id?: StringWithAggregatesFilter<"Idea"> | string
     title?: StringWithAggregatesFilter<"Idea"> | string
     description?: StringWithAggregatesFilter<"Idea"> | string
     categoryId?: StringWithAggregatesFilter<"Idea"> | string
@@ -9308,7 +9308,7 @@ export namespace Prisma {
   }
 
   export type IdeaCreateInput = {
-    idea_id?: string
+    id?: string
     title: string
     description: string
     images?: IdeaCreateimagesInput | string[]
@@ -9327,7 +9327,7 @@ export namespace Prisma {
   }
 
   export type IdeaUncheckedCreateInput = {
-    idea_id?: string
+    id?: string
     title: string
     description: string
     categoryId: string
@@ -9346,7 +9346,7 @@ export namespace Prisma {
   }
 
   export type IdeaUpdateInput = {
-    idea_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     images?: IdeaUpdateimagesInput | string[]
@@ -9365,7 +9365,7 @@ export namespace Prisma {
   }
 
   export type IdeaUncheckedUpdateInput = {
-    idea_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -9384,7 +9384,7 @@ export namespace Prisma {
   }
 
   export type IdeaCreateManyInput = {
-    idea_id?: string
+    id?: string
     title: string
     description: string
     categoryId: string
@@ -9401,7 +9401,7 @@ export namespace Prisma {
   }
 
   export type IdeaUpdateManyMutationInput = {
-    idea_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     images?: IdeaUpdateimagesInput | string[]
@@ -9416,7 +9416,7 @@ export namespace Prisma {
   }
 
   export type IdeaUncheckedUpdateManyInput = {
-    idea_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -9904,7 +9904,7 @@ export namespace Prisma {
   }
 
   export type IdeaCountOrderByAggregateInput = {
-    idea_id?: SortOrder
+    id?: SortOrder
     title?: SortOrder
     description?: SortOrder
     categoryId?: SortOrder
@@ -9921,7 +9921,7 @@ export namespace Prisma {
   }
 
   export type IdeaMaxOrderByAggregateInput = {
-    idea_id?: SortOrder
+    id?: SortOrder
     title?: SortOrder
     description?: SortOrder
     categoryId?: SortOrder
@@ -9937,7 +9937,7 @@ export namespace Prisma {
   }
 
   export type IdeaMinOrderByAggregateInput = {
-    idea_id?: SortOrder
+    id?: SortOrder
     title?: SortOrder
     description?: SortOrder
     categoryId?: SortOrder
@@ -10838,7 +10838,7 @@ export namespace Prisma {
   }
 
   export type IdeaCreateWithoutAuthorInput = {
-    idea_id?: string
+    id?: string
     title: string
     description: string
     images?: IdeaCreateimagesInput | string[]
@@ -10856,7 +10856,7 @@ export namespace Prisma {
   }
 
   export type IdeaUncheckedCreateWithoutAuthorInput = {
-    idea_id?: string
+    id?: string
     title: string
     description: string
     categoryId: string
@@ -10987,7 +10987,7 @@ export namespace Prisma {
     AND?: IdeaScalarWhereInput | IdeaScalarWhereInput[]
     OR?: IdeaScalarWhereInput[]
     NOT?: IdeaScalarWhereInput | IdeaScalarWhereInput[]
-    idea_id?: StringFilter<"Idea"> | string
+    id?: StringFilter<"Idea"> | string
     title?: StringFilter<"Idea"> | string
     description?: StringFilter<"Idea"> | string
     categoryId?: StringFilter<"Idea"> | string
@@ -11090,7 +11090,7 @@ export namespace Prisma {
   }
 
   export type IdeaCreateWithoutCategoryInput = {
-    idea_id?: string
+    id?: string
     title: string
     description: string
     images?: IdeaCreateimagesInput | string[]
@@ -11108,7 +11108,7 @@ export namespace Prisma {
   }
 
   export type IdeaUncheckedCreateWithoutCategoryInput = {
-    idea_id?: string
+    id?: string
     title: string
     description: string
     images?: IdeaCreateimagesInput | string[]
@@ -11629,7 +11629,7 @@ export namespace Prisma {
   }
 
   export type IdeaCreateWithoutVoteInput = {
-    idea_id?: string
+    id?: string
     title: string
     description: string
     images?: IdeaCreateimagesInput | string[]
@@ -11647,7 +11647,7 @@ export namespace Prisma {
   }
 
   export type IdeaUncheckedCreateWithoutVoteInput = {
-    idea_id?: string
+    id?: string
     title: string
     description: string
     categoryId: string
@@ -11753,7 +11753,7 @@ export namespace Prisma {
   }
 
   export type IdeaUpdateWithoutVoteInput = {
-    idea_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     images?: IdeaUpdateimagesInput | string[]
@@ -11771,7 +11771,7 @@ export namespace Prisma {
   }
 
   export type IdeaUncheckedUpdateWithoutVoteInput = {
-    idea_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -11861,7 +11861,7 @@ export namespace Prisma {
   }
 
   export type IdeaCreateWithoutCommentInput = {
-    idea_id?: string
+    id?: string
     title: string
     description: string
     images?: IdeaCreateimagesInput | string[]
@@ -11879,7 +11879,7 @@ export namespace Prisma {
   }
 
   export type IdeaUncheckedCreateWithoutCommentInput = {
-    idea_id?: string
+    id?: string
     title: string
     description: string
     categoryId: string
@@ -11958,7 +11958,7 @@ export namespace Prisma {
   }
 
   export type IdeaUpdateWithoutCommentInput = {
-    idea_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     images?: IdeaUpdateimagesInput | string[]
@@ -11976,7 +11976,7 @@ export namespace Prisma {
   }
 
   export type IdeaUncheckedUpdateWithoutCommentInput = {
-    idea_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -11994,7 +11994,7 @@ export namespace Prisma {
   }
 
   export type IdeaCreateManyAuthorInput = {
-    idea_id?: string
+    id?: string
     title: string
     description: string
     categoryId: string
@@ -12036,7 +12036,7 @@ export namespace Prisma {
   }
 
   export type IdeaUpdateWithoutAuthorInput = {
-    idea_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     images?: IdeaUpdateimagesInput | string[]
@@ -12054,7 +12054,7 @@ export namespace Prisma {
   }
 
   export type IdeaUncheckedUpdateWithoutAuthorInput = {
-    idea_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -12072,7 +12072,7 @@ export namespace Prisma {
   }
 
   export type IdeaUncheckedUpdateManyWithoutAuthorInput = {
-    idea_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
@@ -12168,7 +12168,7 @@ export namespace Prisma {
   }
 
   export type IdeaCreateManyCategoryInput = {
-    idea_id?: string
+    id?: string
     title: string
     description: string
     images?: IdeaCreateimagesInput | string[]
@@ -12194,7 +12194,7 @@ export namespace Prisma {
   }
 
   export type IdeaUpdateWithoutCategoryInput = {
-    idea_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     images?: IdeaUpdateimagesInput | string[]
@@ -12212,7 +12212,7 @@ export namespace Prisma {
   }
 
   export type IdeaUncheckedUpdateWithoutCategoryInput = {
-    idea_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     images?: IdeaUpdateimagesInput | string[]
@@ -12230,7 +12230,7 @@ export namespace Prisma {
   }
 
   export type IdeaUncheckedUpdateManyWithoutCategoryInput = {
-    idea_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     images?: IdeaUpdateimagesInput | string[]

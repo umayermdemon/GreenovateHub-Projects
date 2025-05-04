@@ -40,7 +40,7 @@ model Category {
 }
 
 model Idea {
-  idea_id           String     @id @default(uuid())
+  id                String     @id @default(uuid())
   title             String
   description       String
   categoryId        String
@@ -82,7 +82,7 @@ model Vote {
   value     voteValue
   voter     User      @relation(fields: [voterId], references: [id])
   ideaId    String?
-  idea      Idea?     @relation(fields: [ideaId], references: [idea_id])
+  idea      Idea?     @relation(fields: [ideaId], references: [id])
   blogId    String?
   blog      Blog?     @relation(fields: [blogId], references: [id])
   isDeleted Boolean   @default(false)
@@ -97,7 +97,7 @@ model Comment {
   commentorId String
   commentor   User     @relation(fields: [commentorId], references: [id])
   ideaId      String
-  idea        Idea     @relation(fields: [ideaId], references: [idea_id])
+  idea        Idea     @relation(fields: [ideaId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

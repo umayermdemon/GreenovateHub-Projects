@@ -11,25 +11,25 @@ router.post(
   "/create-idea",
   auth(userRole.member),
   validateRequest(ideaValidationSchemas.createIdeaValidationSchema),
-  ideaControllers.createIdeaIntoDb
+  ideaControllers.createIdea
 );
-router.get("/", ideaControllers.getAllIdeasFromDb);
-router.get("/:id", ideaControllers.getSingleIdeaFromDb);
+router.get("/get-all-ideas", ideaControllers.getAllIdeas);
+router.get("/get-idea/:id", ideaControllers.getSingleIdea);
 router.get(
-  "/all-ideas/me",
+  "/get-my-ideas",
   auth(userRole.member),
-  ideaControllers.getAllIdeasForMemberFromDb
-);
-router.put(
-  "/:id",
-  auth(userRole.member),
-  validateRequest(ideaValidationSchemas.updateIdeaValidationSchema),
-  ideaControllers.updateIdeaIntoDb
+  ideaControllers.getMyIdeas
 );
 router.patch(
-  "/:id",
+  "/update-idea/:id",
   auth(userRole.member, userRole.admin),
-  ideaControllers.deleteIdeaFromDb
+  validateRequest(ideaValidationSchemas.updateIdeaValidationSchema),
+  ideaControllers.updateIdea
+);
+router.patch(
+  "/delete-idea/:id",
+  auth(userRole.member, userRole.admin),
+  ideaControllers.deleteIdea
 );
 
 export const ideaRouter = router;

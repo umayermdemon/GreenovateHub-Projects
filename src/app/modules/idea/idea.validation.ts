@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const ideaStatusEnum = z.enum(["PENDING", "APPROVED", "REJECTED"]);
+export const ideaStatusEnum = z.enum(["pending", "approved", "rejected"]);
 
 export const createIdeaValidationSchema = z.object({
   title: z.string().min(1),
