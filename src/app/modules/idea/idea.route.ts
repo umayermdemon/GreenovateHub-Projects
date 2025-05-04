@@ -9,20 +9,22 @@ const router = Router();
 
 router.post(
   "/create-idea",
+  auth(userRole.member),
   validateRequest(ideaValidationSchemas.createIdeaValidationSchema),
   ideaControllers.createIdeaIntoDb
 );
-router.get("/", auth(userRole.admin), ideaControllers.getAllIdeasFromDb);
-router.get(
-  "/:id",
-  auth(userRole.admin, userRole.member),
-  ideaControllers.getSingleIdeaFromDb
-);
+router.get("/", ideaControllers.getAllIdeasFromDb);
+router.get("/:id", ideaControllers.getSingleIdeaFromDb);
 router.get(
   "/all-ideas/me",
   auth(userRole.member),
   ideaControllers.getAllIdeasForMemberFromDb
 );
+router.put("/:id", auth(userRole.member), ideaControllers.updateIdeaIntoDb);
+router.patch(
+  "/:id",
+  auth(userRole.member, userRole.admin),
+  ideaControllers.deleteIdeaFromDb
+);
 
-// router.get("/get-all-idea", ideaControllers.getAllIdea);
 export const ideaRouter = router;

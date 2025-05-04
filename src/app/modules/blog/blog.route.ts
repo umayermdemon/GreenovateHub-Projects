@@ -1,17 +1,29 @@
 import { Router } from "express";
-import { blgoController } from "./blog.controller";
+import { blogController } from "./blog.controller";
 import auth from "../../middlewares/auth";
 import { userRole } from "../../../../generated/prisma";
 import validateRequest from "../../middlewares/validateRequest";
 import { createBlogValidationSchema } from "./blog.validations";
 
-
 const router = Router();
 
-router.post("/create-blog",validateRequest(createBlogValidationSchema), auth(userRole.admin, userRole.member), blgoController.createBlog);
-router.get("/get-all-blogs", blgoController.getBlogs);
-router.get("/get-single-blog/:id", blgoController.getSingleBlog);
-router.patch("/update-blog/:id", blgoController.updateBlog);
-
+router.post(
+  "/create-blog",
+  validateRequest(createBlogValidationSchema),
+  auth(userRole.admin, userRole.member),
+  blogController.createBlog
+);
+router.get("/get-all-blogs", blogController.getBlogs);
+router.get("/get-single-blog/:id", blogController.getSingleBlog);
+router.patch("/update-blog/:id", blogController.updateBlog);
+router.post(
+  "/create-blog",
+  validateRequest(createBlogValidationSchema),
+  auth(userRole.admin, userRole.member),
+  blogController.createBlog
+);
+router.get("/get-all-blogs", blogController.getBlogs);
+router.get("/get-single-blog/:id", blogController.getSingleBlog);
+router.patch("/update-blog/:id", blogController.updateBlog);
 
 export const blogRouter = router;
