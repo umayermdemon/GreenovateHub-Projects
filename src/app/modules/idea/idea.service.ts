@@ -1,6 +1,9 @@
-import { Idea, userRole } from "../../../../generated/prisma";
+import { Idea, Prisma, userRole } from "../../../../generated/prisma";
+import { IPaginationOptions } from "../../interface/pagination";
 import { prisma } from "../../utils/prisma";
 import { IAuthUser } from "../user/user.interface";
+import { ideaSearchAbleFields } from "./idea.constant";
+import { TIdeaFilterRequest } from "./idea.interface";
 
 const createIdea = async (payload: Idea, user: IAuthUser) => {
 
@@ -29,13 +32,58 @@ const createIdea = async (payload: Idea, user: IAuthUser) => {
   return result;
 };
 
-const getAllIdeas = async () => {
+const getAllIdeas = async (filters: TIdeaFilterRequest, paginationOptions: IPaginationOptions) => {
+  const { searchTerm, category, author, ...filterData } = filters;
+  const andCondition: Prisma.IdeaWhereInput[] = [];
+
+  if (searchTerm) {
+    andCondition.push({
+      OR: ideaSearchAbleFields.map(field => ({
+        [field]: {
+          contains: searchTerm,
+          mode: 'insensitive'
+        }
+      }))
+    })
+  }
+
+  if (category) {
+    andCondition.push({
+      category: {
+        name: {
+          equals: category
+        }
+      }
+    })
+  }
+  if (author) {
+    andCondition.push({
+      author: {
+        name: {
+          contains: author,
+          mode: 'insensitive'
+        }
+      }
+    })
+  }
+  // add filterData condition
+  if (Object.keys(filterData).length > 0) {
+    const filterConditions = Object.keys(filterData).map(key => ({
+      [key]: {
+        equals: filterData[key as keyof typeof filterData]
+      }
+    }))
+    andCondition.push(...filterConditions)
+  }
+
+  const whereConditions: Prisma.IdeaWhereInput = andCondition.length > 0 ? { AND: andCondition } : {}
+
   const result = await prisma.idea.findMany({
-    where: {
-      isDeleted: false,
-    },
+    where: whereConditions,
     include: {
       Vote: true,
+      category: true,
+      author: true
     },
   });
   const enhancedIdeas = result.map((idea) => {
@@ -53,6 +101,8 @@ const getAllIdeas = async () => {
   });
   return enhancedIdeas;
 };
+
+
 const getSingleIdea = async (id: string) => {
   const isIdeaExists = await prisma.idea.findUnique({
     where: {
