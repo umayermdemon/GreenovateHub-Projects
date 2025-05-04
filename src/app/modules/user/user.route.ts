@@ -17,15 +17,16 @@ router.get(
   auth(userRole.admin, userRole.member),
   userController.getMyProfile
 );
-router.delete(
-  "/delete-user/:id",
-  auth(userRole.admin, userRole.member),
-  userController.deleteUser
-);
 router.patch(
   "/update-profile",
   auth(userRole.admin, userRole.member),
   userController.updateUser
 );
+router.delete(
+  "/delete-user/:id",
+  auth(userRole.admin, userRole.member),
+  userController.deleteUser
+);
+
 
 export const userRouter = router;

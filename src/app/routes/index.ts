@@ -11,7 +11,7 @@ const router = Router();
 
 const moduleRoutes: any = [
   {
-    path: "/user",
+    path: "/users",
     route: userRouter,
   },
   {
@@ -27,11 +27,11 @@ const moduleRoutes: any = [
     route: categoryRouter,
   },
   {
-    path: "/blog",
+    path: "/blogs",
     route: blogRouter
   },
   {
-    path: "/vote",
+    path: "/votes",
     route: voteRouter
   },
   {
