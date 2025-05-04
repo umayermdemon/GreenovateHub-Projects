@@ -20,7 +20,12 @@ router.get(
   auth(userRole.member),
   ideaControllers.getAllIdeasForMemberFromDb
 );
-router.put("/:id", auth(userRole.member), ideaControllers.updateIdeaIntoDb);
+router.put(
+  "/:id",
+  auth(userRole.member),
+  validateRequest(ideaValidationSchemas.updateIdeaValidationSchema),
+  ideaControllers.updateIdeaIntoDb
+);
 router.patch(
   "/:id",
   auth(userRole.member, userRole.admin),
