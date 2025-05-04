@@ -179,7 +179,7 @@ exports.Prisma.VoteScalarFieldEnum = {
 };
 
 exports.Prisma.CommentScalarFieldEnum = {
-  comment_id: 'comment_id',
+  id: 'id',
   content: 'content',
   commentorId: 'commentorId',
   ideaId: 'ideaId',

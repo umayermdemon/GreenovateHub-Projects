@@ -16,9 +16,9 @@ const createComment = catchAsync(async (req: Request & { user?: IAuthUser }, res
         data: result,
     });
 });
-const editComment = catchAsync(async (req: Request, res: Response) => {
+const editComment = catchAsync(async (req: Request &{user?:IAuthUser}, res: Response) => {
     const { id } = req.params;
-    const result = await commentService.editComment(id, req.body);
+    const result = await commentService.editComment(id, req.body,req.user as IAuthUser);
     sendResponse(res, {
         statusCode: status.CREATED,
         success: true,
