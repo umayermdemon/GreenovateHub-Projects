@@ -23,6 +23,7 @@ const login = async (payload: { email: string; password: string }) => {
     {
       email: userData.email,
       role: userData.role,
+      userId: userData.id,
     },
     config.jwt_secret as string,
     (config.jwt_expires_in as string) || "1d"
@@ -31,6 +32,7 @@ const login = async (payload: { email: string; password: string }) => {
     {
       email: userData.email,
       role: userData.role,
+      userId: userData.id
     },
     config.jwt_refresh_secret as string,
     (config.jwt_refresh_expires_in as string) || "1d"
@@ -62,6 +64,7 @@ const refreshToken = async (token: string) => {
     {
       email: userData.email,
       role: userData.role,
+      userId: userData.id
     },
     config.jwt_secret as string,
     config.jwt_expires_in as string
@@ -113,7 +116,7 @@ const forgotPassword = async (payload: { email: string }) => {
   });
 
   const resetPassToken = jwtHelpers.generateToken(
-    { email: userData.email, role: userData.role },
+    { email: userData.email, role: userData.role, userId: userData.id },
     config.reset_password_secret as string,
     config.reset_password_expires_in as string
   );

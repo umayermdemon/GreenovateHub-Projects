@@ -164,7 +164,7 @@ exports.Prisma.BlogScalarFieldEnum = {
   images: 'images',
   description: 'description',
   authorId: 'authorId',
-  category_id: 'category_id',
+  categoryId: 'categoryId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -176,6 +176,15 @@ exports.Prisma.VoteScalarFieldEnum = {
   ideaId: 'ideaId',
   blogId: 'blogId',
   isDeleted: 'isDeleted'
+};
+
+exports.Prisma.CommentScalarFieldEnum = {
+  comment_id: 'comment_id',
+  content: 'content',
+  commentorId: 'commentorId',
+  ideaId: 'ideaId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -220,7 +229,8 @@ exports.Prisma.ModelName = {
   Category: 'Category',
   Idea: 'Idea',
   Blog: 'Blog',
-  Vote: 'Vote'
+  Vote: 'Vote',
+  Comment: 'Comment'
 };
 
 /**
