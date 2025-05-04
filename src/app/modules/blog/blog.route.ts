@@ -9,7 +9,16 @@ const router = Router();
 
 router.post(
   "/create-blog",
-  // validateRequest(createBlogValidationSchema),
+  validateRequest(createBlogValidationSchema),
+  auth(userRole.admin, userRole.member),
+  blogController.createBlog
+);
+router.get("/get-all-blogs", blogController.getBlogs);
+router.get("/get-single-blog/:id", blogController.getSingleBlog);
+router.patch("/update-blog/:id", blogController.updateBlog);
+router.post(
+  "/create-blog",
+  validateRequest(createBlogValidationSchema),
   auth(userRole.admin, userRole.member),
   blogController.createBlog
 );

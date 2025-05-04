@@ -9,20 +9,21 @@ datasource db {
 }
 
 model User {
-  id                  String   @unique @default(uuid())
+  id                  String    @unique @default(uuid())
   name                String
-  email               String   @unique
-  role                userRole @default(member)
+  email               String    @unique
+  role                userRole  @default(member)
   password            String
-  needsPasswordChange Boolean  @default(true)
-  isDeleted           Boolean  @default(false)
+  needsPasswordChange Boolean   @default(true)
+  isDeleted           Boolean   @default(false)
   image               String
   address             String?
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
   Idea                Idea[]
   Blog                Blog[]
   Vote                Vote[]
+  Comment             Comment[]
 
   @@map("users")
 }
@@ -56,6 +57,7 @@ model Idea {
   createdAt         DateTime   @default(now())
   updatedAt         DateTime   @updatedAt
   Vote              Vote[]
+  Comment           Comment[]
 
   @@map("ideas")
 }
@@ -67,8 +69,8 @@ model Blog {
   description String
   authorId    String
   author      User     @relation(fields: [authorId], references: [id])
-  category_id String
-  category    Category @relation(fields: [category_id], references: [category_id])
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [category_id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   Vote        Vote[]
@@ -87,6 +89,17 @@ model Vote {
 
   @@unique([voterId, ideaId])
   @@unique([voterId, blogId])
+}
+
+model Comment {
+  comment_id  String   @id @default(uuid())
+  content     String
+  commentorId String
+  commentor   User     @relation(fields: [commentorId], references: [id])
+  ideaId      String
+  idea        Idea     @relation(fields: [ideaId], references: [idea_id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 enum ideaStatus {

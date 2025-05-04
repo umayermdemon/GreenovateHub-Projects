@@ -8,18 +8,33 @@ const createBlog = async (payload: Blog, user: IAuthUser) => {
       email: user.email,
     },
   });
-  const blogData = {
-    title: payload.title,
-    description: payload.description,
-    category_id: payload.category_id,
-    images: payload.images,
-    authorId: userData.id,
-  };
   const result = await prisma.blog.create({
-    data: blogData,
+    data: {
+      title: payload.title,
+      description: payload.description,
+      categoryId: payload.categoryId,
+      images: payload.images,
+      authorId: userData.id,
+    },
   });
   return result;
 };
+
+// const createBlog = async (payload: IBlog, user: IAuthUser) => {
+//     const userData = await prisma.user.findUniqueOrThrow({
+//         where: {
+//             email: user.email
+//         }
+//     })
+
+//     const result = await prisma.blog.create({
+//         data: {
+//             ...payload,
+//             authorId: userData.id
+//         }
+//     })
+//     return result
+// }
 
 const getBlogs = async () => {
   const result = await prisma.blog.findMany({
