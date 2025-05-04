@@ -1,5 +1,6 @@
 import { Idea, Prisma, userRole } from "../../../../generated/prisma";
 import { IPaginationOptions } from "../../interface/pagination";
+import calculatePagination from "../../utils/calculatePagination";
 import { prisma } from "../../utils/prisma";
 import { IAuthUser } from "../user/user.interface";
 import { ideaSearchAbleFields } from "./idea.constant";
@@ -34,6 +35,7 @@ const createIdea = async (payload: Idea, user: IAuthUser) => {
 
 const getAllIdeas = async (filters: TIdeaFilterRequest, paginationOptions: IPaginationOptions) => {
   const { searchTerm, category, author, ...filterData } = filters;
+  const { limit, page, skip, sortBy, sortOrder } = calculatePagination(paginationOptions)
   const andCondition: Prisma.IdeaWhereInput[] = [];
 
   if (searchTerm) {
@@ -80,17 +82,24 @@ const getAllIdeas = async (filters: TIdeaFilterRequest, paginationOptions: IPagi
 
   const result = await prisma.idea.findMany({
     where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: sortBy && sortOrder ? { [sortBy]: [sortOrder] } : { createdAt: 'desc' },
     include: {
       Vote: true,
       category: true,
       author: true
     },
   });
+  const total = await prisma.idea.count({
+    where: whereConditions
+  })
   const enhancedIdeas = result.map((idea) => {
     const votes = idea.Vote || [];
 
     const upVotes = votes.filter((v) => v.value === "up").length;
     const downVotes = votes.filter((v) => v.value === "down").length;
+
 
     return {
       ...idea,
@@ -99,7 +108,14 @@ const getAllIdeas = async (filters: TIdeaFilterRequest, paginationOptions: IPagi
       total_votes: upVotes + downVotes,
     };
   });
-  return enhancedIdeas;
+  return {
+    meta: {
+      total,
+      page,
+      limit
+    },
+    data: enhancedIdeas
+  }
 };
 
 

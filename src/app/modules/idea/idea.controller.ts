@@ -26,12 +26,13 @@ const getAllIdeas = catchAsync(async (req, res) => {
   const ideaFilters = pick(req.query, ideaFilterableFields);
   const paginationOptions = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder'])
   console.log(ideaFilters);
-  const result = await ideaServices.getAllIdeas(ideaFilters,paginationOptions);
+  const result = await ideaServices.getAllIdeas(ideaFilters, paginationOptions);
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
     message: "All Ideas Retrieved Successfully",
-    data: result,
+    meta: result.meta,
+    data: result.data,
   });
 });
 const getSingleIdea = catchAsync(async (req, res) => {
