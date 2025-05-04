@@ -58,6 +58,16 @@ export namespace $Enums {
 export type ideaStatus = (typeof ideaStatus)[keyof typeof ideaStatus]
 
 
+export const blogStatus: {
+  pending: 'pending',
+  draft: 'draft',
+  published: 'published',
+  unpublished: 'unpublished'
+};
+
+export type blogStatus = (typeof blogStatus)[keyof typeof blogStatus]
+
+
 export const categoryName: {
   energy: 'energy',
   waste: 'waste',
@@ -87,6 +97,10 @@ export type voteValue = (typeof voteValue)[keyof typeof voteValue]
 export type ideaStatus = $Enums.ideaStatus
 
 export const ideaStatus: typeof $Enums.ideaStatus
+
+export type blogStatus = $Enums.blogStatus
+
+export const blogStatus: typeof $Enums.blogStatus
 
 export type categoryName = $Enums.categoryName
 
@@ -5118,6 +5132,7 @@ export namespace Prisma {
     description: string | null
     authorId: string | null
     categoryId: string | null
+    status: $Enums.blogStatus | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5128,6 +5143,7 @@ export namespace Prisma {
     description: string | null
     authorId: string | null
     categoryId: string | null
+    status: $Enums.blogStatus | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5139,6 +5155,7 @@ export namespace Prisma {
     description: number
     authorId: number
     categoryId: number
+    status: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -5151,6 +5168,7 @@ export namespace Prisma {
     description?: true
     authorId?: true
     categoryId?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5161,6 +5179,7 @@ export namespace Prisma {
     description?: true
     authorId?: true
     categoryId?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -5172,6 +5191,7 @@ export namespace Prisma {
     description?: true
     authorId?: true
     categoryId?: true
+    status?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -5256,6 +5276,7 @@ export namespace Prisma {
     description: string
     authorId: string
     categoryId: string
+    status: $Enums.blogStatus
     createdAt: Date
     updatedAt: Date
     _count: BlogCountAggregateOutputType | null
@@ -5284,6 +5305,7 @@ export namespace Prisma {
     description?: boolean
     authorId?: boolean
     categoryId?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
@@ -5299,6 +5321,7 @@ export namespace Prisma {
     description?: boolean
     authorId?: boolean
     categoryId?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
@@ -5312,6 +5335,7 @@ export namespace Prisma {
     description?: boolean
     authorId?: boolean
     categoryId?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     author?: boolean | UserDefaultArgs<ExtArgs>
@@ -5325,11 +5349,12 @@ export namespace Prisma {
     description?: boolean
     authorId?: boolean
     categoryId?: boolean
+    status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BlogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "images" | "description" | "authorId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["blog"]>
+  export type BlogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "images" | "description" | "authorId" | "categoryId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["blog"]>
   export type BlogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -5359,6 +5384,7 @@ export namespace Prisma {
       description: string
       authorId: string
       categoryId: string
+      status: $Enums.blogStatus
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["blog"]>
@@ -5793,6 +5819,7 @@ export namespace Prisma {
     readonly description: FieldRef<"Blog", 'String'>
     readonly authorId: FieldRef<"Blog", 'String'>
     readonly categoryId: FieldRef<"Blog", 'String'>
+    readonly status: FieldRef<"Blog", 'blogStatus'>
     readonly createdAt: FieldRef<"Blog", 'DateTime'>
     readonly updatedAt: FieldRef<"Blog", 'DateTime'>
   }
@@ -8505,6 +8532,7 @@ export namespace Prisma {
     description: 'description',
     authorId: 'authorId',
     categoryId: 'categoryId',
+    status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -8639,6 +8667,20 @@ export namespace Prisma {
    * Reference to a field of type 'ideaStatus[]'
    */
   export type ListEnumideaStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ideaStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'blogStatus'
+   */
+  export type EnumblogStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'blogStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'blogStatus[]'
+   */
+  export type ListEnumblogStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'blogStatus[]'>
     
 
 
@@ -8939,6 +8981,7 @@ export namespace Prisma {
     description?: StringFilter<"Blog"> | string
     authorId?: StringFilter<"Blog"> | string
     categoryId?: StringFilter<"Blog"> | string
+    status?: EnumblogStatusFilter<"Blog"> | $Enums.blogStatus
     createdAt?: DateTimeFilter<"Blog"> | Date | string
     updatedAt?: DateTimeFilter<"Blog"> | Date | string
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -8953,6 +8996,7 @@ export namespace Prisma {
     description?: SortOrder
     authorId?: SortOrder
     categoryId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     author?: UserOrderByWithRelationInput
@@ -8970,6 +9014,7 @@ export namespace Prisma {
     description?: StringFilter<"Blog"> | string
     authorId?: StringFilter<"Blog"> | string
     categoryId?: StringFilter<"Blog"> | string
+    status?: EnumblogStatusFilter<"Blog"> | $Enums.blogStatus
     createdAt?: DateTimeFilter<"Blog"> | Date | string
     updatedAt?: DateTimeFilter<"Blog"> | Date | string
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -8984,6 +9029,7 @@ export namespace Prisma {
     description?: SortOrder
     authorId?: SortOrder
     categoryId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: BlogCountOrderByAggregateInput
@@ -9001,6 +9047,7 @@ export namespace Prisma {
     description?: StringWithAggregatesFilter<"Blog"> | string
     authorId?: StringWithAggregatesFilter<"Blog"> | string
     categoryId?: StringWithAggregatesFilter<"Blog"> | string
+    status?: EnumblogStatusWithAggregatesFilter<"Blog"> | $Enums.blogStatus
     createdAt?: DateTimeWithAggregatesFilter<"Blog"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Blog"> | Date | string
   }
@@ -9437,6 +9484,7 @@ export namespace Prisma {
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
+    status: $Enums.blogStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     author: UserCreateNestedOneWithoutBlogInput
@@ -9451,6 +9499,7 @@ export namespace Prisma {
     description: string
     authorId: string
     categoryId: string
+    status: $Enums.blogStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     Vote?: VoteUncheckedCreateNestedManyWithoutBlogInput
@@ -9461,6 +9510,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
+    status?: EnumblogStatusFieldUpdateOperationsInput | $Enums.blogStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneRequiredWithoutBlogNestedInput
@@ -9475,6 +9525,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    status?: EnumblogStatusFieldUpdateOperationsInput | $Enums.blogStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Vote?: VoteUncheckedUpdateManyWithoutBlogNestedInput
@@ -9487,6 +9538,7 @@ export namespace Prisma {
     description: string
     authorId: string
     categoryId: string
+    status: $Enums.blogStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -9496,6 +9548,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
+    status?: EnumblogStatusFieldUpdateOperationsInput | $Enums.blogStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9507,6 +9560,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    status?: EnumblogStatusFieldUpdateOperationsInput | $Enums.blogStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9962,6 +10016,13 @@ export namespace Prisma {
     _max?: NestedEnumideaStatusFilter<$PrismaModel>
   }
 
+  export type EnumblogStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.blogStatus | EnumblogStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.blogStatus[] | ListEnumblogStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.blogStatus[] | ListEnumblogStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumblogStatusFilter<$PrismaModel> | $Enums.blogStatus
+  }
+
   export type BlogCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
@@ -9969,6 +10030,7 @@ export namespace Prisma {
     description?: SortOrder
     authorId?: SortOrder
     categoryId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9979,6 +10041,7 @@ export namespace Prisma {
     description?: SortOrder
     authorId?: SortOrder
     categoryId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9989,8 +10052,19 @@ export namespace Prisma {
     description?: SortOrder
     authorId?: SortOrder
     categoryId?: SortOrder
+    status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type EnumblogStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.blogStatus | EnumblogStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.blogStatus[] | ListEnumblogStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.blogStatus[] | ListEnumblogStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumblogStatusWithAggregatesFilter<$PrismaModel> | $Enums.blogStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumblogStatusFilter<$PrismaModel>
+    _max?: NestedEnumblogStatusFilter<$PrismaModel>
   }
 
   export type EnumvoteValueFilter<$PrismaModel = never> = {
@@ -10525,6 +10599,10 @@ export namespace Prisma {
     push?: string | string[]
   }
 
+  export type EnumblogStatusFieldUpdateOperationsInput = {
+    set?: $Enums.blogStatus
+  }
+
   export type UserUpdateOneRequiredWithoutBlogNestedInput = {
     create?: XOR<UserCreateWithoutBlogInput, UserUncheckedCreateWithoutBlogInput>
     connectOrCreate?: UserCreateOrConnectWithoutBlogInput
@@ -10820,6 +10898,23 @@ export namespace Prisma {
     _max?: NestedEnumideaStatusFilter<$PrismaModel>
   }
 
+  export type NestedEnumblogStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.blogStatus | EnumblogStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.blogStatus[] | ListEnumblogStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.blogStatus[] | ListEnumblogStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumblogStatusFilter<$PrismaModel> | $Enums.blogStatus
+  }
+
+  export type NestedEnumblogStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.blogStatus | EnumblogStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.blogStatus[] | ListEnumblogStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.blogStatus[] | ListEnumblogStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumblogStatusWithAggregatesFilter<$PrismaModel> | $Enums.blogStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumblogStatusFilter<$PrismaModel>
+    _max?: NestedEnumblogStatusFilter<$PrismaModel>
+  }
+
   export type NestedEnumvoteValueFilter<$PrismaModel = never> = {
     equals?: $Enums.voteValue | EnumvoteValueFieldRefInput<$PrismaModel>
     in?: $Enums.voteValue[] | ListEnumvoteValueFieldRefInput<$PrismaModel>
@@ -10888,6 +10983,7 @@ export namespace Prisma {
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
+    status: $Enums.blogStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     category: CategoryCreateNestedOneWithoutBlogInput
@@ -10900,6 +10996,7 @@ export namespace Prisma {
     images?: BlogCreateimagesInput | string[]
     description: string
     categoryId: string
+    status: $Enums.blogStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     Vote?: VoteUncheckedCreateNestedManyWithoutBlogInput
@@ -11029,6 +11126,7 @@ export namespace Prisma {
     description?: StringFilter<"Blog"> | string
     authorId?: StringFilter<"Blog"> | string
     categoryId?: StringFilter<"Blog"> | string
+    status?: EnumblogStatusFilter<"Blog"> | $Enums.blogStatus
     createdAt?: DateTimeFilter<"Blog"> | Date | string
     updatedAt?: DateTimeFilter<"Blog"> | Date | string
   }
@@ -11140,6 +11238,7 @@ export namespace Prisma {
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
+    status: $Enums.blogStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     author: UserCreateNestedOneWithoutBlogInput
@@ -11152,6 +11251,7 @@ export namespace Prisma {
     images?: BlogCreateimagesInput | string[]
     description: string
     authorId: string
+    status: $Enums.blogStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     Vote?: VoteUncheckedCreateNestedManyWithoutBlogInput
@@ -11674,6 +11774,7 @@ export namespace Prisma {
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
+    status: $Enums.blogStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     author: UserCreateNestedOneWithoutBlogInput
@@ -11687,6 +11788,7 @@ export namespace Prisma {
     description: string
     authorId: string
     categoryId: string
+    status: $Enums.blogStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11804,6 +11906,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
+    status?: EnumblogStatusFieldUpdateOperationsInput | $Enums.blogStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneRequiredWithoutBlogNestedInput
@@ -11817,6 +11920,7 @@ export namespace Prisma {
     description?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    status?: EnumblogStatusFieldUpdateOperationsInput | $Enums.blogStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12015,6 +12119,7 @@ export namespace Prisma {
     images?: BlogCreateimagesInput | string[]
     description: string
     categoryId: string
+    status: $Enums.blogStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12092,6 +12197,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
+    status?: EnumblogStatusFieldUpdateOperationsInput | $Enums.blogStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     category?: CategoryUpdateOneRequiredWithoutBlogNestedInput
@@ -12104,6 +12210,7 @@ export namespace Prisma {
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    status?: EnumblogStatusFieldUpdateOperationsInput | $Enums.blogStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Vote?: VoteUncheckedUpdateManyWithoutBlogNestedInput
@@ -12115,6 +12222,7 @@ export namespace Prisma {
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
     categoryId?: StringFieldUpdateOperationsInput | string
+    status?: EnumblogStatusFieldUpdateOperationsInput | $Enums.blogStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12189,6 +12297,7 @@ export namespace Prisma {
     images?: BlogCreateimagesInput | string[]
     description: string
     authorId: string
+    status: $Enums.blogStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12250,6 +12359,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
+    status?: EnumblogStatusFieldUpdateOperationsInput | $Enums.blogStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneRequiredWithoutBlogNestedInput
@@ -12262,6 +12372,7 @@ export namespace Prisma {
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
+    status?: EnumblogStatusFieldUpdateOperationsInput | $Enums.blogStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     Vote?: VoteUncheckedUpdateManyWithoutBlogNestedInput
@@ -12273,6 +12384,7 @@ export namespace Prisma {
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
+    status?: EnumblogStatusFieldUpdateOperationsInput | $Enums.blogStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

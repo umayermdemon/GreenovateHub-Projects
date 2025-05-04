@@ -4,6 +4,9 @@ import sendResponse from "../../utils/sendResponse";
 import { blogServices } from "./blog.service";
 import status from "http-status";
 import { IAuthUser } from "../user/user.interface";
+import pick from "../../utils/pick";
+import { blogfilterableFields } from "./blog.constant";
+import { paginationQueries } from "../../utils/prisma";
 
 const writeBlog = catchAsync(
   async (req: Request & { user?: IAuthUser }, res: Response) => {
@@ -18,12 +21,15 @@ const writeBlog = catchAsync(
   }
 );
 const getAllBlogs = catchAsync(async (req: Request, res: Response) => {
-  const result = await blogServices.getAllBlogs();
+  const filters = pick(req.query, blogfilterableFields);
+  const paginationOptions = pick(req.body, paginationQueries);
+  const result = await blogServices.getAllBlogs(filters, paginationOptions);
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
     message: "Blogs retrieved successfully",
-    data: result,
+    meta: result.meta,
+    data: result.data,
   });
 });
 const getSingleBlog = catchAsync(async (req: Request, res: Response) => {
@@ -36,9 +42,9 @@ const getSingleBlog = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
-const editBlog = catchAsync(async (req: Request&{user?:IAuthUser}, res: Response) => {
+const editBlog = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
   const { id } = req.params;
-  const result = await blogServices.editBlog(id, req.body,req.user as IAuthUser);
+  const result = await blogServices.editBlog(id, req.body, req.user as IAuthUser);
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
@@ -46,9 +52,9 @@ const editBlog = catchAsync(async (req: Request&{user?:IAuthUser}, res: Response
     data: result,
   });
 });
-const deleteBlog = catchAsync(async (req: Request &{user?:IAuthUser}, res: Response) => {
+const deleteBlog = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
   const { id } = req.params;
-  const result = await blogServices.deleteBlog(id,req.user as IAuthUser);
+  const result = await blogServices.deleteBlog(id, req.user as IAuthUser);
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
