@@ -14,7 +14,36 @@ const createComment = async (payload: IComment, user: IAuthUser) => {
     return result
 }
 
+const editComment = async (comment_id: string, payload: { content: string }) => {
 
+    const result = await prisma.comment.update({
+        where: {
+            comment_id
+        },
+        data: {
+            content: payload.content
+        }
+    })
+    return result
+}
+const deleteComment = async (comment_id: string, user: IAuthUser) => {
+    const commentData = await prisma.comment.findUnique({
+        where: {
+            comment_id
+        }
+    })
+    if (commentData?.commentorId !== user.userId) {
+        throw new Error('You cannot delete this comment')
+    }
+    const result = await prisma.comment.delete({
+        where: {
+            comment_id
+        }
+    })
+    return result
+}
 export const commentService = {
-    createComment
+    createComment,
+    editComment,
+    deleteComment
 }

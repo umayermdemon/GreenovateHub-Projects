@@ -7,6 +7,7 @@ const idea_route_1 = require("../modules/idea/idea.route");
 const category_route_1 = require("../modules/category/category.route");
 const blog_route_1 = require("../modules/blog/blog.route");
 const vote_route_1 = require("../modules/vote/vote.route");
+const comment_route_1 = require("../modules/comment/comment.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -27,12 +28,16 @@ const moduleRoutes = [
     },
     {
         path: "/blog",
-        route: blog_route_1.blogRouter,
+        route: blog_route_1.blogRouter
     },
     {
         path: "/vote",
-        route: vote_route_1.voteRouter,
+        route: vote_route_1.voteRouter
     },
+    {
+        path: '/comments',
+        route: comment_route_1.commentRouter
+    }
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
 exports.default = router;

@@ -7,8 +7,8 @@ import { IAuthUser } from "../user/user.interface";
 
 
 const createComment = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
-    const {user}=req;
-    const result = await commentService.createComment(req.body,user as IAuthUser);
+    const { user } = req;
+    const result = await commentService.createComment(req.body, user as IAuthUser);
     sendResponse(res, {
         statusCode: status.CREATED,
         success: true,
@@ -16,7 +16,29 @@ const createComment = catchAsync(async (req: Request & { user?: IAuthUser }, res
         data: result,
     });
 });
+const editComment = catchAsync(async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const result = await commentService.editComment(id, req.body);
+    sendResponse(res, {
+        statusCode: status.CREATED,
+        success: true,
+        message: "Comment Edited Successfully",
+        data: result,
+    });
+});
+const deleteComment = catchAsync(async (req: Request & {user?:IAuthUser}, res: Response) => {
+    const { id } = req.params;
+    const result = await commentService.deleteComment(id,req.user as IAuthUser);
+    sendResponse(res, {
+        statusCode: status.CREATED,
+        success: true,
+        message: "Comment Deleted Successfully",
+        data: result,
+    });
+});
 
 export const commentController = {
-    createComment
+    createComment,
+    editComment,
+    deleteComment
 }
