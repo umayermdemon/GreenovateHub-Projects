@@ -14,11 +14,18 @@ const createComment = async (payload: IComment, user: IAuthUser) => {
     return result
 }
 
-const editComment = async (comment_id: string, payload: { content: string }) => {
-
+const editComment = async (id: string, payload: { content: string }, user: IAuthUser) => {
+    const commentData = await prisma.comment.findUnique({
+        where: {
+            id
+        }
+    })
+    if (commentData?.commentorId !== user.userId) {
+        throw new Error('You cannot update this comment')
+    }
     const result = await prisma.comment.update({
         where: {
-            comment_id
+            id
         },
         data: {
             content: payload.content
@@ -26,10 +33,10 @@ const editComment = async (comment_id: string, payload: { content: string }) => 
     })
     return result
 }
-const deleteComment = async (comment_id: string, user: IAuthUser) => {
+const deleteComment = async (id: string, user: IAuthUser) => {
     const commentData = await prisma.comment.findUnique({
         where: {
-            comment_id
+            id
         }
     })
     if (commentData?.commentorId !== user.userId) {
@@ -37,7 +44,7 @@ const deleteComment = async (comment_id: string, user: IAuthUser) => {
     }
     const result = await prisma.comment.delete({
         where: {
-            comment_id
+            id
         }
     })
     return result
