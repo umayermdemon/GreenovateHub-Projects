@@ -2791,21 +2791,21 @@ export namespace Prisma {
   }
 
   export type CategoryMinAggregateOutputType = {
-    category_id: string | null
+    id: string | null
     name: $Enums.categoryName | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type CategoryMaxAggregateOutputType = {
-    category_id: string | null
+    id: string | null
     name: $Enums.categoryName | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type CategoryCountAggregateOutputType = {
-    category_id: number
+    id: number
     name: number
     createdAt: number
     updatedAt: number
@@ -2814,21 +2814,21 @@ export namespace Prisma {
 
 
   export type CategoryMinAggregateInputType = {
-    category_id?: true
+    id?: true
     name?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type CategoryMaxAggregateInputType = {
-    category_id?: true
+    id?: true
     name?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type CategoryCountAggregateInputType = {
-    category_id?: true
+    id?: true
     name?: true
     createdAt?: true
     updatedAt?: true
@@ -2908,7 +2908,7 @@ export namespace Prisma {
   }
 
   export type CategoryGroupByOutputType = {
-    category_id: string
+    id: string
     name: $Enums.categoryName
     createdAt: Date
     updatedAt: Date
@@ -2932,7 +2932,7 @@ export namespace Prisma {
 
 
   export type CategorySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    category_id?: boolean
+    id?: boolean
     name?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -2942,27 +2942,27 @@ export namespace Prisma {
   }, ExtArgs["result"]["category"]>
 
   export type CategorySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    category_id?: boolean
+    id?: boolean
     name?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["category"]>
 
   export type CategorySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    category_id?: boolean
+    id?: boolean
     name?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["category"]>
 
   export type CategorySelectScalar = {
-    category_id?: boolean
+    id?: boolean
     name?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"category_id" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
+  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     Idea?: boolean | Category$IdeaArgs<ExtArgs>
     Blog?: boolean | Category$BlogArgs<ExtArgs>
@@ -2978,7 +2978,7 @@ export namespace Prisma {
       Blog: Prisma.$BlogPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      category_id: string
+      id: string
       name: $Enums.categoryName
       createdAt: Date
       updatedAt: Date
@@ -3065,8 +3065,8 @@ export namespace Prisma {
      * // Get first 10 Categories
      * const categories = await prisma.category.findMany({ take: 10 })
      * 
-     * // Only select the `category_id`
-     * const categoryWithCategory_idOnly = await prisma.category.findMany({ select: { category_id: true } })
+     * // Only select the `id`
+     * const categoryWithIdOnly = await prisma.category.findMany({ select: { id: true } })
      * 
      */
     findMany<T extends CategoryFindManyArgs>(args?: SelectSubset<T, CategoryFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CategoryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -3110,9 +3110,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many Categories and only return the `category_id`
-     * const categoryWithCategory_idOnly = await prisma.category.createManyAndReturn({
-     *   select: { category_id: true },
+     * // Create many Categories and only return the `id`
+     * const categoryWithIdOnly = await prisma.category.createManyAndReturn({
+     *   select: { id: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -3201,9 +3201,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Categories and only return the `category_id`
-     * const categoryWithCategory_idOnly = await prisma.category.updateManyAndReturn({
-     *   select: { category_id: true },
+     * // Update zero or more Categories and only return the `id`
+     * const categoryWithIdOnly = await prisma.category.updateManyAndReturn({
+     *   select: { id: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -3407,7 +3407,7 @@ export namespace Prisma {
    * Fields of the Category model
    */
   interface CategoryFieldRefs {
-    readonly category_id: FieldRef<"Category", 'String'>
+    readonly id: FieldRef<"Category", 'String'>
     readonly name: FieldRef<"Category", 'categoryName'>
     readonly createdAt: FieldRef<"Category", 'DateTime'>
     readonly updatedAt: FieldRef<"Category", 'DateTime'>
@@ -5113,7 +5113,7 @@ export namespace Prisma {
   }
 
   export type BlogMinAggregateOutputType = {
-    blog_id: string | null
+    id: string | null
     title: string | null
     description: string | null
     authorId: string | null
@@ -5123,7 +5123,7 @@ export namespace Prisma {
   }
 
   export type BlogMaxAggregateOutputType = {
-    blog_id: string | null
+    id: string | null
     title: string | null
     description: string | null
     authorId: string | null
@@ -5133,7 +5133,7 @@ export namespace Prisma {
   }
 
   export type BlogCountAggregateOutputType = {
-    blog_id: number
+    id: number
     title: number
     images: number
     description: number
@@ -5146,7 +5146,7 @@ export namespace Prisma {
 
 
   export type BlogMinAggregateInputType = {
-    blog_id?: true
+    id?: true
     title?: true
     description?: true
     authorId?: true
@@ -5156,7 +5156,7 @@ export namespace Prisma {
   }
 
   export type BlogMaxAggregateInputType = {
-    blog_id?: true
+    id?: true
     title?: true
     description?: true
     authorId?: true
@@ -5166,7 +5166,7 @@ export namespace Prisma {
   }
 
   export type BlogCountAggregateInputType = {
-    blog_id?: true
+    id?: true
     title?: true
     images?: true
     description?: true
@@ -5250,7 +5250,7 @@ export namespace Prisma {
   }
 
   export type BlogGroupByOutputType = {
-    blog_id: string
+    id: string
     title: string
     images: string[]
     description: string
@@ -5278,7 +5278,7 @@ export namespace Prisma {
 
 
   export type BlogSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    blog_id?: boolean
+    id?: boolean
     title?: boolean
     images?: boolean
     description?: boolean
@@ -5293,7 +5293,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["blog"]>
 
   export type BlogSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    blog_id?: boolean
+    id?: boolean
     title?: boolean
     images?: boolean
     description?: boolean
@@ -5306,7 +5306,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["blog"]>
 
   export type BlogSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    blog_id?: boolean
+    id?: boolean
     title?: boolean
     images?: boolean
     description?: boolean
@@ -5319,7 +5319,7 @@ export namespace Prisma {
   }, ExtArgs["result"]["blog"]>
 
   export type BlogSelectScalar = {
-    blog_id?: boolean
+    id?: boolean
     title?: boolean
     images?: boolean
     description?: boolean
@@ -5329,7 +5329,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type BlogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"blog_id" | "title" | "images" | "description" | "authorId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["blog"]>
+  export type BlogOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "images" | "description" | "authorId" | "categoryId" | "createdAt" | "updatedAt", ExtArgs["result"]["blog"]>
   export type BlogInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     author?: boolean | UserDefaultArgs<ExtArgs>
     category?: boolean | CategoryDefaultArgs<ExtArgs>
@@ -5353,7 +5353,7 @@ export namespace Prisma {
       Vote: Prisma.$VotePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
-      blog_id: string
+      id: string
       title: string
       images: string[]
       description: string
@@ -5444,8 +5444,8 @@ export namespace Prisma {
      * // Get first 10 Blogs
      * const blogs = await prisma.blog.findMany({ take: 10 })
      * 
-     * // Only select the `blog_id`
-     * const blogWithBlog_idOnly = await prisma.blog.findMany({ select: { blog_id: true } })
+     * // Only select the `id`
+     * const blogWithIdOnly = await prisma.blog.findMany({ select: { id: true } })
      * 
      */
     findMany<T extends BlogFindManyArgs>(args?: SelectSubset<T, BlogFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BlogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -5489,9 +5489,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many Blogs and only return the `blog_id`
-     * const blogWithBlog_idOnly = await prisma.blog.createManyAndReturn({
-     *   select: { blog_id: true },
+     * // Create many Blogs and only return the `id`
+     * const blogWithIdOnly = await prisma.blog.createManyAndReturn({
+     *   select: { id: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -5580,9 +5580,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Blogs and only return the `blog_id`
-     * const blogWithBlog_idOnly = await prisma.blog.updateManyAndReturn({
-     *   select: { blog_id: true },
+     * // Update zero or more Blogs and only return the `id`
+     * const blogWithIdOnly = await prisma.blog.updateManyAndReturn({
+     *   select: { id: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -5787,7 +5787,7 @@ export namespace Prisma {
    * Fields of the Blog model
    */
   interface BlogFieldRefs {
-    readonly blog_id: FieldRef<"Blog", 'String'>
+    readonly id: FieldRef<"Blog", 'String'>
     readonly title: FieldRef<"Blog", 'String'>
     readonly images: FieldRef<"Blog", 'String[]'>
     readonly description: FieldRef<"Blog", 'String'>
@@ -8469,7 +8469,7 @@ export namespace Prisma {
 
 
   export const CategoryScalarFieldEnum: {
-    category_id: 'category_id',
+    id: 'id',
     name: 'name',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -8499,7 +8499,7 @@ export namespace Prisma {
 
 
   export const BlogScalarFieldEnum: {
-    blog_id: 'blog_id',
+    id: 'id',
     title: 'title',
     images: 'images',
     description: 'description',
@@ -8771,7 +8771,7 @@ export namespace Prisma {
     AND?: CategoryWhereInput | CategoryWhereInput[]
     OR?: CategoryWhereInput[]
     NOT?: CategoryWhereInput | CategoryWhereInput[]
-    category_id?: StringFilter<"Category"> | string
+    id?: StringFilter<"Category"> | string
     name?: EnumcategoryNameFilter<"Category"> | $Enums.categoryName
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
@@ -8780,7 +8780,7 @@ export namespace Prisma {
   }
 
   export type CategoryOrderByWithRelationInput = {
-    category_id?: SortOrder
+    id?: SortOrder
     name?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -8789,7 +8789,7 @@ export namespace Prisma {
   }
 
   export type CategoryWhereUniqueInput = Prisma.AtLeast<{
-    category_id?: string
+    id?: string
     AND?: CategoryWhereInput | CategoryWhereInput[]
     OR?: CategoryWhereInput[]
     NOT?: CategoryWhereInput | CategoryWhereInput[]
@@ -8798,10 +8798,10 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Category"> | Date | string
     Idea?: IdeaListRelationFilter
     Blog?: BlogListRelationFilter
-  }, "category_id">
+  }, "id">
 
   export type CategoryOrderByWithAggregationInput = {
-    category_id?: SortOrder
+    id?: SortOrder
     name?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -8814,7 +8814,7 @@ export namespace Prisma {
     AND?: CategoryScalarWhereWithAggregatesInput | CategoryScalarWhereWithAggregatesInput[]
     OR?: CategoryScalarWhereWithAggregatesInput[]
     NOT?: CategoryScalarWhereWithAggregatesInput | CategoryScalarWhereWithAggregatesInput[]
-    category_id?: StringWithAggregatesFilter<"Category"> | string
+    id?: StringWithAggregatesFilter<"Category"> | string
     name?: EnumcategoryNameWithAggregatesFilter<"Category"> | $Enums.categoryName
     createdAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
@@ -8933,7 +8933,7 @@ export namespace Prisma {
     AND?: BlogWhereInput | BlogWhereInput[]
     OR?: BlogWhereInput[]
     NOT?: BlogWhereInput | BlogWhereInput[]
-    blog_id?: StringFilter<"Blog"> | string
+    id?: StringFilter<"Blog"> | string
     title?: StringFilter<"Blog"> | string
     images?: StringNullableListFilter<"Blog">
     description?: StringFilter<"Blog"> | string
@@ -8947,7 +8947,7 @@ export namespace Prisma {
   }
 
   export type BlogOrderByWithRelationInput = {
-    blog_id?: SortOrder
+    id?: SortOrder
     title?: SortOrder
     images?: SortOrder
     description?: SortOrder
@@ -8961,7 +8961,7 @@ export namespace Prisma {
   }
 
   export type BlogWhereUniqueInput = Prisma.AtLeast<{
-    blog_id?: string
+    id?: string
     title?: string
     AND?: BlogWhereInput | BlogWhereInput[]
     OR?: BlogWhereInput[]
@@ -8975,10 +8975,10 @@ export namespace Prisma {
     author?: XOR<UserScalarRelationFilter, UserWhereInput>
     category?: XOR<CategoryScalarRelationFilter, CategoryWhereInput>
     Vote?: VoteListRelationFilter
-  }, "blog_id" | "title">
+  }, "id" | "title">
 
   export type BlogOrderByWithAggregationInput = {
-    blog_id?: SortOrder
+    id?: SortOrder
     title?: SortOrder
     images?: SortOrder
     description?: SortOrder
@@ -8995,7 +8995,7 @@ export namespace Prisma {
     AND?: BlogScalarWhereWithAggregatesInput | BlogScalarWhereWithAggregatesInput[]
     OR?: BlogScalarWhereWithAggregatesInput[]
     NOT?: BlogScalarWhereWithAggregatesInput | BlogScalarWhereWithAggregatesInput[]
-    blog_id?: StringWithAggregatesFilter<"Blog"> | string
+    id?: StringWithAggregatesFilter<"Blog"> | string
     title?: StringWithAggregatesFilter<"Blog"> | string
     images?: StringNullableListFilter<"Blog">
     description?: StringWithAggregatesFilter<"Blog"> | string
@@ -9251,7 +9251,7 @@ export namespace Prisma {
   }
 
   export type CategoryCreateInput = {
-    category_id?: string
+    id?: string
     name: $Enums.categoryName
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9260,7 +9260,7 @@ export namespace Prisma {
   }
 
   export type CategoryUncheckedCreateInput = {
-    category_id?: string
+    id?: string
     name: $Enums.categoryName
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -9269,7 +9269,7 @@ export namespace Prisma {
   }
 
   export type CategoryUpdateInput = {
-    category_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     name?: EnumcategoryNameFieldUpdateOperationsInput | $Enums.categoryName
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9278,7 +9278,7 @@ export namespace Prisma {
   }
 
   export type CategoryUncheckedUpdateInput = {
-    category_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     name?: EnumcategoryNameFieldUpdateOperationsInput | $Enums.categoryName
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9287,21 +9287,21 @@ export namespace Prisma {
   }
 
   export type CategoryCreateManyInput = {
-    category_id?: string
+    id?: string
     name: $Enums.categoryName
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type CategoryUpdateManyMutationInput = {
-    category_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     name?: EnumcategoryNameFieldUpdateOperationsInput | $Enums.categoryName
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CategoryUncheckedUpdateManyInput = {
-    category_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     name?: EnumcategoryNameFieldUpdateOperationsInput | $Enums.categoryName
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -9433,7 +9433,7 @@ export namespace Prisma {
   }
 
   export type BlogCreateInput = {
-    blog_id?: string
+    id?: string
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
@@ -9445,7 +9445,7 @@ export namespace Prisma {
   }
 
   export type BlogUncheckedCreateInput = {
-    blog_id?: string
+    id?: string
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
@@ -9457,7 +9457,7 @@ export namespace Prisma {
   }
 
   export type BlogUpdateInput = {
-    blog_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
@@ -9469,7 +9469,7 @@ export namespace Prisma {
   }
 
   export type BlogUncheckedUpdateInput = {
-    blog_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
@@ -9481,7 +9481,7 @@ export namespace Prisma {
   }
 
   export type BlogCreateManyInput = {
-    blog_id?: string
+    id?: string
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
@@ -9492,7 +9492,7 @@ export namespace Prisma {
   }
 
   export type BlogUpdateManyMutationInput = {
-    blog_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
@@ -9501,7 +9501,7 @@ export namespace Prisma {
   }
 
   export type BlogUncheckedUpdateManyInput = {
-    blog_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
@@ -9848,21 +9848,21 @@ export namespace Prisma {
   }
 
   export type CategoryCountOrderByAggregateInput = {
-    category_id?: SortOrder
+    id?: SortOrder
     name?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type CategoryMaxOrderByAggregateInput = {
-    category_id?: SortOrder
+    id?: SortOrder
     name?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type CategoryMinOrderByAggregateInput = {
-    category_id?: SortOrder
+    id?: SortOrder
     name?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -9963,7 +9963,7 @@ export namespace Prisma {
   }
 
   export type BlogCountOrderByAggregateInput = {
-    blog_id?: SortOrder
+    id?: SortOrder
     title?: SortOrder
     images?: SortOrder
     description?: SortOrder
@@ -9974,7 +9974,7 @@ export namespace Prisma {
   }
 
   export type BlogMaxOrderByAggregateInput = {
-    blog_id?: SortOrder
+    id?: SortOrder
     title?: SortOrder
     description?: SortOrder
     authorId?: SortOrder
@@ -9984,7 +9984,7 @@ export namespace Prisma {
   }
 
   export type BlogMinOrderByAggregateInput = {
-    blog_id?: SortOrder
+    id?: SortOrder
     title?: SortOrder
     description?: SortOrder
     authorId?: SortOrder
@@ -10884,7 +10884,7 @@ export namespace Prisma {
   }
 
   export type BlogCreateWithoutAuthorInput = {
-    blog_id?: string
+    id?: string
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
@@ -10895,7 +10895,7 @@ export namespace Prisma {
   }
 
   export type BlogUncheckedCreateWithoutAuthorInput = {
-    blog_id?: string
+    id?: string
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
@@ -11023,7 +11023,7 @@ export namespace Prisma {
     AND?: BlogScalarWhereInput | BlogScalarWhereInput[]
     OR?: BlogScalarWhereInput[]
     NOT?: BlogScalarWhereInput | BlogScalarWhereInput[]
-    blog_id?: StringFilter<"Blog"> | string
+    id?: StringFilter<"Blog"> | string
     title?: StringFilter<"Blog"> | string
     images?: StringNullableListFilter<"Blog">
     description?: StringFilter<"Blog"> | string
@@ -11136,7 +11136,7 @@ export namespace Prisma {
   }
 
   export type BlogCreateWithoutCategoryInput = {
-    blog_id?: string
+    id?: string
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
@@ -11147,7 +11147,7 @@ export namespace Prisma {
   }
 
   export type BlogUncheckedCreateWithoutCategoryInput = {
-    blog_id?: string
+    id?: string
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
@@ -11200,7 +11200,7 @@ export namespace Prisma {
   }
 
   export type CategoryCreateWithoutIdeaInput = {
-    category_id?: string
+    id?: string
     name: $Enums.categoryName
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11208,7 +11208,7 @@ export namespace Prisma {
   }
 
   export type CategoryUncheckedCreateWithoutIdeaInput = {
-    category_id?: string
+    id?: string
     name: $Enums.categoryName
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11323,7 +11323,7 @@ export namespace Prisma {
   }
 
   export type CategoryUpdateWithoutIdeaInput = {
-    category_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     name?: EnumcategoryNameFieldUpdateOperationsInput | $Enums.categoryName
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11331,7 +11331,7 @@ export namespace Prisma {
   }
 
   export type CategoryUncheckedUpdateWithoutIdeaInput = {
-    category_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     name?: EnumcategoryNameFieldUpdateOperationsInput | $Enums.categoryName
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11455,7 +11455,7 @@ export namespace Prisma {
   }
 
   export type CategoryCreateWithoutBlogInput = {
-    category_id?: string
+    id?: string
     name: $Enums.categoryName
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11463,7 +11463,7 @@ export namespace Prisma {
   }
 
   export type CategoryUncheckedCreateWithoutBlogInput = {
-    category_id?: string
+    id?: string
     name: $Enums.categoryName
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11558,7 +11558,7 @@ export namespace Prisma {
   }
 
   export type CategoryUpdateWithoutBlogInput = {
-    category_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     name?: EnumcategoryNameFieldUpdateOperationsInput | $Enums.categoryName
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11566,7 +11566,7 @@ export namespace Prisma {
   }
 
   export type CategoryUncheckedUpdateWithoutBlogInput = {
-    category_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     name?: EnumcategoryNameFieldUpdateOperationsInput | $Enums.categoryName
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11670,7 +11670,7 @@ export namespace Prisma {
   }
 
   export type BlogCreateWithoutVoteInput = {
-    blog_id?: string
+    id?: string
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
@@ -11681,7 +11681,7 @@ export namespace Prisma {
   }
 
   export type BlogUncheckedCreateWithoutVoteInput = {
-    blog_id?: string
+    id?: string
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
@@ -11800,7 +11800,7 @@ export namespace Prisma {
   }
 
   export type BlogUpdateWithoutVoteInput = {
-    blog_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
@@ -11811,7 +11811,7 @@ export namespace Prisma {
   }
 
   export type BlogUncheckedUpdateWithoutVoteInput = {
-    blog_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
@@ -12010,7 +12010,7 @@ export namespace Prisma {
   }
 
   export type BlogCreateManyAuthorInput = {
-    blog_id?: string
+    id?: string
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
@@ -12088,7 +12088,7 @@ export namespace Prisma {
   }
 
   export type BlogUpdateWithoutAuthorInput = {
-    blog_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
@@ -12099,7 +12099,7 @@ export namespace Prisma {
   }
 
   export type BlogUncheckedUpdateWithoutAuthorInput = {
-    blog_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
@@ -12110,7 +12110,7 @@ export namespace Prisma {
   }
 
   export type BlogUncheckedUpdateManyWithoutAuthorInput = {
-    blog_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
@@ -12184,7 +12184,7 @@ export namespace Prisma {
   }
 
   export type BlogCreateManyCategoryInput = {
-    blog_id?: string
+    id?: string
     title: string
     images?: BlogCreateimagesInput | string[]
     description: string
@@ -12246,7 +12246,7 @@ export namespace Prisma {
   }
 
   export type BlogUpdateWithoutCategoryInput = {
-    blog_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
@@ -12257,7 +12257,7 @@ export namespace Prisma {
   }
 
   export type BlogUncheckedUpdateWithoutCategoryInput = {
-    blog_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string
@@ -12268,7 +12268,7 @@ export namespace Prisma {
   }
 
   export type BlogUncheckedUpdateManyWithoutCategoryInput = {
-    blog_id?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     images?: BlogUpdateimagesInput | string[]
     description?: StringFieldUpdateOperationsInput | string

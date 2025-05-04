@@ -1,7 +1,7 @@
 import { Category } from "../../../../generated/prisma";
 import { prisma } from "../../utils/prisma";
 
-const createCategoryIntoDb = async (payload: Category) => {
+const createCategory = async (payload: Category) => {
   const isCategoryExist = await prisma.category.findFirst({
     where: {
       name: payload.name,
@@ -17,7 +17,11 @@ const createCategoryIntoDb = async (payload: Category) => {
   });
   return result;
 };
-
+const getAllCategories=async()=>{
+  const result=await prisma.category.findMany();
+  return result
+}
 export const categoryServices = {
-  createCategoryIntoDb,
+  createCategory,
+  getAllCategories
 };

@@ -135,7 +135,7 @@ exports.Prisma.UserScalarFieldEnum = {
 };
 
 exports.Prisma.CategoryScalarFieldEnum = {
-  category_id: 'category_id',
+  id: 'id',
   name: 'name',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -159,7 +159,7 @@ exports.Prisma.IdeaScalarFieldEnum = {
 };
 
 exports.Prisma.BlogScalarFieldEnum = {
-  blog_id: 'blog_id',
+  id: 'id',
   title: 'title',
   images: 'images',
   description: 'description',

@@ -11,19 +11,20 @@ router.post(
   "/create-blog",
   validateRequest(createBlogValidationSchema),
   auth(userRole.admin, userRole.member),
-  blogController.createBlog
+  blogController.writeBlog
 );
-router.get("/get-all-blogs", blogController.getBlogs);
+router.get("/get-all-blogs", blogController.getAllBlogs);
 router.get("/get-single-blog/:id", blogController.getSingleBlog);
-router.patch("/update-blog/:id", blogController.updateBlog);
-router.post(
-  "/create-blog",
-  validateRequest(createBlogValidationSchema),
+router.patch(
+  "/update-blog/:id",
   auth(userRole.admin, userRole.member),
-  blogController.createBlog
+  blogController.editBlog
 );
-router.get("/get-all-blogs", blogController.getBlogs);
-router.get("/get-single-blog/:id", blogController.getSingleBlog);
-router.patch("/update-blog/:id", blogController.updateBlog);
+router.delete(
+  "/delete-blog/:id",
+  auth(userRole.admin, userRole.member),
+  blogController.deleteBlog
+);
+
 
 export const blogRouter = router;
