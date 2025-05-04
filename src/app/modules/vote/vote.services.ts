@@ -1,19 +1,15 @@
 import { prisma } from "../../utils/prisma"
+import { IAuthUser } from "../user/user.interface";
+import { IVote } from "./vote.interface";
 
-interface IVote {
-    voterId: string,
-    value: "up" | "down",
-    ideaId: string | undefined,
-    blogId: string | undefined,
-    isDeleted?: boolean
-}
-const createVote = async (payload: IVote) => {
+
+const createVote = async (payload: IVote, user: IAuthUser) => {
     let isVoteExists;
     if (payload.ideaId) {
         isVoteExists = await prisma.vote.findUnique({
             where: {
                 voterId_ideaId: {
-                    voterId: payload.voterId,
+                    voterId: user.userId,
                     ideaId: payload.ideaId
                 }
             }
@@ -23,7 +19,7 @@ const createVote = async (payload: IVote) => {
         isVoteExists = await prisma.vote.findUnique({
             where: {
                 voterId_blogId: {
-                    voterId: payload.voterId,
+                    voterId: user.userId,
                     blogId: payload.blogId
 
                 }
@@ -57,40 +53,48 @@ const createVote = async (payload: IVote) => {
     }
     else {
         result = await prisma.vote.create({
-            data: payload
+            data: {
+                ...payload,
+                voterId: user.userId
+            }
         })
     }
-
 
     return result
 }
-const removeVote = async (payload: Partial<IVote>) => {
-    let result;
+const removeVote = async (payload: Partial<IVote>, user: IAuthUser) => {
+
+    let isVoteExists
     if (payload.ideaId) {
-        result = await prisma.vote.update({
+        isVoteExists = await prisma.vote.findUnique({
             where: {
                 voterId_ideaId: {
-                    voterId: payload.voterId!,
+                    voterId: user.userId,
                     ideaId: payload.ideaId
                 }
-            },
-            data: {
-                isDeleted: true
             }
         })
     } else if (payload.blogId) {
-        result = await prisma.vote.update({
+        isVoteExists = await prisma.vote.findUnique({
             where: {
                 voterId_blogId: {
-                    voterId: payload.voterId!,
+                    voterId: user.userId,
                     blogId: payload.blogId
                 }
-            },
-            data: {
-                isDeleted: true
             }
         })
     }
+    if (!isVoteExists) {
+        throw new Error("Vote is not found")
+    }
+    const result = await prisma.vote.update({
+        where: {
+            vote_id: isVoteExists.vote_id
+        },
+        data: {
+            isDeleted: true
+        }
+    })
     return result
 }
 export const voteServices = {

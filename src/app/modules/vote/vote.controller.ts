@@ -3,10 +3,11 @@ import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
 import { voteServices } from "./vote.services";
 import status from "http-status";
+import { IAuthUser } from "../user/user.interface";
 
 
-const createVote = catchAsync(async (req: Request, res: Response) => {
-    const result = await voteServices.createVote(req.body);
+const createVote = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
+    const result = await voteServices.createVote(req.body, req.user as IAuthUser);
     sendResponse(res, {
         statusCode: status.CREATED,
         success: true,
@@ -14,8 +15,8 @@ const createVote = catchAsync(async (req: Request, res: Response) => {
         data: result,
     });
 });
-const removeVote = catchAsync(async (req: Request, res: Response) => {
-    const result = await voteServices.removeVote(req.body);
+const removeVote = catchAsync(async (req: Request & { user?: IAuthUser }, res: Response) => {
+    const result = await voteServices.removeVote(req.body, req.user as IAuthUser);
     sendResponse(res, {
         statusCode: status.CREATED,
         success: true,
