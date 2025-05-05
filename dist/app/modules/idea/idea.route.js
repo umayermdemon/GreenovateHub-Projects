@@ -1,0 +1,20 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ideaRouter = void 0;
+const express_1 = require("express");
+const idea_controller_1 = require("./idea.controller");
+const validateRequest_1 = __importDefault(require("../../middlewares/validateRequest"));
+const idea_validation_1 = require("./idea.validation");
+const auth_1 = __importDefault(require("../../middlewares/auth"));
+const prisma_1 = require("../../../../generated/prisma");
+const router = (0, express_1.Router)();
+router.post("/create-idea", (0, auth_1.default)(prisma_1.userRole.member), (0, validateRequest_1.default)(idea_validation_1.ideaValidationSchemas.createIdeaValidationSchema), idea_controller_1.ideaControllers.createIdeaIntoDb);
+router.get("/", idea_controller_1.ideaControllers.getAllIdeasFromDb);
+router.get("/:id", idea_controller_1.ideaControllers.getSingleIdeaFromDb);
+router.get("/all-ideas/me", (0, auth_1.default)(prisma_1.userRole.member), idea_controller_1.ideaControllers.getAllIdeasForMemberFromDb);
+router.put("/:id", (0, auth_1.default)(prisma_1.userRole.member), (0, validateRequest_1.default)(idea_validation_1.ideaValidationSchemas.updateIdeaValidationSchema), idea_controller_1.ideaControllers.updateIdeaIntoDb);
+router.patch("/:id", (0, auth_1.default)(prisma_1.userRole.member, prisma_1.userRole.admin), idea_controller_1.ideaControllers.deleteIdeaFromDb);
+exports.ideaRouter = router;

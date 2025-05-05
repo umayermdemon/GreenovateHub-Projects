@@ -120,7 +120,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.UsersScalarFieldEnum = {
+exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
@@ -134,6 +134,60 @@ exports.Prisma.UsersScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.IdeaScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  description: 'description',
+  categoryId: 'categoryId',
+  images: 'images',
+  authorId: 'authorId',
+  problem_statement: 'problem_statement',
+  proposed_solution: 'proposed_solution',
+  isPremium: 'isPremium',
+  price: 'price',
+  status: 'status',
+  isDeleted: 'isDeleted',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BlogScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  images: 'images',
+  description: 'description',
+  authorId: 'authorId',
+  categoryId: 'categoryId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.VoteScalarFieldEnum = {
+  id: 'id',
+  voterId: 'voterId',
+  value: 'value',
+  ideaId: 'ideaId',
+  blogId: 'blogId',
+  isDeleted: 'isDeleted'
+};
+
+exports.Prisma.CommentScalarFieldEnum = {
+  id: 'id',
+  content: 'content',
+  commentorId: 'commentorId',
+  ideaId: 'ideaId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -143,13 +197,48 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
 exports.userRole = exports.$Enums.userRole = {
-  ADMIN: 'ADMIN',
-  MEMBER: 'MEMBER'
+  admin: 'admin',
+  member: 'member'
+};
+
+exports.categoryName = exports.$Enums.categoryName = {
+  energy: 'energy',
+  waste: 'waste',
+  transportation: 'transportation'
+};
+
+exports.ideaStatus = exports.$Enums.ideaStatus = {
+  pending: 'pending',
+  draft: 'draft',
+  published: 'published',
+  unpublished: 'unpublished'
+};
+
+exports.blogStatus = exports.$Enums.blogStatus = {
+  pending: 'pending',
+  draft: 'draft',
+  published: 'published',
+  unpublished: 'unpublished'
+};
+
+exports.voteValue = exports.$Enums.voteValue = {
+  up: 'up',
+  down: 'down'
 };
 
 exports.Prisma.ModelName = {
-  Users: 'Users'
+  User: 'User',
+  Category: 'Category',
+  Idea: 'Idea',
+  Blog: 'Blog',
+  Vote: 'Vote',
+  Comment: 'Comment'
 };
 
 /**

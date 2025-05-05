@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -14,20 +8,127 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Users {
-  id                  String   @unique @default(uuid())
+model User {
+  id                  String    @unique @default(uuid())
   name                String
-  email               String   @unique
-  role                userRole
+  email               String    @unique
+  role                userRole  @default(member)
   password            String
-  needsPasswordChange Boolean  @default(false)
+  needsPasswordChange Boolean   @default(true)
+  isDeleted           Boolean   @default(false)
   image               String
-  address             String
-  createdAt           DateTime @default(now())
-  updatedAt           DateTime @updatedAt
+  address             String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  Idea                Idea[]
+  Blog                Blog[]
+  Vote                Vote[]
+  Comment             Comment[]
+
+  @@map("users")
+}
+
+model Category {
+  id        String       @id @default(uuid())
+  name      categoryName
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  Idea      Idea[]
+  Blog      Blog[]
+
+  @@map("categories")
+}
+
+model Idea {
+  id                String     @id @default(uuid())
+  title             String
+  description       String
+  categoryId        String
+  category          Category   @relation(fields: [categoryId], references: [id])
+  images            String[]
+  authorId          String
+  author            User       @relation(fields: [authorId], references: [id])
+  problem_statement String
+  proposed_solution String
+  isPremium         Boolean    @default(false)
+  price             String
+  status            ideaStatus @default(pending)
+  isDeleted         Boolean    @default(false)
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  Vote              Vote[]
+  Comment           Comment[]
+
+  @@map("ideas")
+}
+
+model Blog {
+  id          String     @id @default(uuid())
+  title       String     @unique
+  images      String[]
+  description String
+  authorId    String
+  author      User       @relation(fields: [authorId], references: [id])
+  categoryId  String
+  category    Category   @relation(fields: [categoryId], references: [id])
+  status      blogStatus
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  Vote        Vote[]
+}
+
+model Vote {
+  id        String    @id @default(uuid())
+  voterId   String
+  value     voteValue
+  voter     User      @relation(fields: [voterId], references: [id])
+  ideaId    String?
+  idea      Idea?     @relation(fields: [ideaId], references: [id])
+  blogId    String?
+  blog      Blog?     @relation(fields: [blogId], references: [id])
+  isDeleted Boolean   @default(false)
+
+  @@unique([voterId, ideaId])
+  @@unique([voterId, blogId])
+}
+
+model Comment {
+  id          String   @id @default(uuid())
+  content     String
+  commentorId String
+  commentor   User     @relation(fields: [commentorId], references: [id])
+  ideaId      String
+  idea        Idea     @relation(fields: [ideaId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum ideaStatus {
+  pending
+  draft
+  published
+  unpublished
+}
+
+enum blogStatus {
+  pending
+  draft
+  published
+  unpublished
+}
+
+enum categoryName {
+  energy
+  waste
+  transportation
 }
 
 enum userRole {
-  ADMIN
-  MEMBER
+  admin
+  member
+}
+
+enum voteValue {
+  up
+  down
 }
