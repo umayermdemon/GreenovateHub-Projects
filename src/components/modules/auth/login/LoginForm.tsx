@@ -10,22 +10,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
 import { loginValidation } from "./loginValidation";
-import { useRouter, useSearchParams } from "next/navigation";
-import { loginUser } from "@/services/auth/indes";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-
-type LoginFormProps = {
-  email: string;
-  password: string;
-};
+import { loginUser } from "@/services/auth/indes";
 
 const LoginForm = () => {
-  const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirectPath");
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(loginValidation),
@@ -35,7 +28,7 @@ const LoginForm = () => {
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit: SubmitHandler<LoginFormProps> = async (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("Signing....");
     try {
       const res = await loginUser(data);
@@ -45,11 +38,7 @@ const LoginForm = () => {
         toast.success(res?.message, {
           id: toastId,
         });
-        if (redirect) {
-          router.push(redirect);
-        } else {
-          router.push("/");
-        }
+        router.push("/");
       }
       console.log(res);
     } catch (err) {
