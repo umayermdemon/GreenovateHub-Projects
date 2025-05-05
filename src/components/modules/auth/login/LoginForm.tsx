@@ -1,13 +1,5 @@
 "use client";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -17,6 +9,7 @@ import { loginValidation } from "./loginValidation";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { loginUser } from "@/services/auth/indes";
+import { FormInput } from "@/components/shared/FormInput";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -60,47 +53,19 @@ const LoginForm = () => {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
+          <FormInput
             control={form.control}
+            label="Email"
             name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-bold text-lg sm:text-xl text-gray-500">
-                  Email
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Write your email here"
-                    {...field}
-                    value={field.value || ""}
-                    type="email"
-                    className="p-4 sm:p-6"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Write your email here"
+            type="email"
           />
-          <FormField
+          <FormInput
             control={form.control}
+            label="Password"
             name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-bold text-lg sm:text-xl">
-                  Password
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Write your password here"
-                    {...field}
-                    value={field.value || ""}
-                    type="password"
-                    className="p-4 sm:p-6"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Write your password here"
+            type="password"
           />
 
           <div className="flex items-center justify-center mb-4">
