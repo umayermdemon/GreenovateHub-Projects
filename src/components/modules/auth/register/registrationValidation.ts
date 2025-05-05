@@ -14,4 +14,6 @@ export const registrationValidation = z.object({
   passwordConfirm: z
     .string({ required_error: "Password confirmation is required" })
     .min(8, "Password must be at least 8 characters"),
+  city: z.string().min(1, "City is required"),
+  address: z.string().nonempty("Address is required"),
 });

@@ -1,31 +1,17 @@
 "use client";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
 import { loginValidation } from "./loginValidation";
-import { useRouter, useSearchParams } from "next/navigation";
-import { loginUser } from "@/services/auth/indes";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-
-type LoginFormProps = {
-  email: string;
-  password: string;
-};
+import { loginUser } from "@/services/auth/indes";
+import { FormInput } from "@/components/shared/FormInput";
 
 const LoginForm = () => {
-  const searchParams = useSearchParams();
-  const redirect = searchParams.get("redirectPath");
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(loginValidation),
@@ -35,7 +21,7 @@ const LoginForm = () => {
     formState: { isSubmitting },
   } = form;
 
-  const onSubmit: SubmitHandler<LoginFormProps> = async (data) => {
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("Signing....");
     try {
       const res = await loginUser(data);
@@ -45,11 +31,7 @@ const LoginForm = () => {
         toast.success(res?.message, {
           id: toastId,
         });
-        if (redirect) {
-          router.push(redirect);
-        } else {
-          router.push("/");
-        }
+        router.push("/");
       }
       console.log(res);
     } catch (err) {
@@ -71,47 +53,19 @@ const LoginForm = () => {
 
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
+          <FormInput
             control={form.control}
+            label="Email"
             name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-bold text-lg sm:text-xl text-gray-500">
-                  Email
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Write your email here"
-                    {...field}
-                    value={field.value || ""}
-                    type="email"
-                    className="p-4 sm:p-6"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Write your email here"
+            type="email"
           />
-          <FormField
+          <FormInput
             control={form.control}
+            label="Password"
             name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className="font-bold text-lg sm:text-xl">
-                  Password
-                </FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder="Write your password here"
-                    {...field}
-                    value={field.value || ""}
-                    type="password"
-                    className="p-4 sm:p-6"
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            placeholder="Write your password here"
+            type="password"
           />
 
           <div className="flex items-center justify-center mb-4">
