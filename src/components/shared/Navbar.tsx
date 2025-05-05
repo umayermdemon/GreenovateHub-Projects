@@ -42,9 +42,11 @@ const Navbar = () => {
             My Profile <ChevronDown size={16} />
           </button>
         ) : (
-          <button className="bg-green-500 text-white px-4 py-2 rounded-md">
-            Login
-          </button>
+          <Link
+            href="/login"
+            className="bg-green-500 text-white px-4 py-2 rounded-md font-semibold cursor-pointer">
+            Sign In
+          </Link>
         )}
       </nav>
     </div>
