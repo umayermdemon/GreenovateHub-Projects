@@ -17,6 +17,7 @@ import { createIdea } from "@/services/idea";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const tabOrder = ["general", "solution", "availability"];
 
@@ -74,7 +75,10 @@ const CreateIdea = () => {
         }
         try{
             const res=await createIdea(ideaData);
-            console.log(res);
+            if(res.success){
+                form.reset();
+                toast.success(res.message)
+            }
         }catch(error){
             console.log(error)
         }

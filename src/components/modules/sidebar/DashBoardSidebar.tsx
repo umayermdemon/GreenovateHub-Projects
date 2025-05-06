@@ -42,7 +42,6 @@ const DashboardSidebar = () => {
     try {
         if (accessToken) {
             decoded = jwtDecode<CustomJwtPayload>(accessToken);
-            console.log(decoded);
             role = decoded?.role;
         }
     } catch (error) {
