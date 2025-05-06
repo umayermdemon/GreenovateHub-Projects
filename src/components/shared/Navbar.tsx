@@ -4,9 +4,10 @@ import { ChevronDown } from "lucide-react";
 import Logo from "./Logo";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 const Navbar = () => {
-  const user = false;
+  const { user } = useUser();
   const pathname = usePathname();
   const menuItems = [
     { label: "Home", path: "/" },

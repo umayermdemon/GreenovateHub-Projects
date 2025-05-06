@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Settings2, SquareTerminal } from "lucide-react";
+import { Leaf, Settings2, SquareTerminal } from "lucide-react";
 
 import {
   Sidebar,
@@ -14,6 +14,7 @@ import {
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
 import Link from "next/link";
+import Logo from "@/components/shared/Logo";
 
 // This is sample data.
 const data = {
@@ -31,7 +32,7 @@ const data = {
       items: [
         {
           title: "Profile",
-          url: "/profile",
+          url: "/member/dashboard/profile",
         },
       ],
     },
@@ -44,12 +45,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <SidebarMenuButton size="lg" asChild>
           <Link href="/">
-            <div className="flex items-center justify-center">
-              {/* <Logo /> */}
+            <div className="flex items-center justify-center gap-2">
+              <Leaf className="text-green-600" />
+              <Logo />
             </div>
-            <div className="grid flex-1 text-left text-sm leading-tight">
+            {/* <div className="grid flex-1 text-left text-sm leading-tight">
               <h2 className="font-bold text-xl">Green Circle</h2>
-            </div>
+            </div> */}
           </Link>
         </SidebarMenuButton>
       </SidebarHeader>

@@ -7,7 +7,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { registrationValidation } from "./registrationValidation";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FormInput } from "@/components/shared/FormInput";
 import GCImageUploader from "@/components/ui/core/GCImageUploader";
 import { useState } from "react";
@@ -25,6 +25,10 @@ const RegisterForm = () => {
   const {
     formState: { isSubmitting },
   } = form;
+
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams.get("redirectPath") || "/";
+
   const password = form.watch("password");
   const passwordConfirm = form.watch("passwordConfirm");
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
@@ -51,7 +55,7 @@ const RegisterForm = () => {
         toast.error(res?.message, { id: toastId });
       } else {
         toast.success(res?.message, { id: toastId });
-        router.push("/");
+        router.push(redirectPath);
       }
     } catch (err) {
       console.log(err);
