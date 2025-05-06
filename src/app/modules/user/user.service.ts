@@ -1,3 +1,5 @@
+import config from "../../config";
+import { jwtHelpers } from "../../utils/jwt.helpers";
 import { prisma } from "../../utils/prisma";
 import { IAuthUser, IUser } from "./user.interface";
 import bcrypt from "bcrypt";
@@ -12,11 +14,22 @@ const registerUser = async (payload: IUser) => {
       email: payload.email,
       password: hashedPassword,
       address: payload.address,
-      role: payload.role,
       image: payload.image,
     },
   });
-  return result;
+  if (!result) {
+    throw new Error("User not created");
+  }
+  const accessToken = jwtHelpers.generateToken(
+    {
+      email: result.email,
+      role: result.role,
+      userId: result.id,
+    },
+    config.jwt_secret as string,
+    config.jwt_expires_in as string
+  );
+  return { result, accessToken };
 };
 
 const getMyProfile = async (user: IAuthUser) => {

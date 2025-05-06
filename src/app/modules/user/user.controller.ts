@@ -6,12 +6,12 @@ import { userServices } from "./user.service";
 import { IAuthUser } from "./user.interface";
 
 const registerUser = catchAsync(async (req: Request, res: Response) => {
-  const result = await userServices.registerUser(req.body);
+  const { result, accessToken } = await userServices.registerUser(req.body);
   sendResponse(res, {
     statusCode: status.CREATED,
     success: true,
     message: "User Registered Successfully",
-    data: result,
+    data: { data: result, accessToken },
   });
 });
 const getMyProfile = catchAsync(

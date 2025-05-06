@@ -1,4 +1,4 @@
-import { optional, z } from "zod";
+import { z } from "zod";
 
 export const userRoleEnum = z.enum(["admin", "member"]);
 
@@ -7,7 +7,6 @@ export const createUserValidationSchema = z.object({
     required_error: "Name is required",
     invalid_type_error: "Name must be a string",
   }),
-  role: userRoleEnum,
   email: z
     .string({
       required_error: "Email is required",
