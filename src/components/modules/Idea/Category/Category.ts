@@ -4,4 +4,13 @@ export const categoryOptions = [
     { label: "Transportation", value: "transportation" }
 ];
 
-export const tabs = ["details", "types", "schedule", "tickets"];
+export const statusOptions = [
+    { label: "Pending", value: "pending" },
+    { label: "Draft", value: "draft" },
+    { label: "Published", value: "published" },
+    { label: "Unpublished", value: "unpublished" }
+];
+export const priceOptions = [
+    { label: "Paid", value: "paid" },
+    { label: "Unpaid", value: "unpaid" }
+];
