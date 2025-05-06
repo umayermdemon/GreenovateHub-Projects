@@ -7,19 +7,10 @@ import { ideaSearchAbleFields } from "./idea.constant";
 import { TIdeaFilterRequest } from "./idea.interface";
 
 const createIdea = async (payload: Idea, user: IAuthUser) => {
-
+  console.log(payload);
   if (!user.userId) {
     throw new Error("User not found");
   }
-  const isCategoryExists = await prisma.category.findUnique({
-    where: {
-      id: payload.categoryId,
-    },
-  });
-  if (!isCategoryExists) {
-    throw new Error("Category not found");
-  }
-
   const result = await prisma.idea.create({
     data: {
       ...payload,
@@ -34,7 +25,7 @@ const createIdea = async (payload: Idea, user: IAuthUser) => {
 };
 
 const getAllIdeas = async (filters: TIdeaFilterRequest, paginationOptions: IPaginationOptions) => {
-  const { searchTerm, category, author, ...filterData } = filters;
+  const { searchTerm, author, ...filterData } = filters;
   const { limit, page, skip, sortBy, sortOrder } = calculatePagination(paginationOptions)
   const andCondition: Prisma.IdeaWhereInput[] = [];
 
@@ -46,16 +37,6 @@ const getAllIdeas = async (filters: TIdeaFilterRequest, paginationOptions: IPagi
           mode: 'insensitive'
         }
       }))
-    })
-  }
-
-  if (category) {
-    andCondition.push({
-      category: {
-        name: {
-          equals: category
-        }
-      }
     })
   }
   if (author) {
@@ -87,7 +68,6 @@ const getAllIdeas = async (filters: TIdeaFilterRequest, paginationOptions: IPagi
     orderBy: sortBy && sortOrder ? { [sortBy]: sortOrder } : { createdAt: 'desc' },
     include: {
       Vote: true,
-      category: true,
       author: true
     },
   });
@@ -161,7 +141,6 @@ const getMyIdeas = async (user: IAuthUser) => {
       isDeleted: false,
     },
     include: {
-      category: true,
       author: true,
     },
   });

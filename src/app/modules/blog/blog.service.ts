@@ -21,7 +21,7 @@ const writeBlog = async (payload: Blog, user: IAuthUser) => {
 
 
 const getAllBlogs = async (filters: TBlogFilterRequest, paginationOptions: IPaginationOptions) => {
-  const { searchTerm, author, category, ...filterData } = filters;
+  const { searchTerm, author, ...filterData } = filters;
   const { page, limit, skip, sortBy, sortOrder } = calculatePagination(paginationOptions);
   const andCondition: Prisma.BlogWhereInput[] = [];
 
@@ -33,15 +33,6 @@ const getAllBlogs = async (filters: TBlogFilterRequest, paginationOptions: IPagi
           mode: 'insensitive'
         }
       }))
-    })
-  }
-  if (category) {
-    andCondition.push({
-      category: {
-        name: {
-          equals: category
-        }
-      }
     })
   }
   if (author) {

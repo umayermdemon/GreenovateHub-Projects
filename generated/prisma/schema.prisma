@@ -28,34 +28,22 @@ model User {
   @@map("users")
 }
 
-model Category {
-  id        String       @id @default(uuid())
-  name      categoryName
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  Idea      Idea[]
-  Blog      Blog[]
-
-  @@map("categories")
-}
-
 model Idea {
-  id                String     @id @default(uuid())
+  id                String       @id @default(uuid())
   title             String
   description       String
-  categoryId        String
-  category          Category   @relation(fields: [categoryId], references: [id])
+  category          categoryName
   images            String[]
   authorId          String
-  author            User       @relation(fields: [authorId], references: [id])
+  author            User         @relation(fields: [authorId], references: [id])
   problem_statement String
   proposed_solution String
-  isPremium         Boolean    @default(false)
+  isPremium         Boolean      @default(false)
   price             String
-  status            ideaStatus @default(pending)
-  isDeleted         Boolean    @default(false)
-  createdAt         DateTime   @default(now())
-  updatedAt         DateTime   @updatedAt
+  status            ideaStatus   @default(pending)
+  isDeleted         Boolean      @default(false)
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
   Vote              Vote[]
   Comment           Comment[]
 
@@ -63,18 +51,18 @@ model Idea {
 }
 
 model Blog {
-  id          String     @id @default(uuid())
-  title       String     @unique
+  id          String       @id @default(uuid())
+  title       String       @unique
   images      String[]
   description String
   authorId    String
-  author      User       @relation(fields: [authorId], references: [id])
-  categoryId  String
-  category    Category   @relation(fields: [categoryId], references: [id])
+  author      User         @relation(fields: [authorId], references: [id])
+  category    categoryName
   status      blogStatus
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
   Vote        Vote[]
+  categoryId  String?
 }
 
 model Vote {

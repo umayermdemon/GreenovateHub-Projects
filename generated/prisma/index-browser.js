@@ -134,18 +134,11 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.CategoryScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
 exports.Prisma.IdeaScalarFieldEnum = {
   id: 'id',
   title: 'title',
   description: 'description',
-  categoryId: 'categoryId',
+  category: 'category',
   images: 'images',
   authorId: 'authorId',
   problem_statement: 'problem_statement',
@@ -164,10 +157,11 @@ exports.Prisma.BlogScalarFieldEnum = {
   images: 'images',
   description: 'description',
   authorId: 'authorId',
-  categoryId: 'categoryId',
+  category: 'category',
   status: 'status',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  categoryId: 'categoryId'
 };
 
 exports.Prisma.VoteScalarFieldEnum = {
@@ -234,7 +228,6 @@ exports.voteValue = exports.$Enums.voteValue = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Category: 'Category',
   Idea: 'Idea',
   Blog: 'Blog',
   Vote: 'Vote',
