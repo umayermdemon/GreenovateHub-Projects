@@ -40,7 +40,7 @@ const GFormInput = ({
     return (
         <div className="relative">
             {icon && (
-                <div className="absolute left-3 top-3/4 h-4 w-4 -translate-y-1/2 text-muted-foreground pb-5">
+                <div className="absolute left-3 top-3/4 h-4 w-4 -translate-y-1/2 text-muted-foreground ">
                     {icon}
                 </div>
             )}
@@ -68,7 +68,7 @@ const GFormInput = ({
                                         onClick={handleTogglePassword}
                                         className="absolute right-3 top-3/4 transform -translate-y-1/2 text-muted-foreground"
                                     >
-                                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                                        {showPassword ? <EyeOff className="cursor-pointer" size={20} /> : <Eye className="cursor-pointer" size={20} />}
                                     </button>
                                 )}
                             </div>
