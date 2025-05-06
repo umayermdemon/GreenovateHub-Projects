@@ -6,7 +6,7 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
 import { loginValidation } from "./loginValidation";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { loginUser } from "@/services/auth/indes";
 import { FormInput } from "@/components/shared/FormInput";
@@ -16,6 +16,9 @@ const LoginForm = () => {
   const form = useForm({
     resolver: zodResolver(loginValidation),
   });
+
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams.get("redirectPath") || "/";
 
   const {
     formState: { isSubmitting },
@@ -31,7 +34,9 @@ const LoginForm = () => {
         toast.success(res?.message, {
           id: toastId,
         });
-        router.push("/");
+        if (redirectPath) {
+          router.push(redirectPath);
+        }
       }
       console.log(res);
     } catch (err) {
@@ -94,7 +99,7 @@ const LoginForm = () => {
       <p className="text-center mt-4 text-sm sm:text-md text-[#1b2a5e]">
         Don&apos;t have an account?{" "}
         <Link
-          href="/register"
+          href={`/register?redirectPath=${encodeURIComponent(redirectPath)}`}
           className="hover:text-blue-600 hover:underline font-medium">
           Sign up here
         </Link>
