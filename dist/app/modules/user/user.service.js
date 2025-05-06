@@ -13,6 +13,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userServices = void 0;
+const config_1 = __importDefault(require("../../config"));
+const jwt_helpers_1 = require("../../utils/jwt.helpers");
 const prisma_1 = require("../../utils/prisma");
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const registerUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
@@ -24,11 +26,18 @@ const registerUser = (payload) => __awaiter(void 0, void 0, void 0, function* ()
             email: payload.email,
             password: hashedPassword,
             address: payload.address,
-            role: payload.role,
             image: payload.image,
         },
     });
-    return result;
+    if (!result) {
+        throw new Error("User not created");
+    }
+    const accessToken = jwt_helpers_1.jwtHelpers.generateToken({
+        email: result.email,
+        role: result.role,
+        userId: result.id,
+    }, config_1.default.jwt_secret, config_1.default.jwt_expires_in);
+    return { result, accessToken };
 });
 const getMyProfile = (user) => __awaiter(void 0, void 0, void 0, function* () {
     const userData = yield prisma_1.prisma.user.findUnique({
