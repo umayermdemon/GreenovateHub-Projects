@@ -14,22 +14,26 @@ import { createBlog } from "@/services/blog";
 import { Label } from "@radix-ui/react-label";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const CreateBlog = () => {
     const [ImageUrls, setImageUrls] = useState<File | File[]>([]);
+    const [previewImages, setPreviewImages] = useState<(string | File)[]>([]);
+    console.log(previewImages);
     const { uploadImagesToCloudinary } = useImageUploader();
     const form = useForm({
         defaultValues: {
             title: "",
             description: "",
             category: "",
-            status:""
+            status: ""
         }
     });
     const { handleSubmit, formState: { isSubmitting } } = form;
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         const images = await uploadImagesToCloudinary(ImageUrls, true);
-        const { title, description, category ,status} = data;
+
+        const { title, description, category, status } = data;
         const blogData = {
             title,
             description,
@@ -39,16 +43,21 @@ const CreateBlog = () => {
         }
         try {
             const res = await createBlog(blogData);
-            console.log(res);
+            if (res.success) {
+                form.reset();
+                setImageUrls([]);
+                setPreviewImages([]);
+                toast.success(res.message)
+            }
         } catch (error) {
             console.log(error);
         }
     }
     return (
-        <div>
+        <div className=" lg:w-[1000px] lg:mx-12 my-5">
             <Form {...form}>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="flex items-center justify-between">
+                    <div className=" flex items-center justify-between">
                         <PageHeader
                             title="Share Your Thoughts"
                             description="Have a unique idea or experience to share? Put it into words and inspire others with your blog!"
@@ -57,7 +66,7 @@ const CreateBlog = () => {
                     </div>
                     <Card>
                         <CardHeader>
-                            <CardTitle>Start Writing Your Blog</CardTitle>
+                            <CardTitle className="text-green-500">Start Writing Your Blog</CardTitle>
                             <CardDescription>
                                 Add a catchy title and give readers a glimpse of what your blog is about.
                             </CardDescription>
@@ -94,9 +103,11 @@ const CreateBlog = () => {
                                 className="w-full border-green-500 hover:border- mb-4 hover:border-amber-400 rounded-none"
                             />
                             <div className="space-y-2">
-                                <Label htmlFor="image">Event Banner *</Label>
+                                <Label htmlFor="image" className="font-semibold text-[14px]">Images <span className="text-green-500 text-xl relative top-0.5">*</span></Label>
                                 <div className="border border-dashed p-12 text-center border-green-500 hover:border-amber-400 transition-colors cursor-pointer">
                                     <GFormImageUpload
+                                        setPreviewImages={setPreviewImages}
+                                        previewImages={previewImages}
                                         control={form.control}
                                         name="images"
                                         multiple={true}
