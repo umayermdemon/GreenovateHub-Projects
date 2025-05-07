@@ -1,116 +1,99 @@
 "use client";
 import { Form } from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import GFormInput from "@/components/shared/Form/GFormInput";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { Loader } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
-import { loginValidation } from "./loginValidation";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Button } from "@/components/ui/button";
 import { loginUser } from "@/services/auth";
-import { FormInput } from "@/components/shared/FormInput";
 
-const LoginForm = () => {
-  const router = useRouter();
+const RegisterForm = () => {
   const form = useForm({
-    resolver: zodResolver(loginValidation),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
-
-  const searchParams = useSearchParams();
-  const redirectPath = searchParams.get("redirectPath") || "/";
-
   const {
     formState: { isSubmitting },
   } = form;
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    const toastId = toast.loading("Signing....");
+    const { email, password } = data;
+    const loginData = {
+      email,
+      password,
+    };
     try {
-      const res = await loginUser(data);
-      if (!res.success) {
-        toast.error(res?.message, { id: toastId });
-      } else {
-        toast.success(res?.message, {
-          id: toastId,
-        });
-        if (redirectPath) {
-          router.push(redirectPath);
-        }
+      const res = await loginUser(loginData);
+      toast.success(res.message);
+      if (res.success) {
+        window.location.href = "/";
       }
-      console.log(res);
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
   };
-
+  const commonWidth = "w-[400px]";
   return (
-    <div className="max-w-xl w-full mx-auto px-4 sm:px-6 lg:px-8 bg-[#f1f7fe]">
-      <div className="absolute top-4 left-4 z-10 block md:hidden">
-        <Link href="/" className="text-md text-[#1b2a5e] hover:underline ">
-          ← Home
-        </Link>
-      </div>
-      <div className="flex flex-col gap-2 items-center justify-center mb-12">
-        <h1 className="text-4xl sm:text-5xl font-bold text-[#1b2a5e] text-center">
-          Welcome To
-        </h1>
-        <div className=" sm:text-5xl font-bold text-center">
-          <span className="text-green-500 text-4xl">Green</span>
-          <span className="text-[#1b2a5e] text-4xl">Circle</span>
-        </div>
-      </div>
-
+    <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormInput
-            control={form.control}
-            label="Email"
-            name="email"
-            placeholder="Write your email here"
-            type="email"
-          />
-          <FormInput
-            control={form.control}
-            label="Password"
-            name="password"
-            placeholder="Write your password here"
-            type="password"
-          />
-
-          <div className="flex items-center justify-center mb-4">
-            <Button
-              type="submit"
-              className="w-full sm:w-36 text-base bg-blue-200 text-[#1b2a5e] font-semibold p-4 sm:p-6 rounded hover:bg-blue-300 cursor-pointer">
-              {isSubmitting ? "Signing...." : "Sign In"}
-            </Button>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 w-[480px]">
+          <div
+            className={`space-y-1 border-2 border-green-300 border-b-0 rounded-2xl pt-6`}>
+            <h1 className="text-center text-2xl text-green-500">
+              Enter You Credentials
+            </h1>
+            <div className="w-full flex justify-center">
+              <GFormInput
+                name="email"
+                label="Email"
+                placeholder="Email"
+                control={form.control}
+                className={`focus:outline-none rounded-none border ${commonWidth} border-green-500`}
+                required
+              />
+            </div>
+            <div className="w-full flex justify-center ">
+              <GFormInput
+                name="password"
+                label="Password"
+                placeholder="********"
+                control={form.control}
+                className={`focus:outline-none rounded-none ${commonWidth}  border border-green-500`}
+                type="password"
+                required
+              />
+            </div>
+            <div className="flex justify-center">
+              <Button
+                type="submit"
+                className={`${commonWidth}  rounded-none mt-3 text-white bg-green-500 cursor-pointer`}>
+                {isSubmitting ? <Loader className="animate-spin" /> : "Login"}
+              </Button>
+            </div>
+            <h1 className="text-center text-green-500">
+              New here?{" "}
+              <Link className="text-black" href="/register">
+                SignUp
+              </Link>
+            </h1>
+            <p className="text-center">or</p>
+            <div className="flex justify-center">
+              <Button className="bg-amber-300 text-amber-700 cursor-pointer">
+                <FcGoogle className="text-xl" />
+                Google
+              </Button>
+            </div>
           </div>
         </form>
       </Form>
-
-      <div className="my-6 text-center">
-        <div className="border-t border-gray-300 mb-4" />
-        <p>OR</p>
-        <p className="text-sm text-[#1b2a5e] mt-2">Sign up with your email</p>
-      </div>
-
-      <div className="flex items-center justify-center mb-4">
-        <Button className="flex items-center justify-center w-full sm:w-52 p-4 sm:p-6 bg-pink-100 hover:bg-pink-200 text-pink-700 font-semibold rounded cursor-pointer">
-          <FcGoogle />
-          Sign Up With Google
-        </Button>
-      </div>
-
-      <p className="text-center mt-4 text-sm sm:text-md text-[#1b2a5e]">
-        Don&apos;t have an account?{" "}
-        <Link
-          href={`/register?redirectPath=${encodeURIComponent(redirectPath)}`}
-          className="hover:text-blue-600 hover:underline font-medium">
-          Sign up here
-        </Link>
-      </p>
     </div>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

@@ -4,24 +4,43 @@ import Logo from "./Logo";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useUser } from "@/context/UserContext";
-
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { logoutUser } from "@/services/auth";
-import { protectedRoutes } from "@/const";
-import { LogOut } from "lucide-react";
-import Image from "next/image";
-
-interface NavbarProps {
-  userData: {
-    image: string;
-  };
-}
-
-const Navbar = ({ userData }: NavbarProps) => {
-  const { user, setIsLoading } = useUser();
-  console.log(userData);
+import { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog";
+import GFormInput from "./Form/GFormInput";
+import { useForm } from "react-hook-form";
+import { TUserProfile } from "@/types/user.type";
+import {
+  Info,
+  LayoutDashboard,
+  LogOut,
+  Palette,
+  PencilLine,
+} from "lucide-react";
+import { Button } from "../ui/button";
+import { getMyProfile, logoutUser } from "@/services/auth";
+const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const { user } = useUser();
+  const form = useForm();
   const pathname = usePathname();
-  const router = useRouter();
+  const [myProfile, setMyProfile] = useState<TUserProfile | null>(null);
+
+  useEffect(() => {
+    async function fetchProfile() {
+      const { data } = await getMyProfile();
+      setMyProfile(data);
+    }
+    fetchProfile();
+  }, []);
   const menuItems = [
     { label: "Home", path: "/" },
     { label: "Ideas", path: "/ideas" },
@@ -29,18 +48,17 @@ const Navbar = ({ userData }: NavbarProps) => {
     { label: "About Us", path: "/about" },
     { label: "Contact", path: "/contact" },
   ];
-
-  const handleLogout = () => {
-    logoutUser();
-    setIsLoading(true);
-    if (protectedRoutes.some((route) => pathname.match(route))) {
-      return router.push("/");
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      window.location.href = "/login";
+    } catch (error) {
+      console.error("Logout failed:", error);
     }
   };
-
   return (
     <div className="bg-[#f3f8fd]">
-      <nav className="p-6 flex items-center justify-between container mx-auto">
+      <nav className="p-6 flex items-center justify-between container mx-auhref">
         {/* Logo */}
         <Logo />
 
@@ -60,45 +78,109 @@ const Navbar = ({ userData }: NavbarProps) => {
         </ul>
 
         {user ? (
-          <Popover>
-            <PopoverTrigger asChild className="rounded-full">
-              <Image
-                src={userData?.image}
-                alt="User Avatar"
-                width={30}
-                height={30}
-                className="rounded-full cursor-pointer object-fill h-12 w-12 border-2 border-green-600"
-              />
-            </PopoverTrigger>
-            <PopoverContent className="w-40">
-              <div className="grid gap-4">
-                <ul className="py-2">
-                  <li>
-                    <Link
-                      href={`/${user?.role}/dashboard`}
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      Dashboard
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/profile"
-                      className="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                      My Profile
-                    </Link>
-                  </li>
-                  <li>
-                    <button
+          <div>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button>Profile</Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-80 border border-sky-500bg-gradient-href-b from-sky-400 href-gray-100 mr-3 mt-2">
+                <div className="">
+                  <div className="flex justify-center"></div>
+                  <h1 className="text-xl font-semibold text-center py-2">
+                    {myProfile?.name}
+                  </h1>
+                  <div className="flex justify-center">
+                    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+                      <DialogTrigger asChild>
+                        <Button className="bg-green-500"> Edit Profile</Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[425px]">
+                        <DialogHeader>
+                          <DialogTitle>Edit profile</DialogTitle>
+                          <DialogDescription>
+                            Make changes href your profile here. Click save when
+                            you re done.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="grid gap-4 py-4">
+                          <form>
+                            <div className="mb-4 flex ">
+                              <p className="text-left w-[65px] mt-1">Name</p>
+                              <GFormInput
+                                name="name"
+                                placeholder="Name"
+                                control={form.control}
+                                className=" w-[300px] lg:px-3 py-2 leading-tight text-gray-700 border rounded border-gray-300  appearance-none focus:outline-none focus:border-black bg-white"
+                              />
+                            </div>
+                            <div className="mb-4 flex ">
+                              <p className="text-left mt-1 w-[65px]">Image</p>
+                              <GFormInput
+                                name="image"
+                                placeholder="Name"
+                                control={form.control}
+                                className=" w-[300px] lg:px-3 py-2 leading-tight text-gray-700 border rounded border-gray-300  appearance-none focus:outline-none focus:border-black bg-white"
+                              />
+                            </div>
+                            <div className="mb-4 flex ">
+                              <p className="text-left mt-1 w-[65px]">Email</p>
+                              <GFormInput
+                                name="email"
+                                placeholder="Email"
+                                control={form.control}
+                                className=" w-[300px] lg:px-3 py-2 leading-tight text-gray-700 border rounded border-gray-300  appearance-none focus:outline-none focus:border-black bg-white"
+                              />
+                            </div>
+
+                            <DialogFooter>Save Changes</DialogFooter>
+                          </form>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  </div>
+                </div>
+                <div className="block">
+                  <ul className="divide-y divide-gray-300  mt-2">
+                    <li className="hover:bg-green-500 hover:text-white py-1 px-2 w-full">
+                      <Link
+                        className={`flex gap-1`}
+                        href="/cushrefmer/all-products">
+                        {" "}
+                        <Palette className="relative top-1" size={18} /> All
+                        Ideas
+                      </Link>
+                    </li>
+                    <li className="hover:bg-green-500 hover:text-white py-1 px-2 w-full">
+                      <Link
+                        className={`flex gap-1`}
+                        href={`/${user?.role}/dashboard`}>
+                        <LayoutDashboard className="relative top-1" size={18} />{" "}
+                        Dashboard
+                      </Link>
+                    </li>
+                    <li className="hover:bg-green-500 hover:text-white py-1 px-2 w-full">
+                      <Link className={`flex gap-1`} href="/cushrefmer/about">
+                        <Info className="relative top-1" size={18} /> About
+                      </Link>
+                    </li>
+                    <li className="hover:bg-green-500 hover:text-white py-1 px-2 w-full">
+                      <Link
+                        className={`flex gap-1`}
+                        href="/cushrefmer/my-orders">
+                        <PencilLine className="relative top-1" size={18} />{" "}
+                        Blogs
+                      </Link>
+                    </li>
+                    <li
                       onClick={handleLogout}
-                      className="w-full px-4 py-2 flex items-center justify-start cursor-pointer text-red-700 hover:bg-red-100">
-                      <LogOut />
-                      Logout
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </PopoverContent>
-          </Popover>
+                      className="hover:bg-green-500  hover:text-white py-1 px-2 w-full flex cursor-pointer">
+                      <LogOut className="relative top-1" size={18} /> Logout
+                    </li>
+                  </ul>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
         ) : (
           <Link
             href="/login"

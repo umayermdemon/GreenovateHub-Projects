@@ -1,9 +1,14 @@
 "use client";
 
-import { categoryOptions } from "@/components/modules/Idea/Category/Category";
+import {
+  categoryOptions,
+  priceOptions,
+  statusOptions,
+} from "@/components/modules/Idea/Category/Category";
 import GFormImageUpload from "@/components/shared/Form/GFormImageUploader";
 import GFormInput from "@/components/shared/Form/GFormInput";
 import GFormSelect from "@/components/shared/Form/GFormSelect";
+import GFormTextarea from "@/components/shared/Form/GFormTextarea";
 import { PageHeader } from "@/components/singles/PageHeader";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,19 +22,39 @@ import {
 import { Form } from "@/components/ui/form";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import useImageUploader from "@/components/utils/useImageUploader";
+import { useUser } from "@/context/UserContext";
+import { createIdea } from "@/services/idea";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-const tabOrder = ["general", "solution", "info"];
+const tabOrder = ["general", "solution", "availability"];
 
 const CreateIdea = () => {
+  const { user } = useUser();
   const [activeTab, setActiveTab] = useState("general");
   const [mounted, setMounted] = useState(false);
   const [ImageUrls, setImageUrls] = useState<File | File[]>([]);
-  console.log(ImageUrls);
-  const form = useForm();
-  const {} = form;
+  const { uploadImagesToCloudinary } = useImageUploader();
+  const form = useForm({
+    defaultValues: {
+      title: "",
+      category: "",
+      problem: "",
+      solution: "",
+      description: "",
+      ideaType: "",
+      price: "",
+      status: "",
+    },
+  });
+  const {
+    watch,
+    setValue,
+    formState: { isSubmitting },
+  } = form;
 
   const goToNext = () => {
     const currentIndex = tabOrder.indexOf(activeTab);
@@ -40,12 +65,47 @@ const CreateIdea = () => {
   useEffect(() => {
     setMounted(true);
   }, []);
+  const isPaid = watch("ideaType");
+  useEffect(() => {
+    if (!isPaid) {
+      setValue("price", "0");
+    }
+  }, [setValue, isPaid]);
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
-    // Handle form submission
+    const {
+      title,
+      description,
+      category,
+      problem,
+      solution,
+      ideaType,
+      price,
+      status,
+    } = data;
+    const images = await uploadImagesToCloudinary(ImageUrls, true);
+    const ideaData = {
+      title,
+      description,
+      category,
+      images,
+      problem_statement: problem,
+      proposed_solution: solution,
+      isPremium: ideaType === "paid" ? true : false,
+      price,
+      status,
+      authorId: user?.userId,
+    };
+    try {
+      const res = await createIdea(ideaData);
+      if (res.success) {
+        form.reset();
+        toast.success(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
-
   if (!mounted) return null; // Or a loading spinner
   return (
     <div className="min-h-screen flex flex-col">
@@ -57,7 +117,7 @@ const CreateIdea = () => {
       </div>
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <Form {...form}>
-          <form>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             {/* Tabs Header */}
             <TabsList className="w-full">
               {tabOrder.map((tab) => (
@@ -75,7 +135,7 @@ const CreateIdea = () => {
             <TabsContent className="mt-5" value="general">
               <Card>
                 <CardHeader>
-                  <CardTitle>General Information</CardTitle>
+                  <CardTitle>General Informantion</CardTitle>
                   <CardDescription>
                     Provide General Information about your website
                   </CardDescription>
@@ -83,7 +143,6 @@ const CreateIdea = () => {
                 <CardContent>
                   <GFormInput
                     name="title"
-                    defaultValue=""
                     label="Idea Title"
                     placeholder="Idea Title"
                     control={form.control}
@@ -104,19 +163,16 @@ const CreateIdea = () => {
                       <GFormImageUpload
                         control={form.control}
                         name="images"
-                        multiple={false}
+                        multiple={true}
                         onImageUpload={setImageUrls}
                         required
                       />
                     </div>
                   </div>
                 </CardContent>
-                <CardFooter>
-                  <Button type="submit" onClick={onSubmit}>
-                    Submit
-                  </Button>
+                <CardFooter className="flex justify-end">
                   <Button
-                    style={{ backgroundColor: "#22c55e" }}
+                    style={{ backgroundColor: "#22c55e", cursor: "pointer" }}
                     onClick={goToNext}
                     type="button">
                     Next: Solution{" "}
@@ -125,28 +181,50 @@ const CreateIdea = () => {
                 </CardFooter>
               </Card>
             </TabsContent>
-
-            <TabsContent value="solution">
+            <TabsContent className="mt-5" value="solution">
               <Card>
+                <CardHeader>
+                  <CardTitle>Response Solutions</CardTitle>
+                  <CardDescription>
+                    Explore effective strategies and solutions to prepare for,
+                    respond to, and recover from natural disasters.
+                  </CardDescription>
+                </CardHeader>
                 <CardContent>
                   <GFormInput
+                    name="problem"
+                    label="Problem"
+                    placeholder="Problem"
+                    control={form.control}
+                    className="w-full border-green-500 hover:border-amber-400 mb-4"
+                    required
+                  />
+                  <GFormInput
+                    name="solution"
+                    label="Solution"
+                    placeholder="Solution"
+                    control={form.control}
+                    className="w-full border-green-500 hover:border-amber-400 mb-4"
+                    required
+                  />
+                  <GFormTextarea
                     name="description"
                     label="Description"
-                    placeholder="Description"
+                    placeholder="Describe your Idea"
+                    className="w-full border-green-500 hover:border-amber-400 mb-4"
                     control={form.control}
                     required
                   />
                 </CardContent>
                 <CardFooter className="flex justify-between pt-4">
                   <Button
-                    style={{ backgroundColor: "#22c55e" }}
+                    style={{ backgroundColor: "#22c55e", cursor: "pointer" }}
                     onClick={() => setActiveTab("general")}
                     type="button">
-                    <ArrowLeft className="ml-2 h-4 w-4 cursor-pointer" /> Prev:
-                    General
+                    <ArrowLeft className="ml-2 h-4 w-4" /> Prev: General
                   </Button>
                   <Button
-                    style={{ backgroundColor: "#22c55e" }}
+                    style={{ backgroundColor: "#22c55e", cursor: "pointer" }}
                     onClick={goToNext}
                     type="button">
                     Next: Solution{" "}
@@ -156,31 +234,54 @@ const CreateIdea = () => {
               </Card>
             </TabsContent>
 
-            <TabsContent value="info">
+            <TabsContent className="mt-5" value="availability">
               <Card>
+                <CardHeader>
+                  <CardTitle>Pricing Details & Availability</CardTitle>
+                  <CardDescription>
+                    Review the current status, pricing type, and cost associated
+                    with the solution or service.
+                  </CardDescription>
+                </CardHeader>
                 <CardContent>
+                  <GFormSelect
+                    name="ideaType"
+                    label="Idea Type"
+                    control={form.control}
+                    options={priceOptions}
+                    className="w-full border-green-500 hover:border-amber-400 mb-4"
+                    required
+                  />
                   <GFormInput
                     name="price"
                     label="Price"
                     placeholder="Price"
+                    disabled={isPaid === "unpaid"}
                     control={form.control}
+                    className="w-full border-green-500 hover:border-amber-400 mb-4"
                     required
                   />
-                  <GFormInput
-                    name="solution"
-                    label="Idea"
-                    placeholder="Idea"
+                  <GFormSelect
+                    name="status"
+                    label="Status"
                     control={form.control}
+                    options={statusOptions}
+                    className="w-full border-green-500 hover:border-amber-400 mb-4"
                     required
                   />
                 </CardContent>
-                <CardFooter>
+                <CardFooter className="flex justify-between">
                   <Button
-                    style={{ backgroundColor: "#22c55e" }}
+                    style={{ backgroundColor: "#22c55e", cursor: "pointer" }}
                     onClick={() => setActiveTab("solution")}
                     type="button">
                     <ArrowLeft className="ml-2 h-4 w-4 cursor-pointer" /> Prev:
                     Solution
+                  </Button>
+                  <Button
+                    style={{ backgroundColor: "#22c55e", cursor: "pointer" }}
+                    type="submit">
+                    {isSubmitting ? "creating..." : "Submit"}
                   </Button>
                 </CardFooter>
               </Card>
