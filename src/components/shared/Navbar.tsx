@@ -2,7 +2,7 @@
 
 import Logo from "./Logo";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { useEffect, useState } from "react";
@@ -26,6 +26,7 @@ import {
   PencilLine,
 } from "lucide-react";
 import { Button } from "../ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { getMyProfile, logoutUser } from "@/services/auth";
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -81,11 +82,27 @@ const Navbar = () => {
           <div>
             <Popover>
               <PopoverTrigger asChild>
-                <Button>Profile</Button>
+                <Avatar className=" w-[50px] h-[50px] cursor-pointer">
+                  <AvatarImage
+                    className=" rounded-full  border border-green-500"
+                    src={myProfile?.image || "https://github.com/shadcn.png"}
+                  />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
               </PopoverTrigger>
               <PopoverContent className="w-80 border border-sky-500bg-gradient-href-b from-sky-400 href-gray-100 mr-3 mt-2">
                 <div className="">
-                  <div className="flex justify-center"></div>
+                  <div className="flex justify-center">
+                    <Avatar className=" w-[50px] h-[50px] cursor-pointer">
+                      <AvatarImage
+                        className=" rounded-full border border-green-500"
+                        src={
+                          myProfile?.image || "https://github.com/shadcn.png"
+                        }
+                      />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                  </div>
                   <h1 className="text-xl font-semibold text-center py-2">
                     {myProfile?.name}
                   </h1>

@@ -35,6 +35,8 @@ const tabOrder = ["general", "solution", "availability"];
 const CreateIdea = () => {
   const { user } = useUser();
   const [activeTab, setActiveTab] = useState("general");
+  const [previewImages, setPreviewImages] = useState<(string | File)[]>([]);
+
   const [mounted, setMounted] = useState(false);
   const [ImageUrls, setImageUrls] = useState<File | File[]>([]);
   const { uploadImagesToCloudinary } = useImageUploader();
@@ -108,7 +110,7 @@ const CreateIdea = () => {
   };
   if (!mounted) return null; // Or a loading spinner
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col lg:w-[1000px] lg:mx-12 my-5">
       <div className="flex items-center justify-between">
         <PageHeader
           title="Create An Idea"
@@ -158,11 +160,20 @@ const CreateIdea = () => {
                     required
                   />
                   <div className="space-y-2">
-                    <Label htmlFor="image">Event Banner *</Label>
-                    <div className="border-2 border-dashed rounded-lg p-12 text-center border-green-500 hover:border-amber-400 transition-colors cursor-pointer">
+                    <Label
+                      htmlFor="image"
+                      className="font-semibold text-[14px]">
+                      Images{" "}
+                      <span className="text-green-500 text-xl relative top-0.5">
+                        *
+                      </span>
+                    </Label>
+                    <div className="border border-dashed rounded-lg p-12 text-center border-green-500 hover:border-amber-400 transition-colors cursor-pointer">
                       <GFormImageUpload
                         control={form.control}
                         name="images"
+                        setPreviewImages={setPreviewImages}
+                        previewImages={previewImages}
                         multiple={true}
                         onImageUpload={setImageUrls}
                         required

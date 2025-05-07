@@ -1,115 +1,149 @@
 "use client";
 
+import {
+  categoryOptions,
+  statusOptions,
+} from "@/components/modules/Idea/Category/Category";
+import GFormImageUpload from "@/components/shared/Form/GFormImageUploader";
 import GFormInput from "@/components/shared/Form/GFormInput";
 import GFormSelect from "@/components/shared/Form/GFormSelect";
+import GFormTextarea from "@/components/shared/Form/GFormTextarea";
+import { PageHeader } from "@/components/singles/PageHeader";
+import { Button } from "@/components/ui/button";
 import {
-  Form,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Textarea } from "@/components/ui/textarea";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
-
-const categories = [
-  {
-    label: "Energy",
-    value: "energy",
-  },
-  {
-    label: "Waste",
-    value: "waste",
-  },
-  {
-    label: "Transportation",
-    value: "transportation",
-  },
-];
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Form } from "@/components/ui/form";
+import useImageUploader from "@/components/utils/useImageUploader";
+import { createBlog } from "@/services/blog";
+import { Label } from "@radix-ui/react-label";
+import { useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const CreateBlog = () => {
-  const form = useForm();
-  const { register } = form;
-
+  const [ImageUrls, setImageUrls] = useState<File | File[]>([]);
+  const [previewImages, setPreviewImages] = useState<(string | File)[]>([]);
+  console.log(previewImages);
+  const { uploadImagesToCloudinary } = useImageUploader();
+  const form = useForm({
+    defaultValues: {
+      title: "",
+      description: "",
+      category: "",
+      status: "",
+    },
+  });
   const {
+    handleSubmit,
     formState: { isSubmitting },
   } = form;
-
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    console.log(data);
+    const images = await uploadImagesToCloudinary(ImageUrls, true);
+
+    const { title, description, category, status } = data;
+    const blogData = {
+      title,
+      description,
+      category,
+      images,
+      status,
+    };
+    try {
+      const res = await createBlog(blogData);
+      if (res.success) {
+        form.reset();
+        setImageUrls([]);
+        setPreviewImages([]);
+        toast.success(res.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
-
   return (
-    <div className="max-w-7xl w-full mx-auto p-6 bg-white shadow-md rounded-md">
-      <h1 className="text-2xl font-bold my-4 text-center">Create Blog</h1>
+    <div className=" lg:w-[1000px] lg:mx-12 my-5">
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 max-w-3xl mx-auto">
-          {/* Title */}
-          <div>
-            <GFormInput
-              control={form.control}
-              name="title"
-              label="Title"
-              type="text"
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className=" flex items-center justify-between">
+            <PageHeader
+              title="Share Your Thoughts"
+              description="Have a unique idea or experience to share? Put it into words and inspire others with your blog!"
             />
           </div>
-
-          {/* Images */}
-          <div>
-            <label
-              htmlFor="images"
-              className="block text-sm font-medium text-gray-700">
-              Images
-            </label>
-            <input
-              id="images"
-              type="file"
-              multiple
-              {...register("images", { required: true })}
-              className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-700 hover:file:bg-green-100"
-            />
-          </div>
-
-          {/* Description */}
-          <div>
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Description</FormLabel>
-                  <Textarea {...field} />
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          {/* Category */}
-          <div>
-            <GFormSelect
-              control={form.control}
-              name="category"
-              options={categories}
-              label="Category"
-              placeholder="select a category"
-            />
-          </div>
-
-          {/* Status */}
-          <div></div>
-
-          {/* Submit Button */}
-          <div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full bg-green-500 text-white py-2 px-4 rounded-md font-semibold hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2">
-              {isSubmitting ? "Submitting..." : "Create Blog"}
-            </button>
-          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-green-500">
+                Start Writing Your Blog
+              </CardTitle>
+              <CardDescription>
+                Add a catchy title and give readers a glimpse of what your blog
+                is about.
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <GFormInput
+                name="title"
+                placeholder="Title"
+                label="Title"
+                control={form.control}
+                className="border-green-500 hover:border- mb-4 hover:border-amber-400 rounded-none"
+              />
+              <GFormSelect
+                name="category"
+                placeholder="Category"
+                label="Category"
+                options={categoryOptions}
+                control={form.control}
+                className="w-full border-green-500 hover:border- mb-4 hover:border-amber-400 rounded-none"
+              />
+              <GFormTextarea
+                name="description"
+                placeholder="Describe your throught"
+                label="Description"
+                control={form.control}
+                className="w-full border-green-500 hover:border- mb-4 hover:border-amber-400 rounded-none"
+              />
+              <GFormSelect
+                name="status"
+                placeholder="Status"
+                label="Status"
+                options={statusOptions}
+                control={form.control}
+                className="w-full border-green-500 hover:border- mb-4 hover:border-amber-400 rounded-none"
+              />
+              <div className="space-y-2">
+                <Label htmlFor="image" className="font-semibold text-[14px]">
+                  Images{" "}
+                  <span className="text-green-500 text-xl relative top-0.5">
+                    *
+                  </span>
+                </Label>
+                <div className="border border-dashed p-12 text-center border-green-500 hover:border-amber-400 transition-colors cursor-pointer">
+                  <GFormImageUpload
+                    setPreviewImages={setPreviewImages}
+                    previewImages={previewImages}
+                    control={form.control}
+                    name="images"
+                    multiple={true}
+                    onImageUpload={setImageUrls}
+                    required
+                  />
+                </div>
+              </div>
+              <div className="flex justify-end">
+                <Button
+                  type="submit"
+                  className="mt-4 rounded-none bg-green-500 cursor-pointer">
+                  {isSubmitting ? "Creating..." : "Submit"}
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
         </form>
       </Form>
     </div>
