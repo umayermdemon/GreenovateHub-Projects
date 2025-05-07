@@ -12,7 +12,7 @@ import { FormInput } from "@/components/shared/FormInput";
 import GCImageUploader from "@/components/ui/core/GCImageUploader";
 import { useState } from "react";
 import ImagePreviewer from "@/components/ui/core/GCImageUploader/ImagePreviewer";
-import { registerUser } from "@/services/auth/indes";
+import { registerUser } from "@/services/auth";
 import { uploadToCloudinary } from "@/components/shared/uploadToCloudinary";
 
 const RegisterForm = () => {
@@ -50,7 +50,6 @@ const RegisterForm = () => {
         image: uploadedImageUrl,
       };
       const res = await registerUser(userData);
-      console.log(res);
       if (!res.success) {
         toast.error(res?.message, { id: toastId });
       } else {
@@ -64,7 +63,12 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8  bg-[#f1f7fe]">
+      <div className="absolute top-4 left-4 z-10 block md:hidden">
+        <Link href="/" className="text-md text-[#1b2a5e] hover:underline">
+          ← Home
+        </Link>
+      </div>
       <div className="flex flex-col gap-2 items-center justify-center mb-6">
         <h1 className="text-4xl sm:text-5xl font-bold text-[#1b2a5e] text-center">
           Welcome To
@@ -75,8 +79,8 @@ const RegisterForm = () => {
         </div>
       </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <div className="flex flex-col sm:flex-row flex-wrap gap-4 mb-4">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 ">
+          <div className="flex flex-col sm:flex-row flex-wrap gap-4 mb-4 ">
             <div className="w-full sm:w-[48%]">
               <FormInput
                 control={form.control}
@@ -142,7 +146,7 @@ const RegisterForm = () => {
               />
             </div>
           </div>
-          <div className="flex justify-between">
+          <div className="flex flex-col sm:flex-row sm:justify-between flex-wrap gap-4 mb-4">
             <div className="w-full sm:w-[48%]">
               <FormInput
                 control={form.control}

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUser } from "./services/auth/indes";
+import { getUser } from "./services/auth";
 
 const authRoutes = ["/login", "/register"];
 
@@ -31,13 +31,5 @@ export const middleware = async (req: NextRequest) => {
 };
 
 export const config = {
-  matcher: [
-    "/login",
-    "/admin",
-    "/admin/:path*",
-    // "/admin/:page/:page",
-    "/member",
-    "/member/:path*",
-    // "/member/:page/:page",
-  ],
+  matcher: ["/login", "/admin", "/admin/:path*", "/member", "/member/:path*"],
 };

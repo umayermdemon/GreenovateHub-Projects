@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { loginValidation } from "./loginValidation";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { loginUser } from "@/services/auth/indes";
+import { loginUser } from "@/services/auth";
 import { FormInput } from "@/components/shared/FormInput";
 
 const LoginForm = () => {
@@ -45,7 +45,12 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="max-w-xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="max-w-xl w-full mx-auto px-4 sm:px-6 lg:px-8 bg-[#f1f7fe]">
+      <div className="absolute top-4 left-4 z-10 block md:hidden">
+        <Link href="/" className="text-md text-[#1b2a5e] hover:underline ">
+          ← Home
+        </Link>
+      </div>
       <div className="flex flex-col gap-2 items-center justify-center mb-12">
         <h1 className="text-4xl sm:text-5xl font-bold text-[#1b2a5e] text-center">
           Welcome To
