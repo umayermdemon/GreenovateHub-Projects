@@ -38,10 +38,11 @@ const createVote = async (payload: IVote, user: IAuthUser) => {
             }
         })
     }
-    if (!isIdeaExists) {
+    if (payload.ideaId && !isIdeaExists) {
+        console.log("hi");
         throw new Error("Idea doesnot exists");
     }
-    if (!isBlogExists) {
+    if (payload.blogId && !isBlogExists) {
         throw new Error("Blog doesnot exists");
     }
     let result;
