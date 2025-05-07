@@ -1,5 +1,6 @@
-import DashboardSidebar from "@/components/modules/sidebar/DashBoardSidebar";
-import { Toaster } from "sonner";
+import AppSidebar from "@/components/modules/sidebar/app-sidebar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+
 
 export default function DashboardLayout({
   children,
@@ -7,12 +8,12 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-row">
-      <div className="sidebar w-full border max-w-[300px]">
-        <DashboardSidebar />
-      </div>
-      <main className="flex w-full flex-col overflow-hidden p-6">{children}</main>
-      <Toaster />
-    </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <main>
+        <SidebarTrigger className="lg:hidden" />
+        {children}
+      </main>
+    </SidebarProvider>
   );
 }

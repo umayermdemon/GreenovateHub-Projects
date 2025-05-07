@@ -11,13 +11,15 @@ import {
 import { Input } from "@/components/ui/input";
 import { Trash2 } from "lucide-react";
 import Image from "next/image";
-import { ChangeEvent, InputHTMLAttributes, useEffect, useState } from "react";
+import { ChangeEvent, InputHTMLAttributes, useState } from "react";
 import { toast } from "sonner";
 
 interface IFormImageUploadProps
     extends Omit<InputHTMLAttributes<HTMLInputElement>, "name" | "onChange"> {
     name: string;
     label?: string;
+    setPreviewImages: React.Dispatch<React.SetStateAction<(string | File)[]>>;
+    previewImages: (string | File)[];
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     control: any;
     multiple?: boolean;
@@ -26,19 +28,17 @@ interface IFormImageUploadProps
 
 const GFormImageUpload = ({
     name,
+    setPreviewImages,
+    previewImages,
     label,
     control,
     multiple = false,
     onImageUpload,
     ...rest
 }: IFormImageUploadProps) => {
-    const [previewImages, setPreviewImages] = useState<string[]>([]);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
-    useEffect(() => {
-        setPreviewImages([]);
-    }, []);
-
+  
     const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
         const files = e.target.files;
         if (!files) return;
@@ -91,7 +91,7 @@ const GFormImageUpload = ({
                         {previewImages.map((src, index) => (
                             <div key={index} className="relative">
                                 <Image
-                                    src={src}
+                                    src={typeof src === "string" ? src : URL.createObjectURL(src)}
                                     alt={`Preview ${index}`}
                                     width={250}
                                     height={100}
