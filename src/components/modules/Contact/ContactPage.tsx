@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Mail, MapPin, Phone } from "lucide-react";
 
-export default function ContactPage() {
+const ContactPage = () => {
   return (
     <div className="">
       <div className="h-60 bg-gradient-to-b from-[#eafcfb] to-[#ccf3f8] text-center flex items-center justify-center">
@@ -84,4 +84,6 @@ export default function ContactPage() {
       </div>
     </div>
   );
-}
+};
+
+export default ContactPage;

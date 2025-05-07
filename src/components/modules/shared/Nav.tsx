@@ -1,6 +1,6 @@
 import Navbar from "@/components/shared/Navbar";
 
-const Nav = async () => {
+const Nav = () => {
   return (
     <>
       <Navbar />
