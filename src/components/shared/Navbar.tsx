@@ -59,7 +59,7 @@ const Navbar = () => {
   };
   return (
     <div className="bg-[#f3f8fd]">
-      <nav className="p-6 flex items-center justify-between container mx-auhref">
+      <nav className="p-6 flex items-center justify-between container mx-auto">
         {/* Logo */}
         <Logo />
 
