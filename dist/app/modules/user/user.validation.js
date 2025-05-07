@@ -8,7 +8,6 @@ exports.createUserValidationSchema = zod_1.z.object({
         required_error: "Name is required",
         invalid_type_error: "Name must be a string",
     }),
-    role: exports.userRoleEnum,
     email: zod_1.z
         .string({
         required_error: "Email is required",
