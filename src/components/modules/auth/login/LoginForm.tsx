@@ -8,8 +8,9 @@ import { Loader } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
 import { loginUser } from "@/services/auth";
+import { useSearchParams } from "next/navigation";
 
-const RegisterForm = () => {
+const LoginForm = () => {
   const form = useForm({
     defaultValues: {
       email: "",
@@ -20,6 +21,9 @@ const RegisterForm = () => {
     formState: { isSubmitting },
   } = form;
 
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams.get("redirectPath") || "/";
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const { email, password } = data;
     const loginData = {
@@ -28,9 +32,13 @@ const RegisterForm = () => {
     };
     try {
       const res = await loginUser(loginData);
-      toast.success(res.message);
       if (res.success) {
-        window.location.href = "/";
+        if (redirectPath) {
+          window.location.href = redirectPath;
+          toast.success(res.message);
+        }
+      } else {
+        toast.error(res.message);
       }
     } catch (error) {
       console.log(error);
@@ -39,6 +47,12 @@ const RegisterForm = () => {
   const commonWidth = "w-[400px]";
   return (
     <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="block md:hidden mb-2">
+        <Link href="/" className="text-green-500 underline">
+          {" "}
+          Back To Home
+        </Link>
+      </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -78,7 +92,11 @@ const RegisterForm = () => {
             </div>
             <h1 className="text-center text-green-500">
               New here?{" "}
-              <Link className="text-black" href="/register">
+              <Link
+                className="text-black hover:underline"
+                href={`/register${
+                  redirectPath ? `?redirectPath=${redirectPath}` : ""
+                }`}>
                 SignUp
               </Link>
             </h1>
@@ -96,4 +114,4 @@ const RegisterForm = () => {
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

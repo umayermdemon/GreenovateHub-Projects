@@ -48,9 +48,13 @@ const RegisterForm = () => {
     };
     try {
       const res = await registerUser(userData);
-      toast.success(res.message);
       if (res.success) {
-        window.location.href = "/login";
+        if (redirectPath) {
+          window.location.href = redirectPath;
+          toast.success(res.message);
+        }
+      } else {
+        toast.error(res?.message);
       }
     } catch (error) {
       console.log(error);
@@ -59,6 +63,12 @@ const RegisterForm = () => {
   const commonWidth = "w-[400px]";
   return (
     <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="block md:hidden mb-2">
+        <Link href="/" className="text-green-500 underline">
+          {" "}
+          Back To Home
+        </Link>
+      </div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
