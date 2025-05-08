@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useRef } from "react";
+import { motion } from "framer-motion";
 import {
   Carousel,
   CarouselContent,
@@ -69,13 +70,19 @@ const Banner = () => {
                   </div>
                 </div>
                 <div className="flex justify-center md:justify-end">
-                  <Image
-                    src={banner.image}
-                    alt="Banner Image"
-                    width={500}
-                    height={500}
-                    className="rounded-xl shadow-lg"
-                  />
+                  <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    whileHover={{ scale: 1.05, rotate: 1 }}>
+                    <Image
+                      src={banner.image}
+                      alt="Banner Image"
+                      width={500}
+                      height={500}
+                      className="rounded-xl shadow-lg  transition-transform duration-300 cursor-pointer"
+                    />
+                  </motion.div>
                 </div>
               </div>
             </CarouselItem>
