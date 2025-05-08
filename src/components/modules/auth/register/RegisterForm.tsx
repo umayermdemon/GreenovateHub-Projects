@@ -10,10 +10,10 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import GCImageUploader from "@/components/ui/core/GCImageUploader";
 import useImageUploader from "@/components/utils/useImageUploader";
-import { registerUser } from "@/services/auth/indes";
 import { Loader } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
+import { registerUser } from "@/services/auth";
 
 const RegisterForm = () => {
   const [imageFiles, setImageFiles] = useState<File[] | []>([]);
@@ -26,8 +26,8 @@ const RegisterForm = () => {
     defaultValues: {
       name: "",
       email: "",
-      password: ""
-    }
+      password: "",
+    },
   });
   const {
     formState: { isSubmitting },
@@ -35,7 +35,6 @@ const RegisterForm = () => {
 
   const searchParams = useSearchParams();
   const redirectPath = searchParams.get("redirectPath") || "/";
-
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const image = await uploadImagesToCloudinary(imageFiles);
@@ -45,26 +44,40 @@ const RegisterForm = () => {
       email,
       password,
       image,
-      role: "member"
-    }
+      role: "member",
+    };
     try {
       const res = await registerUser(userData);
-      toast.success(res.message)
       if (res.success) {
-        window.location.href = ("/login")
+        if (redirectPath) {
+          window.location.href = redirectPath;
+          toast.success(res.message);
+        }
+      } else {
+        toast.error(res?.message);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
-  const commonWidth = 'w-[400px]'
+  const commonWidth = "w-[400px]";
   return (
     <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="block md:hidden mb-2">
+        <Link href="/" className="text-green-500 underline">
+          {" "}
+          Back To Home
+        </Link>
+      </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-[480px]">
-
-          <div className={`space-y-1 border-2 border-green-300 border-b-0 rounded-2xl pt-6`}>
-            <h1 className="text-center text-2xl text-green-500">Enter You Registration Data</h1>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 w-[480px]">
+          <div
+            className={`space-y-1 border-2 border-green-300 border-b-0 rounded-2xl pt-6`}>
+            <h1 className="text-center text-2xl text-green-500">
+              Enter You Registration Data
+            </h1>
             <div className="w-full flex justify-center">
               <GFormInput
                 name="name"
@@ -104,19 +117,28 @@ const RegisterForm = () => {
               />
             </div>
             <div className="flex justify-center">
-              <Button type="submit" className={`${commonWidth}  rounded-none mt-3 text-white bg-green-500 cursor-pointer`}>{isSubmitting ? <Loader className="animate-spin" /> : "Sign Up"}</Button>
+              <Button
+                type="submit"
+                className={`${commonWidth}  rounded-none mt-3 text-white bg-green-500 cursor-pointer`}>
+                {isSubmitting ? <Loader className="animate-spin" /> : "Sign Up"}
+              </Button>
             </div>
-            <h1 className="text-center text-green-500">Already Have an Account?<Link className="text-black" href='/login'>Login</Link></h1>
+            <h1 className="text-center text-green-500">
+              Already Have an Account?
+              <Link className="text-black" href="/login">
+                Login
+              </Link>
+            </h1>
             <p className="text-center">or</p>
             <div className="flex justify-center">
-              <Button className="bg-amber-300 text-amber-700 cursor-pointer"><FcGoogle className="text-xl" />Google</Button>
+              <Button className="bg-amber-300 text-amber-700 cursor-pointer">
+                <FcGoogle className="text-xl" />
+                Google
+              </Button>
             </div>
           </div>
-
         </form>
       </Form>
-
-
     </div>
   );
 };

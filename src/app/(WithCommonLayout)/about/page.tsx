@@ -1,9 +1,11 @@
-const AboutPage = () => {
+import AboutPage from "@/components/modules/About/AboutPage";
+
+const About = () => {
   return (
-    <div>
-      <h1>This is About Page component</h1>
-    </div>
+    <>
+      <AboutPage />
+    </>
   );
 };
 
-export default AboutPage;
+export default About;

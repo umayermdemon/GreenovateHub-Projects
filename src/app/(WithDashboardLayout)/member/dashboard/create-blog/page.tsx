@@ -1,13 +1,22 @@
 "use client";
 
-import { categoryOptions, statusOptions } from "@/components/modules/Idea/Category/Category";
+import {
+  categoryOptions,
+  statusOptions,
+} from "@/components/modules/Idea/Category/Category";
 import GFormImageUpload from "@/components/shared/Form/GFormImageUploader";
 import GFormInput from "@/components/shared/Form/GFormInput";
 import GFormSelect from "@/components/shared/Form/GFormSelect";
 import GFormTextarea from "@/components/shared/Form/GFormTextarea";
 import { PageHeader } from "@/components/singles/PageHeader";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import useImageUploader from "@/components/utils/useImageUploader";
 import { createBlog } from "@/services/blog";
@@ -17,42 +26,45 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 const CreateBlog = () => {
-    const [ImageUrls, setImageUrls] = useState<File | File[]>([]);
-    const [previewImages, setPreviewImages] = useState<(string | File)[]>([]);
-    console.log(previewImages);
-    const { uploadImagesToCloudinary } = useImageUploader();
-    const form = useForm({
-        defaultValues: {
-            title: "",
-            description: "",
-            category: "",
-            status: ""
-        }
-    });
-    const { handleSubmit, formState: { isSubmitting } } = form;
-    const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-        const images = await uploadImagesToCloudinary(ImageUrls, true);
+  const [ImageUrls, setImageUrls] = useState<File | File[]>([]);
+  const [previewImages, setPreviewImages] = useState<(string | File)[]>([]);
+  console.log(previewImages);
+  const { uploadImagesToCloudinary } = useImageUploader();
+  const form = useForm({
+    defaultValues: {
+      title: "",
+      description: "",
+      category: "",
+      status: "",
+    },
+  });
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = form;
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    const images = await uploadImagesToCloudinary(ImageUrls, true);
 
-        const { title, description, category, status } = data;
-        const blogData = {
-            title,
-            description,
-            category,
-            images,
-            status
-        }
-        try {
-            const res = await createBlog(blogData);
-            if (res.success) {
-                form.reset();
-                setImageUrls([]);
-                setPreviewImages([]);
-                toast.success(res.message)
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    }
+    const { title, description, category, status } = data;
+    const blogData = {
+      title,
+      description,
+      category,
+      images,
+      status,
+    };
+    try {
+      const res = await createBlog(blogData);
+      if (res.success) {
+        form.reset();
+        setImageUrls([]);
+        setPreviewImages([]);
+        toast.success(res.message);
+      }
+      } catch (error) {
+        console.log(error);
+      }
+    }; // Closing the onSubmit function
     return (
         <div className=" lg:w-[1000px] lg:mx-9 my-5">
             <Form {...form}>
@@ -128,4 +140,4 @@ const CreateBlog = () => {
     );
 };
 
-export default CreateBlog;
+export default CreateBlog

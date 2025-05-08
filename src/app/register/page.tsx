@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { Suspense } from "react";
 import RegisterForm from "@/components/modules/auth/register/RegisterForm";
-import registerImg from '../assets/register.jpg'
+import registerImg from "../assets/register.jpg";
 const RegisterPage = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
