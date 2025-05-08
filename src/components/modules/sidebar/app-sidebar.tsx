@@ -31,9 +31,9 @@ import { Avatar } from "@radix-ui/react-avatar";
 import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useEffect, useState } from "react";
 import { TUserProfile } from "@/types/user.type";
-import { getMyProfile, logoutUser } from "@/services/auth/indes";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { HiChevronUpDown } from "react-icons/hi2";
+import { getMyProfile, logoutUser } from "@/services/auth";
 // Extend JWT Payload to include role
 interface CustomJwtPayload extends JwtPayload {
     role: string;
