@@ -155,7 +155,7 @@ const AppSidebar = () => {
                     </div>
                     <Popover>
                         <PopoverTrigger><HiChevronUpDown className="text-xl ml-6 cursor-pointer" /></PopoverTrigger>
-                        <PopoverContent className="relative left-48">
+                        <PopoverContent className="relative left-52">
                             <div>
                                 <div className="flex gap-3 border-b border-green-500 pb-4">
                                     <AvatarImage className="relative top-1 w-[44px] h-[44px] rounded-full border border-green-500" src={myProfile?.image || "https://github.com/shadcn.png"} />

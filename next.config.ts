@@ -8,11 +8,8 @@ const nextConfig: NextConfig = {
         hostname: "**",
       },
     ],
+    domains: ['ibb.co', 'via.placeholder.com', 'res.cloudinary.com', 'source.unsplash.com'], // add your image hosts here
   },
 };
-module.exports = {
-  images: {
-    domains: ['ibb.co', 'via.placeholder.com', 'res.cloudinary.com'], // add your image hosts here
-  },
-};
+
 export default nextConfig;

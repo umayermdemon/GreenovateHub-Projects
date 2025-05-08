@@ -1,8 +1,9 @@
+import IdeaCard from "@/components/modules/Idea/IdeaCard";
 
 const MyIdeas = () => {
     return (
         <div>
-            <h1>My Ideas</h1>
+            <IdeaCard />
         </div>
     );
 };

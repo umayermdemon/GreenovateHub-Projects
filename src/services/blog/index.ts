@@ -19,3 +19,18 @@ export const createBlog = async (blogData: FieldValues) => {
         return Error(error as string);
     }
 };
+export const getAllBlogs = async () => {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/blogs/get-all-blogs`, {
+            method: "GET",
+            headers: {
+                "content-type": "application/json",
+                Authorization: (await cookies()).get("accessToken")!.value,
+            },
+        });
+        const result = await res.json();
+        return result;
+    } catch (error) {
+        return Error(error as string);
+    }
+};

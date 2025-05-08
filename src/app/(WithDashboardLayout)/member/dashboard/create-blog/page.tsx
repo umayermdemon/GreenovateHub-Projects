@@ -54,7 +54,7 @@ const CreateBlog = () => {
         }
     }
     return (
-        <div className=" lg:w-[1000px] lg:mx-12 my-5">
+        <div className=" lg:w-[1000px] lg:mx-9 my-5">
             <Form {...form}>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className=" flex items-center justify-between">
