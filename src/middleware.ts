@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getUser } from "./services/auth/indes";
+import { getUser } from "./services/auth";
 
 const authRoutes = ["/login", "/register"];
 
@@ -34,10 +34,10 @@ export const config = {
   matcher: [
     "/login",
     "/admin",
-    // "/admin/:path*",
-    // // "/admin/:page/:page",
-    // "/member",
-    // "/member/:path*",
+    "/admin/:path*",
+    // "/admin/:page/:page",
+    "/member",
+    "/member/:path*",
     // "/member/:page/:page",
   ],
 };

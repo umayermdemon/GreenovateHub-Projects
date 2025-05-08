@@ -4,48 +4,64 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import GFormInput from "@/components/shared/Form/GFormInput";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { loginUser } from "@/services/auth/indes";
 import { Loader } from "lucide-react";
 import { FcGoogle } from "react-icons/fc";
 import { toast } from "sonner";
+import { loginUser } from "@/services/auth";
+import { useSearchParams } from "next/navigation";
 
-const RegisterForm = () => {
-
+const LoginForm = () => {
   const form = useForm({
     defaultValues: {
       email: "",
-      password: ""
-    }
+      password: "",
+    },
   });
   const {
     formState: { isSubmitting },
   } = form;
 
+  const searchParams = useSearchParams();
+  const redirectPath = searchParams.get("redirectPath") || "/";
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const { email, password } = data;
     const loginData = {
       email,
       password,
-    }
+    };
     try {
       const res = await loginUser(loginData);
-      toast.success(res.message)
-      if(res.success){
-        window.location.href = "/"; 
+      if (res.success) {
+        if (redirectPath) {
+          window.location.href = redirectPath;
+          toast.success(res.message);
+        }
+      } else {
+        toast.error(res.message);
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   };
-  const commonWidth = 'w-[400px]'
+  const commonWidth = "w-[400px]";
   return (
     <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="block md:hidden mb-2">
+        <Link href="/" className="text-green-500 underline">
+          {" "}
+          Back To Home
+        </Link>
+      </div>
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-[480px]">
-
-          <div className={`space-y-1 border-2 border-green-300 border-b-0 rounded-2xl pt-6`}>
-            <h1 className="text-center text-2xl text-green-500">Enter You Credentials</h1>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-4 w-[480px]">
+          <div
+            className={`space-y-1 border-2 border-green-300 border-b-0 rounded-2xl pt-6`}>
+            <h1 className="text-center text-2xl text-green-500">
+              Enter You Credentials
+            </h1>
             <div className="w-full flex justify-center">
               <GFormInput
                 name="email"
@@ -68,21 +84,34 @@ const RegisterForm = () => {
               />
             </div>
             <div className="flex justify-center">
-              <Button type="submit" className={`${commonWidth}  rounded-none mt-3 text-white bg-green-500 cursor-pointer`}>{isSubmitting ? <Loader className="animate-spin" /> : "Login"}</Button>
+              <Button
+                type="submit"
+                className={`${commonWidth}  rounded-none mt-3 text-white bg-green-500 cursor-pointer`}>
+                {isSubmitting ? <Loader className="animate-spin" /> : "Login"}
+              </Button>
             </div>
-            <h1 className="text-center text-green-500">New here? <Link className="text-black" href='/register'>SignUp</Link></h1>
+            <h1 className="text-center text-green-500">
+              New here?{" "}
+              <Link
+                className="text-black hover:underline"
+                href={`/register${
+                  redirectPath ? `?redirectPath=${redirectPath}` : ""
+                }`}>
+                SignUp
+              </Link>
+            </h1>
             <p className="text-center">or</p>
             <div className="flex justify-center">
-              <Button className="bg-amber-300 text-amber-700 cursor-pointer"><FcGoogle className="text-xl" />Google</Button>
+              <Button className="bg-amber-300 text-amber-700 cursor-pointer">
+                <FcGoogle className="text-xl" />
+                Google
+              </Button>
             </div>
           </div>
-
         </form>
       </Form>
-
-
     </div>
   );
 };
 
-export default RegisterForm;
+export default LoginForm;

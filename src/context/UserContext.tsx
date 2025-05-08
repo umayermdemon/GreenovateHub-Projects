@@ -1,4 +1,4 @@
-import { getUser } from "@/services/auth/indes";
+import { getUser } from "@/services/auth";
 import { IUser } from "@/types";
 import {
   createContext,
@@ -30,7 +30,7 @@ const UserProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     handleUser();
-  }, []);
+  }, [isLoading]);
 
   return (
     <UserContext.Provider value={{ user, setUser, isLoading, setIsLoading }}>
