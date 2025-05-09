@@ -36,6 +36,7 @@ const CreateBlog = () => {
       description: "",
       category: "",
       status: "",
+      images: []
     },
   });
   const {
@@ -68,7 +69,7 @@ const CreateBlog = () => {
     }
   }; // Closing the onSubmit function
   return (
-    <div className=" lg:w-[1000px] lg:mx-9 my-5">
+    <div className=" lg:max-w-6xl lg:mx-auto  my-5 ">
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className=" flex items-center justify-between">
@@ -76,7 +77,6 @@ const CreateBlog = () => {
               title="Share Your Thoughts"
               description="Have a unique idea or experience to share? Put it into words and inspire others with your blog!"
             />
-
           </div>
           <Card>
             <CardHeader>

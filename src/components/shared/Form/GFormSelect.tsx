@@ -31,6 +31,7 @@ interface EFormSelectProps {
     options: Option[];
     required?: boolean;
     className?: string;
+    defaultValue?:string;
 }
 
 const GFormSelect = ({
