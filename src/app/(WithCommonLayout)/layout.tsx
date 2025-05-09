@@ -5,7 +5,9 @@ import { ReactNode } from "react";
 const CommonLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <Nav />
+      <div className="h-16">
+        <Nav />
+      </div>
       <div className="min-h-screen">{children}</div>
       <Footer />
     </>

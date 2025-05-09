@@ -1,7 +1,6 @@
 import AppSidebar from "@/components/modules/sidebar/app-sidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
-
 export default function DashboardLayout({
   children,
 }: {

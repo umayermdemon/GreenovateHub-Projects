@@ -1,10 +1,14 @@
 "use client";
-import Logo from "./Logo";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { useEffect, useState } from "react";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { getMyProfile, logoutUser } from "@/services/auth";
+import UpdateProfile from "../UpdateProfile";
+import Logo from "./Logo";
 import { TUserProfile } from "@/types/user.type";
 import {
   Info,
@@ -15,33 +19,20 @@ import {
   Menu,
   X,
 } from "lucide-react";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { getMyProfile, logoutUser } from "@/services/auth";
-import UpdateProfile from "../UpdateProfile";
-
 
 const Navbar = () => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user } = useUser();
   const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [myProfile, setMyProfile] = useState<TUserProfile | null>(null);
 
   useEffect(() => {
-    async function fetchProfile() {
+    const fetchProfile = async () => {
       const { data } = await getMyProfile();
       setMyProfile(data);
-    }
+    };
     fetchProfile();
   }, []);
-
-  const menuItems = [
-    { label: "Home", path: "/" },
-    { label: "Ideas", path: "/ideas" },
-    { label: "Blogs", path: "/blogs" },
-    { label: "About Us", path: "/about" },
-    { label: "Contact", path: "/contact" },
-    ...(user ? [{ label: "Dashboard", path: `/${user?.role}/dashboard` }] : []),
-  ];
 
   const handleLogout = async () => {
     try {
@@ -52,8 +43,27 @@ const Navbar = () => {
     }
   };
 
+  const menuItems = [
+    { label: "Home", path: "/" },
+    { label: "Ideas", path: "/ideas" },
+    { label: "Blogs", path: "/blogs" },
+    { label: "About Us", path: "/about" },
+    { label: "Contact", path: "/contact" },
+    ...(user ? [{ label: "Dashboard", path: `/${user?.role}/dashboard` }] : []),
+  ];
+
+  const AvatarComponent = (
+    <Avatar className="w-[50px] h-[50px] cursor-pointer">
+      <AvatarImage
+        src={myProfile?.image || "https://github.com/shadcn.png"}
+        className="rounded-full border border-green-500"
+      />
+      <AvatarFallback>Profile Image</AvatarFallback>
+    </Avatar>
+  );
+
   return (
-    <div className="bg-[#f3f8fd]">
+    <div className="bg-[#f3f8fd] fixed w-full z-50 transition-transform duration-300">
       <nav className="p-4 flex items-center justify-between container mx-auto">
         <Logo />
 
@@ -66,8 +76,8 @@ const Navbar = () => {
 
         {/* Desktop menu */}
         <ul className="hidden md:flex items-center space-x-6 font-medium text-[#1b2a5e] text-lg">
-          {menuItems.map((item, index) => (
-            <li key={index}>
+          {menuItems.map((item, i) => (
+            <li key={i}>
               <Link
                 href={item.path}
                 className={
@@ -83,28 +93,19 @@ const Navbar = () => {
         <div className="hidden md:block">
           {user ? (
             <Popover>
-              <PopoverTrigger asChild>
-                <Avatar className="w-[50px] h-[50px] cursor-pointer">
-                  <AvatarImage
-                    className="rounded-full border border-green-500"
-                    src={myProfile?.image || "https://github.com/shadcn.png"}
-                  />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-              </PopoverTrigger>
+              <PopoverTrigger asChild>{AvatarComponent}</PopoverTrigger>
               <PopoverContent className="w-80 border mt-2">
                 <div className="text-center">
-                  <Avatar className="mx-auto w-[50px] h-[50px]">
-                    <AvatarImage
-                      className="rounded-full border border-green-500"
-                      src={myProfile?.image || "https://github.com/shadcn.png"}
-                    />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
+                  <div className="flex items-center justify-center">
+                    {AvatarComponent}
+                  </div>
+
                   <h1 className="text-xl font-semibold py-2">
                     {myProfile?.name}
                   </h1>
-                  <p className="text-sm relative bottom-2 text-green-500">{myProfile?.role}</p>
+                  <p className="text-sm text-green-500 mb-2">
+                    {myProfile?.role}
+                  </p>
                   {myProfile && <UpdateProfile {...myProfile} />}
                 </div>
                 <ul className="mt-4 divide-y divide-gray-200">
@@ -152,8 +153,8 @@ const Navbar = () => {
       {mobileMenuOpen && (
         <div className="md:hidden px-4 pb-4 space-y-3 text-[#1b2a5e] font-medium">
           <ul className="space-y-2">
-            {menuItems.map((item, index) => (
-              <li key={index}>
+            {menuItems.map((item, i) => (
+              <li key={i}>
                 <Link
                   href={item.path}
                   className={
