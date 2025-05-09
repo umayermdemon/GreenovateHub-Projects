@@ -63,7 +63,7 @@ const RegisterForm = () => {
   const commonWidth = "w-[400px]";
   return (
     <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="block md:hidden mb-2">
+      <div className="mb-2">
         <Link href="/" className="text-green-500 underline">
           {" "}
           Back To Home
