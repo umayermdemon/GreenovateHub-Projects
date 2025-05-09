@@ -1,22 +1,10 @@
 "use client";
-
 import Logo from "./Logo";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useUser } from "@/context/UserContext";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { useEffect, useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "../ui/dialog";
-import GFormInput from "./Form/GFormInput";
-import { useForm } from "react-hook-form";
 import { TUserProfile } from "@/types/user.type";
 import {
   Info,
@@ -27,15 +15,14 @@ import {
   Menu,
   X,
 } from "lucide-react";
-import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { getMyProfile, logoutUser } from "@/services/auth";
+import UpdateProfile from "../UpdateProfile";
+
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { user } = useUser();
-  const form = useForm();
   const pathname = usePathname();
   const [myProfile, setMyProfile] = useState<TUserProfile | null>(null);
 
@@ -117,49 +104,7 @@ const Navbar = () => {
                   <h1 className="text-xl font-semibold py-2">
                     {myProfile?.name}
                   </h1>
-                  <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                    <DialogTrigger asChild>
-                      <Button className="bg-green-500">Edit Profile</Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Edit profile</DialogTitle>
-                        <DialogDescription>
-                          Make changes to your profile here.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <form>
-                        <div className="mb-4 flex items-center">
-                          <p className="w-[65px]">Name</p>
-                          <GFormInput
-                            name="name"
-                            placeholder="Name"
-                            control={form.control}
-                            className="w-full px-3 py-2 border rounded bg-white"
-                          />
-                        </div>
-                        <div className="mb-4 flex items-center">
-                          <p className="w-[65px]">Image</p>
-                          <GFormInput
-                            name="image"
-                            placeholder="Image URL"
-                            control={form.control}
-                            className="w-full px-3 py-2 border rounded bg-white"
-                          />
-                        </div>
-                        <div className="mb-4 flex items-center">
-                          <p className="w-[65px]">Email</p>
-                          <GFormInput
-                            name="email"
-                            placeholder="Email"
-                            control={form.control}
-                            className="w-full px-3 py-2 border rounded bg-white"
-                          />
-                        </div>
-                        <DialogFooter>Save Changes</DialogFooter>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
+                  {myProfile && <UpdateProfile {...myProfile} />}
                 </div>
                 <ul className="mt-4 divide-y divide-gray-200">
                   <li className="hover:bg-green-500 hover:text-white py-1 px-2">

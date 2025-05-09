@@ -19,18 +19,19 @@ const BlogCard = ({ data, refresh }: IBlogCard) => {
     const timeAgo = formatDistanceToNow(new Date(data.createdAt), { addSuffix: true });
     const [isLiked, setIsLiked] = useState(false);
     const [isDisLiked, setIsDisLiked] = useState(false);
-
-    const addVote = async () => {
-        setIsLiked(true);
-        removeDisLike()
-        setIsDisLiked(false)
+    const isUpvoted = data.up_votes > 0;
+    const isDownvoted = data.down_votes > 0;
+    const addVote = async (value: string) => {
         const voteData = {
             blogId: data.id,
-            value: "up"
+            value: value
         }
         try {
             const res = await createVote(voteData);
             if (res.success) {
+                if (isDisLiked) {
+                    setIsDisLiked(false)
+                }
                 refresh();
             }
         } catch (error) {
@@ -38,7 +39,6 @@ const BlogCard = ({ data, refresh }: IBlogCard) => {
         }
     }
     const removeVote = async () => {
-        setIsLiked(!isLiked);
         const voteData = {
             blogId: data.id
         }
@@ -46,46 +46,23 @@ const BlogCard = ({ data, refresh }: IBlogCard) => {
             const res = await undoVote(voteData);
             if (res.success) {
                 refresh();
-                setIsLiked(false)
+                if (isLiked) {
+                    setIsLiked(false);
+                } else {
+                    setIsDisLiked(false);
+                }
             }
         } catch (error) {
             console.log(error);
         }
     }
     const addDisLike = async () => {
-        setIsLiked(false)
-        removeVote();
         setIsDisLiked(true);
-        const voteData = {
-            blogId: data.id, 
-            value: "down"
-        }
-        try {
-            const res = await createVote(voteData);
-            if (res.success) {
-                refresh();
-            }
-        } catch (error) {
-            console.log(error);
-        }
+        addVote("down");
     }
     const removeDisLike = async () => {
-        setIsDisLiked(false);
-        setIsLiked(false)
-        const voteData = {
-            blogId: data.id
-        }
-        try {
-            const res = await undoVote(voteData);
-            if (res.success) {
-                refresh()
-            }
-        } catch (error) {
-            console.log(error);
-        }
+        removeVote()
     }
-    const isUpvoted = data.up_votes > 0;
-    const isDownvoted = data.down_votes > 0;
 
     return (
         <div>
@@ -101,16 +78,15 @@ const BlogCard = ({ data, refresh }: IBlogCard) => {
                 <div className="flex justify-center  p-3">
                     <div>
                         <h1 className="text-xl font font-semibold">{data.title.split(' ').slice(0, 4).join(" ")}</h1>
-                        <p className="border-b border-green-900 pb-2">{data.description.split(' ').slice(0, 15).join(" ")}</p>
-                        <div className="flex justify-between">
+                        <p className="border-b border-green-900 pb-2">{data.description.split(' ').slice(0, 13).join(" ")}</p>
+                        <div className="flex justify-between pt-1">
                             <p className="text-sm text-sky-400 italic">{timeAgo.split(' ').slice(1, 3).join(' ')} ago</p>
                             <div className="flex gap-4 mt-1">
                                 <div className="flex gap-2 bg-green-500 px-2 py-1 rounded-full">
-
                                     <div className="flex gap-0.5 border-r cursor-pointer pr-1 text-white text-[19px]">
                                         <p >
                                             {
-                                                isLiked || isUpvoted ? <BiSolidLike onClick={removeVote} /> : <AiOutlineLike onClick={addVote} />
+                                                isLiked || isUpvoted ? <BiSolidLike onClick={removeVote} /> : <AiOutlineLike onClick={() => addVote("up")} />
                                             }
                                         </p>
 

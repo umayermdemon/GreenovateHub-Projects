@@ -32,7 +32,7 @@ export const undoVote = async (data: FieldValues) => {
         const token = Cookies.get("accessToken");
 
         const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/votes/remove-vote`, {
-            method: "PATCH",
+            method: "DELETE",
             headers: {
                 "Content-Type": "application/json",
                 ...(token && { Authorization: token }), // only include if token exists
