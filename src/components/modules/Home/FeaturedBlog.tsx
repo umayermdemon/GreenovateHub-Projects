@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getAllBlogs } from "@/services/blog";
 import { TBlog } from "@/types/blog.types";
 import { useUser } from "@/context/UserContext";
-import BlogCard from "@/components/modules/blog/BlogCard";
+import BlogCard from "../blog/BlogCard";
 
 const FeaturedBlog = () => {
   const [blogs, setBlogs] = useState<TBlog[]>([]);
@@ -27,9 +27,14 @@ const FeaturedBlog = () => {
           Featured Blog
         </h2>
         <div className="grid grid-cols-3 gap-4">
-          {
-            blogs?.slice(0,3).map((blog: TBlog) => (<BlogCard key={blog.id} data={blog} refresh={fetchBlogs} userId={user?.userId} />))
-          }
+          {blogs?.slice(0, 3).map((blog: TBlog) => (
+            <BlogCard
+              key={blog.id}
+              data={blog}
+              refresh={fetchBlogs}
+              userId={user?.userId}
+            />
+          ))}
         </div>
         <div className="text-center mt-10">
           <Link

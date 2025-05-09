@@ -13,10 +13,11 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Eye, Trash } from "lucide-react";
+import { Edit, Eye, Trash } from "lucide-react";
 import { deleteMyBlog } from "@/services/blog";
 import Swal from "sweetalert2";
 import Link from "next/link";
+import { useUser } from "@/context/UserContext";
 
 interface IBlogCard {
   data: TBlog;
@@ -28,6 +29,7 @@ const BlogCard = ({ data, refresh, userId }: IBlogCard) => {
   const timeAgo = formatDistanceToNow(new Date(data.createdAt), {
     addSuffix: true,
   });
+  const { user } = useUser();
   const [isLiked, setIsLiked] = useState(false);
   const [isDisLiked, setIsDisLiked] = useState(false);
   const isUpvoted = data.up_votes > 0;
@@ -108,9 +110,9 @@ const BlogCard = ({ data, refresh, userId }: IBlogCard) => {
       <div className="flex flex-col bg-green-50 relative border-green-500 border rounded-md">
         <div className="flex  relative">
           <Image
-            className="w-full rounded-t-md h-80"
+            className="w-full rounded-t-md"
             src={data.images[0]}
-            alt="blogImg"
+            alt="image"
             height={200}
             width={300}
           />
@@ -128,18 +130,32 @@ const BlogCard = ({ data, refresh, userId }: IBlogCard) => {
                 <div>
                   <ul className="divide-y divide-gray-200">
                     <Link
-                      href={`/member/dashboard/my-blogs/details/${data.id}`}>
+                      href={
+                        user
+                          ? `/member/dashboard/my-blogs/details/${data.id}`
+                          : `/blogs/${data.id}`
+                      }
+                      passHref>
                       <li className="cursor-pointer hover:bg-green-500 flex gap-1 hover:text-white px-1 text-green-500 pb-0.5">
                         <Eye className="relative top-1 " size={17} />
                         View
                       </li>
                     </Link>
                     {userId === data.authorId && (
-                      <li
-                        onClick={() => deleteBlog(data.id)}
-                        className="cursor-pointer flex gap-1 hover:bg-red-500 hover:text-white px-1 text-red-500 pt-0.5 border-t border-green-500">
-                        <Trash className="relative top-1" size={17} /> Delete
-                      </li>
+                      <>
+                        <Link
+                          href={`/member/dashboard/my-blogs/update/${data.id}`}>
+                          <li className="cursor-pointer flex gap-1 hover:bg-green-500 hover:text-white px-1  pt-0.5 border-t border-green-500 text-green-500">
+                            <Edit className="relative top-1" size={17} />
+                            Update
+                          </li>
+                        </Link>
+                        <li
+                          onClick={() => deleteBlog(data.id)}
+                          className="cursor-pointer flex gap-1 hover:bg-red-500 hover:text-white px-1 border-t border-green-500 text-red-500 pt-0.5">
+                          <Trash className="relative top-1" size={17} /> Delete
+                        </li>
+                      </>
                     )}
                   </ul>
                 </div>

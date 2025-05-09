@@ -1,5 +1,4 @@
 "use client";
-
 import {
   categoryOptions,
   statusOptions,
@@ -10,81 +9,103 @@ import GFormSelect from "@/components/shared/Form/GFormSelect";
 import GFormTextarea from "@/components/shared/Form/GFormTextarea";
 import { PageHeader } from "@/components/singles/PageHeader";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
 import useImageUploader from "@/components/utils/useImageUploader";
-import { createBlog } from "@/services/blog";
+import { getSingleBlog, removeBlogImage, updateBlog } from "@/services/blog";
+import { TBlog } from "@/types/blog.types";
 import { Label } from "@radix-ui/react-label";
-import { useState } from "react";
+import { Trash2 } from "lucide-react";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-const CreateBlog = () => {
+const UpdateBlog = () => {
   const [ImageUrls, setImageUrls] = useState<File | File[]>([]);
+  const { id } = useParams();
+  const [blogData, setBlogData] = useState<TBlog>({} as TBlog);
   const [previewImages, setPreviewImages] = useState<(string | File)[]>([]);
-  console.log(previewImages);
   const { uploadImagesToCloudinary } = useImageUploader();
   const form = useForm({
     defaultValues: {
-      title: "",
-      description: "",
-      category: "",
-      status: "",
+      title: blogData?.title,
+      description: blogData?.description,
+      category: blogData?.category,
+      status: blogData?.status,
     },
   });
   const {
     handleSubmit,
     formState: { isSubmitting },
   } = form;
+  useEffect(() => {
+    const fetchBlogDetails = async () => {
+      try {
+        const res = await getSingleBlog(id);
+        const blog = res.data;
+        setBlogData(blog);
+        form.reset({
+          title: blog.title ?? "",
+          description: blog.description ?? "",
+          category: blog.category ?? "",
+          status: blog.status ?? "",
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchBlogDetails();
+  }, [id, form]);
+  const handleImageDelete = async (image: string) => {
+    try {
+      const opData = {
+        image,
+        id: blogData.id,
+      };
+      const res = await removeBlogImage(opData);
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const images = await uploadImagesToCloudinary(ImageUrls, true);
 
     const { title, description, category, status } = data;
-    const blogData = {
-      title,
-      description,
-      category,
-      images,
-      status,
+    const blogInfo = {
+      data: {
+        title,
+        description,
+        category,
+        images: [...images, ...blogData.images],
+        status,
+      },
+      id: blogData.id,
     };
     try {
-      const res = await createBlog(blogData);
+      const res = await updateBlog(blogInfo);
       if (res.success) {
-        form.reset();
-        setImageUrls([]);
-        setPreviewImages([]);
-        window.location.reload();
         toast.success(res.message);
-
+        window.location.href = "/member/dashboard/my-blogs";
       }
     } catch (error) {
       console.log(error);
     }
-  }; // Closing the onSubmit function
+  };
+
   return (
-    <div className=" lg:w-[1000px] lg:mx-9 my-5">
+    <div className=" lg:max-w-6xl lg:mx-auto my-5">
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className=" flex items-center justify-between">
             <PageHeader
-              title="Share Your Thoughts"
+              title="Update Your Thoughts"
               description="Have a unique idea or experience to share? Put it into words and inspire others with your blog!"
             />
-
           </div>
           <Card>
-            <CardHeader>
-              <CardTitle className="text-green-500">Start Writing Your Blog</CardTitle>
-              <CardDescription>
-                Add a catchy title and give readers a glimpse of what your blog is about.
-              </CardDescription>
-            </CardHeader>
             <CardContent>
               <GFormInput
                 name="title"
@@ -116,8 +137,43 @@ const CreateBlog = () => {
                 control={form.control}
                 className="w-full border-green-500 hover:border- mb-4 hover:border-amber-400 rounded-none"
               />
+              {blogData?.images?.length > 0 && (
+                <>
+                  <Label htmlFor="image" className="font-semibold text-[14px]">
+                    Current Images
+                    <span className="text-green-500 text-xl relative top-0.5">
+                      *
+                    </span>
+                  </Label>
+                  <div className="border border-green-500 p-2 grid grid-cols-4 border-dashed">
+                    {blogData?.images?.map((image: string) => (
+                      <div key={image} className="relative">
+                        <Image
+                          src={image}
+                          alt="image"
+                          width={200}
+                          height={200}
+                          className="rounded-sm"
+                        />
+                        <Button
+                          onClick={() => handleImageDelete(image)}
+                          variant="destructive"
+                          size="icon"
+                          className="absolute top-0 right-1 rounded-full shadow-md  hover:scale-110 transition-transform cursor-pointer">
+                          <Trash2 size={14} className=" text-white" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              )}
               <div className="space-y-2">
-                <Label htmlFor="image" className="font-semibold text-[14px]">Images <span className="text-green-500 text-xl relative top-0.5">*</span></Label>
+                <Label htmlFor="image" className="font-semibold text-[14px]">
+                  New Images
+                  <span className="text-green-500 text-xl relative top-0.5">
+                    *
+                  </span>
+                </Label>
                 <div className="border border-dashed p-12 text-center border-green-500 hover:border-amber-400 transition-colors cursor-pointer">
                   <GFormImageUpload
                     setPreviewImages={setPreviewImages}
@@ -126,15 +182,17 @@ const CreateBlog = () => {
                     name="images"
                     multiple={true}
                     onImageUpload={setImageUrls}
-                    required
                   />
                 </div>
               </div>
               <div className="flex justify-end">
-                <Button type="submit" className="mt-4 rounded-none bg-green-500 cursor-pointer">{isSubmitting ? "Updating..." : "Submit"}</Button>
+                <Button
+                  type="submit"
+                  className="mt-4 rounded-none bg-green-500 cursor-pointer">
+                  {isSubmitting ? "Updating..." : "Update"}
+                </Button>
               </div>
             </CardContent>
-
           </Card>
         </form>
       </Form>
@@ -142,4 +200,4 @@ const CreateBlog = () => {
   );
 };
 
-export default CreateBlog
+export default UpdateBlog;

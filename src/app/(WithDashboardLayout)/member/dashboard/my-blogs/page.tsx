@@ -1,5 +1,6 @@
 "use client";
 import BlogCard from "@/components/modules/blog/BlogCard";
+import { PageHeader } from "@/components/singles/PageHeader";
 import { useUser } from "@/context/UserContext";
 import { getMyBlogs } from "@/services/blog";
 import { TBlog } from "@/types/blog.types";
@@ -17,14 +18,22 @@ const MyBlogs = () => {
     useEffect(() => {
         fetchBlogs();
     }, []);
-    const {user} = useUser();
+    const { user } = useUser();
     console.log(user);
     return (
-        <div className="grid grid-cols-3 gap-4 mx-5 my-6">
-            {
-                blogs?.map((blog: TBlog) => (<BlogCard key={blog.id} data={blog} refresh={fetchBlogs} userId={user?.userId} />))
-            }
-            <h1>{blogs?.length}</h1>
+        <div className="">
+            <div className="flex items-center justify-between mx-8 mt-5">
+                <PageHeader
+                    title="Explore Inspiring Blogs"
+                    description="Browse through a collection of personal stories, unique ideas, and thoughtful opinions shared by our community. Get inspired or share your own!"
+                />
+            </div>
+
+            <div className="grid grid-cols-3 gap-4 mx-5 ">
+                {
+                    blogs?.map((blog: TBlog) => (<BlogCard key={blog.id} data={blog} refresh={fetchBlogs} userId={user?.userId} />))
+                }
+            </div>
         </div>
     );
 };
