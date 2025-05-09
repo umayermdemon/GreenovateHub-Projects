@@ -65,6 +65,38 @@ export const getSingleBlog = async (id: ParamValue) => {
         return Error(error as string);
     }
 };
+export const removeBlogImage = async (data: { id: string, image: string }) => {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/blogs/remove-image/${data.id}`, {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json",
+                Authorization: (await cookies()).get("accessToken")!.value,
+            },
+            body: JSON.stringify({ image: data.image })
+        });
+        const result = await res.json();
+        return result;
+    } catch (error) {
+        return Error(error as string);
+    }
+};
+export const updateBlog = async (blogData: { id: string, data: FieldValues }) => {
+    try {
+        const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/blogs/update-blog/${blogData.id}`, {
+            method: "PATCH",
+            headers: {
+                "content-type": "application/json",
+                Authorization: (await cookies()).get("accessToken")!.value,
+            },
+            body: JSON.stringify(blogData.data)
+        });
+        const result = await res.json();
+        return result;
+    } catch (error) {
+        return Error(error as string);
+    }
+};
 export const deleteMyBlog = async (blogId: string) => {
     console.log(blogId, "blogId");
     try {
