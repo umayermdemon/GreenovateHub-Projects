@@ -3,7 +3,7 @@ import { userController } from "./user.controller";
 import auth from "../../middlewares/auth";
 import { userRole } from "../../../../generated/prisma";
 import validateRequest from "../../middlewares/validateRequest";
-import { createUserValidationSchema } from "./user.validation";
+import { createUserValidationSchema, updateUserValidationSchema } from "./user.validation";
 
 const router = Router();
 

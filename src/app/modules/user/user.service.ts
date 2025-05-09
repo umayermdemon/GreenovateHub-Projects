@@ -1,10 +1,19 @@
 import config from "../../config";
+import AppError from "../../errors/AppError";
 import { jwtHelpers } from "../../utils/jwt.helpers";
 import { prisma } from "../../utils/prisma";
 import { IAuthUser, IUser } from "./user.interface";
 import bcrypt from "bcrypt";
-
+import status from "http-status";
 const registerUser = async (payload: IUser) => {
+  const isUserExists = await prisma.user.findUnique({
+    where:{
+      email:payload.email
+    }
+  })
+  if(isUserExists){
+    throw new AppError(status.NOT_ACCEPTABLE,"This email is already in use")
+  }
   const { password } = payload;
   const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -42,6 +51,7 @@ const getMyProfile = async (user: IAuthUser) => {
   return userData;
 };
 const updateUser = async (user: IAuthUser, updatedPayload: Partial<IUser>) => {
+  console.log(updatedPayload);
   const userData = await prisma.user.findUniqueOrThrow({
     where: {
       email: user.email,

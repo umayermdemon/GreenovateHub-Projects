@@ -90,6 +90,78 @@ const getAllBlogs = async (filters: TBlogFilterRequest, paginationOptions: IPagi
     data: enhancedIdeas
   }
 };
+const getMyBlogs = async (filters: TBlogFilterRequest, paginationOptions: IPaginationOptions, user: IAuthUser) => {
+  const { searchTerm, author, ...filterData } = filters;
+  const { page, limit, skip, sortBy, sortOrder } = calculatePagination(paginationOptions);
+  const andCondition: Prisma.BlogWhereInput[] = [];
+  andCondition.push({
+    authorId: user.userId
+  })
+  if (searchTerm) {
+    andCondition.push({
+      OR: blogSearchableFields.map(field => ({
+        [field]: {
+          contains: searchTerm,
+          mode: 'insensitive'
+        }
+      }))
+    })
+  }
+  if (author) {
+    andCondition.push({
+      author: {
+        name: {
+          contains: author,
+          mode: 'insensitive'
+        }
+      }
+    })
+  }
+  if (Object.keys(filterData).length > 0) {
+    const filterConditions = Object.keys(filterData).map(key => ({
+      [key]: {
+        equals: filterData[key as keyof typeof filterData]
+      }
+    }))
+    andCondition.push(...filterConditions)
+  }
+  const whereConditions: Prisma.BlogWhereInput = andCondition.length > 0 ? { AND: andCondition } : {}
+
+  const result = await prisma.blog.findMany({
+    where: whereConditions,
+    skip,
+    take: limit,
+    orderBy: sortBy && sortOrder ? { [sortBy]: sortOrder } : { createdAt: "desc" },
+    include: {
+      Vote: true,
+      author: true
+    },
+  });
+
+  const total = await prisma.blog.count({
+    where: whereConditions
+  })
+  const enhancedIdeas = result.map((blog) => {
+    const votes = blog.Vote || [];
+
+    const upVotes = votes.filter((v) => v.value === "up").length;
+    const downVotes = votes.filter((v) => v.value === "down").length;
+
+    return {
+      ...blog,
+      up_votes: upVotes,
+      down_votes: downVotes,
+    };
+  });
+  return {
+    meta: {
+      page,
+      limit,
+      total
+    },
+    data: enhancedIdeas
+  }
+};
 
 
 const getBlog = async (id: string) => {
@@ -107,7 +179,7 @@ const editBlog = async (id: string, payload: Partial<Blog>, user: IAuthUser) => 
       id
     }
   })
-  if (blogData?.authorId !== user.userId || user.role !== userRole.admin) {
+  if (blogData?.authorId !== user.userId && user.role !== userRole.admin) {
     throw new Error("You cannot update this blog")
   }
   const result = await prisma.blog.update({
@@ -119,14 +191,35 @@ const editBlog = async (id: string, payload: Partial<Blog>, user: IAuthUser) => 
   return result;
 };
 
+const removeImage = async (id: string, image: string) => {
+  const blog = await prisma.blog.findUnique({
+    where: {
+      id
+    },
+    select: {
+      images: true
+    }
+  })
+  const finalImages = blog?.images?.filter((img) => img !== image);
+  const result = await prisma.blog.update({
+    where: {
+      id
+    },
+    data: {
+      images: finalImages
+    }
+  })
+  return result
+}
 
 const deleteBlog = async (id: string, user: IAuthUser) => {
+  console.log(id);
   const blogData = await prisma.blog.findUnique({
     where: {
       id
     }
   })
-  if (blogData?.authorId !== user.userId || user.role !== userRole.admin) {
+  if (blogData?.authorId !== user.userId && user.role !== userRole.admin) {
     throw new Error("You cannot delete this blog")
   }
   const result = await prisma.blog.delete({
@@ -141,5 +234,7 @@ export const blogServices = {
   getAllBlogs,
   getBlog,
   editBlog,
-  deleteBlog
+  deleteBlog,
+  getMyBlogs,
+  removeImage
 };

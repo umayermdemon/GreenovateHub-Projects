@@ -6,7 +6,7 @@ dotenv.config({ path: path.join((process.cwd(), ".env")) });
 export default {
   port: process.env.PORT,
   jwt_secret: process.env.JWT_SECRET,
-  jwt_expires_in: process.env.JWT_EXPIRES_IN,
+  jwt_expires_in: process.env.JWT_EXPAIRS_IN,
   jwt_refresh_secret: process.env.JWT_REFRESH_SECRET,
   jwt_refresh_expires_in: process.env.JWT_REFRESH_EXPIRES_IN,
   email: process.env.EMAIL,

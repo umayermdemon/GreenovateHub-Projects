@@ -217,7 +217,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Level-2\\Assignment\\Sql-Path\\B4A9-Idea-Hub\\Green-Circle-Server\\generated\\prisma",
+      "value": "C:\\Carrier Game\\Level-2\\Assignment\\my-ninth-assignment\\Green-Circle-Server\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -231,7 +231,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Level-2\\Assignment\\Sql-Path\\B4A9-Idea-Hub\\Green-Circle-Server\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Carrier Game\\Level-2\\Assignment\\my-ninth-assignment\\Green-Circle-Server\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -245,12 +245,11 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
         "fromEnvVar": "DATABASE_URL",
-        "value": null
+        "value": "postgresql://postgres:souravjoyetagermany@localhost:5432/GreenCircle?schema=public"
       }
     }
   },
