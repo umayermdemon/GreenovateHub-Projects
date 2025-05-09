@@ -104,6 +104,7 @@ const Navbar = () => {
                   <h1 className="text-xl font-semibold py-2">
                     {myProfile?.name}
                   </h1>
+                  <p className="text-sm relative bottom-2 text-green-500">{myProfile?.role}</p>
                   {myProfile && <UpdateProfile {...myProfile} />}
                 </div>
                 <ul className="mt-4 divide-y divide-gray-200">

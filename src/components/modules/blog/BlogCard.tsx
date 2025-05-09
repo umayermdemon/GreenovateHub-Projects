@@ -3,19 +3,25 @@ import { TBlog } from "@/types/blog.types";
 import Image from "next/image";
 import { SlOptions } from "react-icons/sl";
 import { formatDistanceToNow } from 'date-fns';
-import { MdOutlineInsertComment } from "react-icons/md";
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { BiSolidLike } from "react-icons/bi";
 import { useState } from "react";
 import { createVote, undoVote } from "@/services/vote";
 import { AiFillDislike } from "react-icons/ai";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Eye, Trash } from "lucide-react";
+import { deleteMyBlog } from "@/services/blog";
+import Swal from 'sweetalert2';
+import Link from "next/link";
 
 
 interface IBlogCard {
-    data: TBlog,
+    data: TBlog;
+    userId: string | undefined;
     refresh: () => void;
 }
-const BlogCard = ({ data, refresh }: IBlogCard) => {
+
+const BlogCard = ({ data, refresh, userId }: IBlogCard) => {
     const timeAgo = formatDistanceToNow(new Date(data.createdAt), { addSuffix: true });
     const [isLiked, setIsLiked] = useState(false);
     const [isDisLiked, setIsDisLiked] = useState(false);
@@ -63,6 +69,35 @@ const BlogCard = ({ data, refresh }: IBlogCard) => {
     const removeDisLike = async () => {
         removeVote()
     }
+    const deleteBlog = async (id: string) => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const res = await deleteMyBlog(id);
+                    console.log(res);
+                    if (res.success) {
+                        refresh();
+                    }
+                } catch (error) {
+                    console.log(error);
+                }
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your file has been deleted.",
+                    icon: "success"
+                });
+            }
+        });
+
+    }
 
     return (
         <div>
@@ -72,13 +107,30 @@ const BlogCard = ({ data, refresh }: IBlogCard) => {
                 </div>
                 <div className="flex justify-between mx-4 mt-3">
                     <p className="  bg-green-900 text-white px-2 rounded-full">{data.category}</p>
-                    <p className="text-[15px] cursor-pointer"><SlOptions />
-                    </p>
+                    <div className="text-[15px] cursor-pointer">
+                        <Popover>
+                            <PopoverTrigger className=" hover:bg-green-500 rounded-sm hover:text-white">
+                                <SlOptions className="cursor-pointer  w-[30px] h-[25px]  px-0.5 py-1" />
+                            </PopoverTrigger>
+                            <PopoverContent className="w-[130px] border border-green-500 bg-amber-50 px-1 py-1">
+                                <div>
+                                    <ul className="divide-y divide-gray-200">
+                                        <Link href={`/member/dashboard/my-blogs/details/${data.id}`}>
+                                            <li className="cursor-pointer hover:bg-green-500 flex gap-1 hover:text-white px-1 text-green-500 pb-0.5"><Eye className="relative top-1 " size={17} />View</li>
+                                        </Link>
+                                        {
+                                            userId === data.authorId && <li onClick={() => deleteBlog(data.id)} className="cursor-pointer flex gap-1 hover:bg-red-500 hover:text-white px-1 text-red-500 pt-0.5 border-t border-green-500"><Trash className="relative top-1" size={17} /> Delete</li>
+                                        }
+                                    </ul>
+                                </div>
+                            </PopoverContent>
+                        </Popover>
+                    </div>
                 </div>
                 <div className="flex justify-center  p-3">
                     <div>
                         <h1 className="text-xl font font-semibold">{data.title.split(' ').slice(0, 4).join(" ")}</h1>
-                        <p className="border-b border-green-900 pb-2">{data.description.split(' ').slice(0, 13).join(" ")}</p>
+                        <p className="border-b border-green-900 pb-2">{data.description.split(' ').slice(0, 10).join(" ")}</p>
                         <div className="flex justify-between pt-1">
                             <p className="text-sm text-sky-400 italic">{timeAgo.split(' ').slice(1, 3).join(' ')} ago</p>
                             <div className="flex gap-4 mt-1">
@@ -100,9 +152,6 @@ const BlogCard = ({ data, refresh }: IBlogCard) => {
 
                                     </p>
                                 </div>
-                                <p className="mt-1">
-                                    <MdOutlineInsertComment className="text-green-500 text-[20px] cursor-pointer" />
-                                </p>
                             </div>
                         </div>
                     </div>

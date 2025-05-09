@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client"
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "./ui/button";
 import { Form } from "./ui/form";
@@ -15,8 +15,8 @@ import { updateMyProfile } from "@/services/user";
 const UpdateProfile = (myProfile: TUserProfile) => {
     const form = useForm({
         defaultValues: {
-            name: myProfile?.name || "",
-            address: myProfile?.address || "",
+            name: myProfile?.name,
+            address: myProfile?.address,
         }
     });
     const { handleSubmit } = form;
@@ -30,14 +30,17 @@ const UpdateProfile = (myProfile: TUserProfile) => {
             address,
             image,
         };
+        console.log(userUpdateData);
         try {
             const res = await updateMyProfile(userUpdateData);
+            console.log(res);
             if (res?.success) {
                 toast.success(res?.message);
                 window.location.reload();
             }
         }
         catch (error) {
+            console.log(error);
             toast.error("Error happened while updating your profile")
         }
 
@@ -45,7 +48,7 @@ const UpdateProfile = (myProfile: TUserProfile) => {
     return (
         <div>
             <Popover>
-                <PopoverTrigger>
+                <PopoverTrigger asChild>
                     <Button className="bg-green-500 cursor-pointer hover:bg-green-900">Edit Profile</Button>
                 </PopoverTrigger>
                 <PopoverContent className="relative right-[300px] bottom-[50px]">

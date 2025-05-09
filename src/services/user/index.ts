@@ -28,6 +28,7 @@ export const getMe = async () => {
 };
 
 export const updateMyProfile = async (updateData: FieldValues) => {
+  console.log(updateData);
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/users/update-profile`,
@@ -39,7 +40,6 @@ export const updateMyProfile = async (updateData: FieldValues) => {
         body: JSON.stringify(updateData),
       }
     );
-
     return res.json();
   } catch (error: any) {
     return Error(error);
