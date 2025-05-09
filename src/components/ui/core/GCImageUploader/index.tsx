@@ -5,7 +5,7 @@ import { File } from "lucide-react";
 
 type TImageUpload = {
   setImageFiles: Dispatch<SetStateAction<[] | File[]>>;
-  setImagePreview: Dispatch<SetStateAction<[] | string[]>>;
+  setImagePreview?: Dispatch<SetStateAction<[] | string[]>>;
   imageFiles: File[] | [];
   label?: string;
   className?: string;
@@ -23,7 +23,9 @@ const GCImageUploader = ({
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImagePreview((prev) => [...prev, reader.result as string]);
+        if (setImagePreview) {
+          setImagePreview((prev) => [...prev, reader.result as string]);
+        }
       };
       reader.readAsDataURL(file);
     }

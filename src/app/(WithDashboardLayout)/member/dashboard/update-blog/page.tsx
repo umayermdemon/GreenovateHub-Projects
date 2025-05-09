@@ -131,7 +131,7 @@ const CreateBlog = () => {
                 </div>
               </div>
               <div className="flex justify-end">
-                <Button type="submit" className="mt-4 rounded-none bg-green-500 cursor-pointer">{isSubmitting ? "Creating..." : "Submit"}</Button>
+                <Button type="submit" className="mt-4 rounded-none bg-green-500 cursor-pointer">{isSubmitting ? "Updating..." : "Submit"}</Button>
               </div>
             </CardContent>
 
