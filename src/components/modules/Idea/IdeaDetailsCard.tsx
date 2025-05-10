@@ -97,7 +97,7 @@ const IdeaDetailsCard = ({
   }
 
   return (
-    <div className="max-w-5xl mx-auto min-h-[calc(100vh-100px)] p-4 my-4 shadow-lg bg-amber-50 border-amber-500 border rounded-md">
+    <div className="max-w-5xl mx-auto min-h-[calc(100vh-100px)] p-4 my-4 shadow-lg bg-amber-50  border rounded-md">
       {/* Images */}
       {idea.images?.length > 0 && (
         <Swiper

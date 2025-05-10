@@ -56,9 +56,8 @@ export const getAllIdeas = async (options?: { category?: string, searchTerm?: st
             params.append("category", options.category);
         }
 
- const query = params.toString() ? `?${params.toString()}` : "";
+        const query = params.toString() ? `?${params.toString()}` : "";
         const res = await fetch(
-
             `${process.env.NEXT_PUBLIC_BASE_URL}/ideas/get-all-ideas${query}`,
             {
                 method: "GET",
