@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { ParamValue } from "next/dist/server/request/params";
 import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
@@ -17,6 +18,7 @@ export const createBlog = async (blogData: FieldValues) => {
         body: JSON.stringify(blogData),
       }
     );
+    revalidateTag("Blogs");
     const result = await res.json();
     return result;
   } catch (error) {
@@ -28,10 +30,7 @@ export const getAllBlogs = async () => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/blogs/get-all-blogs`,
       {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-        },
+        next: { tags: ["Blogs"] },
       }
     );
     const result = await res.json();
@@ -88,6 +87,7 @@ export const removeBlogImage = async (data: { id: string; image: string }) => {
         body: JSON.stringify({ image: data.image }),
       }
     );
+    revalidateTag("Blogs");
     const result = await res.json();
     return result;
   } catch (error) {
@@ -110,6 +110,7 @@ export const updateBlog = async (blogData: {
         body: JSON.stringify(blogData.data),
       }
     );
+    revalidateTag("Blogs");
     const result = await res.json();
     return result;
   } catch (error) {
@@ -129,6 +130,7 @@ export const deleteMyBlog = async (blogId: string) => {
         },
       }
     );
+    revalidateTag("Blogs");
     const result = await res.json();
     return result;
   } catch (error) {
