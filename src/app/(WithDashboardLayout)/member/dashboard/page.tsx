@@ -1,12 +1,13 @@
-export default function MemberDashboard() {
+import { getMyBlogs } from "@/services/blog";
+import ManageMemberDashboard from "@/components/modules/Dashboard/Member";
+
+const MemberDashboard = async () => {
+  const blogs = await getMyBlogs();
   return (
     <div>
-      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-        <div className="aspect-video rounded-xl bg-muted " />
-        <div className="aspect-video rounded-xl bg-muted" />
-        <div className="aspect-video rounded-xl bg-muted" />
-      </div>
-      <div className="min-h-[100vh] rounded-xl bg-muted mt-4" />
+      <ManageMemberDashboard blogs={blogs?.data} />
     </div>
   );
-}
+};
+
+export default MemberDashboard;

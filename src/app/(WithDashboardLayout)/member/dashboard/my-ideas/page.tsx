@@ -7,34 +7,40 @@ import { TIdea } from "@/types/idea.types";
 import { useEffect, useState } from "react";
 
 const MyIdeas = () => {
-    const [ideas, setIdeas] = useState<TIdea[]>([]);
+  const [ideas, setIdeas] = useState<TIdea[]>([]);
 
-    const fetchIdeas = async () => {
-        const res = await getMyIdeas();
-        if (res?.data) {
-            setIdeas(res.data.data);
-        }
-    };
-    useEffect(() => {
-        fetchIdeas();
-    }, []);
-    const { user } = useUser();
-    return (
-        <div className="">
-            <div className="flex items-center justify-between mx-8 mt-5">
-                <PageHeader
-                    title="Explore Inspiring Ideas"
-                    description="Browse through a collection of personal stories, unique ideas, and thoughtful opinions shared by our community. Get inspired or share your own!"
-                />
-            </div>
+  const fetchIdeas = async () => {
+    const res = await getMyIdeas();
+    if (res?.data) {
+      setIdeas(res?.data);
+    }
+  };
+  useEffect(() => {
+    fetchIdeas();
+  }, []);
+  const { user } = useUser();
+  console.log(ideas);
+  return (
+    <div className="">
+      <div className="flex items-center justify-between mx-8 mt-5">
+        <PageHeader
+          title="Explore Inspiring Ideas"
+          description="Browse through a collection of personal stories, unique ideas, and thoughtful opinions shared by our community. Get inspired or share your own!"
+        />
+      </div>
 
-            <div className="grid grid-cols-3 gap-4 mx-5 ">
-                {
-                    ideas?.map((idea: TIdea) => (<IdeaCard key={idea.id} data={idea} refresh={fetchIdeas} userId={user?.userId} />))
-                }
-            </div>
-        </div>
-    );
+      <div className="grid grid-cols-3 gap-4 mx-5 ">
+        {ideas?.map((idea: TIdea) => (
+          <IdeaCard
+            key={idea.id}
+            data={idea}
+            refresh={fetchIdeas}
+            userId={user?.userId}
+          />
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default MyIdeas;
