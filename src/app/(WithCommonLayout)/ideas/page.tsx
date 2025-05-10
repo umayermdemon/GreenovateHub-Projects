@@ -9,22 +9,33 @@ import { getAllIdeas } from "@/services/idea";
 import { TIdea } from "@/types/idea.types";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
+import { debounce } from "lodash";
+
 const tabOrder = ["all", "energy", "waste", "transportation"];
 
 const IdeaPage = () => {
   const [ideas, setIdeas] = useState<TIdea[]>([]);
   const [selectedTab, setSelectedTab] = useState<string>("all");
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const fetchIdeas = async (category?: string) => {
-    const res = await getAllIdeas({ category, searchTerm });
-    console.log(res);
+
+  const fetchIdeas = async (category?: string, search?: string) => {
+    const res = await getAllIdeas({ category, searchTerm: search ?? searchTerm });
     if (res?.data) {
       setIdeas(res.data);
     }
   };
+  const debouncedFetch = debounce((term: string) => {
+    fetchIdeas(selectedTab === "all" ? undefined : selectedTab, term)
+  }, 500)
+
   useEffect(() => {
     fetchIdeas();
   }, []);
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    debouncedFetch(value);
+  }
   const { user } = useUser();
   return (
     <div className="mx-8 my-6">
@@ -34,7 +45,7 @@ const IdeaPage = () => {
             placeholder="Search Idea..."
             className="lg:w-[300px] border-black rounded-r-none focus:border-green-500 focus:ring-0 focus:outline-none"
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            onChange={handleSearchChange}
           />
 
           <Button
