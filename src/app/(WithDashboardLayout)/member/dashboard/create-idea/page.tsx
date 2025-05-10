@@ -87,7 +87,7 @@ const CreateIdea = () => {
     }
     if (!mounted) return null; // Or a loading spinner
     return (
-        <div className="min-h-screen flex flex-col lg:max-w-6xl lg:mx-auto my-5">
+        <div className="min-h-screen flex flex-col lg:max-w-5xl lg:mx-auto my-5">
             <div className="flex items-center justify-between">
                 <PageHeader
                     title="Create An Idea"
