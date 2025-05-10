@@ -19,12 +19,11 @@ const BlogDetails = () => {
     }
     const user = await getSingleUSer(blog?.authorId);
     if (user?.data) {
-      setUser(user.data)
+      setUser(user.data);
     }
-  }, [id, blog?.authorId])
+  }, [id, blog?.authorId]);
 
   useEffect(() => {
-
     fetchData();
   }, [fetchData]);
 

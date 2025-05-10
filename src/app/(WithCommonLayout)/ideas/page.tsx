@@ -29,7 +29,7 @@ const IdeaPage = () => {
         value={selectedTab}
         onValueChange={(val) => {
           setSelectedTab(val);
-          fetchIdeas(val === "all" ? undefined : val)
+          fetchIdeas(val === "all" ? undefined : val);
         }}
         className="my-6 mx-5">
         <TabsList className="w-full">
@@ -37,17 +37,21 @@ const IdeaPage = () => {
             <TabsTrigger
               key={tab}
               value={tab}
-              className="w-full data-[state=active]:bg-green-500 data-[state=active]:text-white"
-            >
+              className="w-full data-[state=active]:bg-green-500 data-[state=active]:text-white">
               {tab.charAt(0).toUpperCase() + tab.slice(1)}
             </TabsTrigger>
           ))}
         </TabsList>
       </Tabs>
       <div className="grid grid-cols-3 gap-4 mx-5 ">
-        {
-          ideas?.map((idea: TIdea) => (<IdeaCard key={idea.id} data={idea} refresh={fetchIdeas} userId={user?.userId} />))
-        }
+        {ideas?.map((idea: TIdea) => (
+          <IdeaCard
+            key={idea.id}
+            data={idea}
+            refresh={fetchIdeas}
+            userId={user?.userId}
+          />
+        ))}
       </div>
     </div>
   );
