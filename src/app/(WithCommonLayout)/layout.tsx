@@ -5,7 +5,6 @@ import { ReactNode } from "react";
 
 const CommonLayout = async ({ children }: { children: ReactNode }) => {
   const user = await getUser();
-  console.log(user);
   return (
     <>
       <div
