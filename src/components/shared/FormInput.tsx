@@ -8,6 +8,7 @@ import {
 import { Input } from "../ui/input";
 
 type InputProps = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: any;
   name: string;
   label: string;
