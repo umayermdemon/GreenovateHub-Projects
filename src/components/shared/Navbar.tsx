@@ -103,7 +103,7 @@ const Navbar = () => {
                   <h1 className="text-xl font-semibold py-2">
                     {myProfile?.name}
                   </h1>
-                  <p className="text-sm text-green-500 mb-2">
+                  <p className="text-sm text-green-500 relative bottom-3">
                     {myProfile?.role}
                   </p>
                   {myProfile && <UpdateProfile {...myProfile} />}

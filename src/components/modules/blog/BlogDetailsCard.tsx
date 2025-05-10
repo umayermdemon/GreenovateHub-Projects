@@ -17,12 +17,10 @@ import { deleteMyBlog } from "@/services/blog";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { createVote, undoVote } from "@/services/vote";
-import { useState } from "react";
 
 const BlogDetailsCard = ({ blog, user, refresh }: { blog: TBlog; user: TAuthor, refresh: () => void }) => {
   const router = useRouter();
-  const [isLiked, setIsLiked] = useState(false);
-  const [isDisLiked, setIsDisLiked] = useState(false);
+  
   const addVote = async (value: string) => {
     const voteData = {
       blogId: blog.id,
@@ -30,12 +28,8 @@ const BlogDetailsCard = ({ blog, user, refresh }: { blog: TBlog; user: TAuthor, 
     };
     try {
       const res = await createVote(voteData);
-      console.log(res);
       if (res.success) {
         refresh();
-        if (isDisLiked) {
-          setIsDisLiked(false);
-        }
       }
     } catch (error) {
       console.log(error);
@@ -49,23 +43,12 @@ const BlogDetailsCard = ({ blog, user, refresh }: { blog: TBlog; user: TAuthor, 
       const res = await undoVote(voteData);
       if (res.success) {
         refresh()
-        if (isLiked) {
-          setIsLiked(false);
-        } else {
-          setIsDisLiked(false);
-        }
       }
     } catch (error) {
       console.log(error);
     }
   };
-  const addDisLike = async () => {
-    setIsDisLiked(true);
-    addVote("down");
-  };
-  const removeDisLike = async () => {
-    removeVote();
-  };
+
   const deleteBlog = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -163,7 +146,7 @@ const BlogDetailsCard = ({ blog, user, refresh }: { blog: TBlog; user: TAuthor, 
           <div className="flex gap-2 bg-green-500 px-2 py-1 rounded-full">
             <div className="flex gap-0.5 border-r cursor-pointer pr-1 text-white text-[19px]">
               <p>
-                {isLiked || isUpvoted ? (
+                {isUpvoted ? (
                   <BiSolidLike onClick={removeVote} />
                 ) : (
                   <AiOutlineLike onClick={() => addVote("up")} />
@@ -174,10 +157,10 @@ const BlogDetailsCard = ({ blog, user, refresh }: { blog: TBlog; user: TAuthor, 
             </div>
             <div className="flex gap-0.5 cursor-pointer pr-1 text-white text-[19px]">
               <p>
-                {isDisLiked || isDownvoted ? (
-                  <AiFillDislike onClick={removeDisLike} />
+                {isDownvoted ? (
+                  <AiFillDislike onClick={removeVote} />
                 ) : (
-                  <AiOutlineDislike onClick={addDisLike} />
+                  <AiOutlineDislike onClick={() => addVote("down")} />
                 )}
               </p>
 
