@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 const CommonLayout = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      <div className="h-16">
+      <div className="h-20 bg-gradient-to-r from-green-100 to-green-50">
         <Nav />
       </div>
       <div className="min-h-screen">{children}</div>

@@ -10,8 +10,43 @@ import Image from "next/image";
 import { format } from "date-fns";
 import { BiSolidLike } from "react-icons/bi";
 import { AiFillDislike } from "react-icons/ai";
+import { Edit, Trash } from "lucide-react";
+import Link from "next/link";
+import Swal from "sweetalert2";
+import { deleteMyBlog } from "@/services/blog";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const BlogDetailsCard = ({ blog, user }: { blog: TBlog; user: TAuthor }) => {
+  const router = useRouter();
+  const deleteBlog = async (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await deleteMyBlog(id);
+          if (res?.success) {
+            toast.success("Blog deleted successfully");
+            router.push(`/${user?.role}/dashboard/my-blogs`);
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+        });
+      }
+    });
+  };
   if (!blog) {
     return (
       <div className="text-center py-10 text-muted-foreground">Loading...</div>
@@ -41,11 +76,29 @@ const BlogDetailsCard = ({ blog, user }: { blog: TBlog; user: TAuthor }) => {
         </Swiper>
       )}
 
-      <Badge
-        variant="outline"
-        className="mb-4 capitalize bg-green-800 text-white p-2">
-        {blog?.category}
-      </Badge>
+      <div className="flex justify-between items-center">
+        <Badge
+          variant="outline"
+          className="mb-4 capitalize bg-green-800 text-white p-2">
+          {blog?.category}
+        </Badge>
+        <div>
+          {user && (
+            <div className="flex items-center gap-4">
+              <Link
+                href={`/member/dashboard/my-blogs/update/${blog.id}`}
+                className="cursor-pointer">
+                <Edit className="text-green-600" />{" "}
+              </Link>
+              <h2
+                onClick={() => deleteBlog(blog.id)}
+                className="cursor-pointer">
+                <Trash className="text-red-600" />
+              </h2>
+            </div>
+          )}
+        </div>
+      </div>
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-4xl font-bold text-green-800 mb-1">
