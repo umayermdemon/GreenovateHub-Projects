@@ -53,6 +53,7 @@ export const updateMyProfile = async (updateData: FieldValues) => {
       {
         method: "PATCH",
         headers: {
+          "Content-Type": "application/json",
           Authorization: (await cookies()).get("accessToken")!.value,
         },
         body: JSON.stringify(updateData),

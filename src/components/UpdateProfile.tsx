@@ -16,7 +16,7 @@ const UpdateProfile = (myProfile: TUserProfile) => {
     const form = useForm({
         defaultValues: {
             name: myProfile?.name,
-            address: myProfile?.address,
+            address: myProfile?.address || "",
         }
     });
     const { handleSubmit } = form;
@@ -30,6 +30,7 @@ const UpdateProfile = (myProfile: TUserProfile) => {
             address,
             image: image || myProfile?.image,
         };
+        console.log(userUpdateData, 'userUpdateData');
         try {
             const res = await updateMyProfile(userUpdateData);
             console.log(res);
