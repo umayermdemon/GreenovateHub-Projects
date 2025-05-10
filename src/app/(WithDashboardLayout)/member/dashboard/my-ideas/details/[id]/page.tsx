@@ -24,12 +24,11 @@ const IdeaDetails = () => {
         const userRes = await getSingleUSer(res.data.authorId);
         if (userRes?.data) {
           setUser(userRes.data);
+          setLoading(false);
         }
       }
     } catch (error) {
       console.error("Error fetching data:", error);
-    } finally {
-      setLoading(false);
     }
   }, [id]);
 
