@@ -9,16 +9,54 @@ import "swiper/css/pagination";
 import Image from "next/image";
 import { format } from "date-fns";
 import { BiSolidLike } from "react-icons/bi";
-import { AiFillDislike } from "react-icons/ai";
+import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { Edit, Trash } from "lucide-react";
 import Link from "next/link";
 import Swal from "sweetalert2";
 import { deleteMyBlog } from "@/services/blog";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { createVote, undoVote } from "@/services/vote";
 
-const BlogDetailsCard = ({ blog, user }: { blog: TBlog; user: TAuthor }) => {
+const BlogDetailsCard = ({
+  blog,
+  user,
+  refresh,
+}: {
+  blog: TBlog;
+  user: TAuthor;
+  refresh: () => void;
+}) => {
   const router = useRouter();
+
+  const addVote = async (value: string) => {
+    const voteData = {
+      blogId: blog.id,
+      value: value,
+    };
+    try {
+      const res = await createVote(voteData);
+      if (res.success) {
+        refresh();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const removeVote = async () => {
+    const voteData = {
+      blogId: blog.id,
+    };
+    try {
+      const res = await undoVote(voteData);
+      if (res.success) {
+        refresh();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const deleteBlog = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -47,6 +85,8 @@ const BlogDetailsCard = ({ blog, user }: { blog: TBlog; user: TAuthor }) => {
       }
     });
   };
+  const isUpvoted = blog.up_votes > 0;
+  const isDownvoted = blog.down_votes > 0;
   if (!blog) {
     return (
       <div className="text-center py-10 text-muted-foreground">Loading...</div>
@@ -54,7 +94,7 @@ const BlogDetailsCard = ({ blog, user }: { blog: TBlog; user: TAuthor }) => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto min-h-[calc(100vh-100px)] p-4 my-4 shadow-lg rounded-md bg-green-50 border border-green-500">
+    <div className="max-w-5xl mx-auto min-h-[calc(100vh-100px)] p-4 my-4 shadow-lg rounded-md bg-green-50 border border-green-500">
       {blog?.images && blog?.images.length > 0 && (
         <Swiper
           modules={[Pagination, Autoplay]}
@@ -69,7 +109,7 @@ const BlogDetailsCard = ({ blog, user }: { blog: TBlog; user: TAuthor }) => {
                 alt={`Blog Image ${idx + 1}`}
                 width={800}
                 height={800}
-                className="rounded-xl w-full h-[600px] object-fill border-2 "
+                className="rounded-xl w-full h-[500px] object-fill border-2 "
               />
             </SwiperSlide>
           ))}
@@ -120,17 +160,25 @@ const BlogDetailsCard = ({ blog, user }: { blog: TBlog; user: TAuthor }) => {
           <div className="flex gap-2 bg-green-500 px-2 py-1 rounded-full">
             <div className="flex gap-0.5 border-r cursor-pointer pr-1 text-white text-[19px]">
               <p>
-                <BiSolidLike />
+                {isUpvoted ? (
+                  <BiSolidLike onClick={removeVote} />
+                ) : (
+                  <AiOutlineLike onClick={() => addVote("up")} />
+                )}
               </p>
 
-              <p className="text-sm">5</p>
+              <p className="text-sm">{blog.up_votes}</p>
             </div>
             <div className="flex gap-0.5 cursor-pointer pr-1 text-white text-[19px]">
               <p>
-                <AiFillDislike />
+                {isDownvoted ? (
+                  <AiFillDislike onClick={removeVote} />
+                ) : (
+                  <AiOutlineDislike onClick={() => addVote("down")} />
+                )}
               </p>
 
-              <p className="text-sm">0</p>
+              <p className="text-sm">{blog.down_votes}</p>
             </div>
           </div>
         </div>

@@ -13,32 +13,35 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useImageUploader from "@/components/utils/useImageUploader";
 import { useUser } from "@/context/UserContext";
-import { createIdea } from "@/services/idea";
+import { createIdea, getSingleIdea } from "@/services/idea";
+import { TIdea } from "@/types/idea.types";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 const tabOrder = ["general", "solution", "availability"];
 
-const CreateIdea = () => {
+const UpdateIdea = () => {
     const { user } = useUser();
+    const { id } = useParams();
     const [activeTab, setActiveTab] = useState("general");
     const [previewImages, setPreviewImages] = useState<(string | File)[]>([]);
-
+    const [idea, setIdea] = useState<TIdea>({} as TIdea);
     const [mounted, setMounted] = useState(false);
     const [ImageUrls, setImageUrls] = useState<File | File[]>([]);
     const { uploadImagesToCloudinary } = useImageUploader();
     const form = useForm({
         defaultValues: {
-            title: "",
-            category: "",
-            problem: "",
-            solution: "",
-            description: "",
-            ideaType: "",
-            price: "",
-            status: ""
+            title: idea.title,
+            category: idea.category,
+            problem: idea.problem_statement,
+            solution: idea.proposed_solution,
+            description: idea.description,
+            ideaType: idea.isPremium ? "paid" : "unpaid",
+            price: idea.price,
+            status: idea.status
 
         }
     });
@@ -59,7 +62,28 @@ const CreateIdea = () => {
             setValue("price", "0")
         }
     }, [setValue, isPaid]);
-
+    useEffect(() => {
+        const fetchBlogDetails = async () => {
+            try {
+                const res = await getSingleIdea(id);
+                const idea = res.data;
+                setIdea(idea);
+                form.reset({
+                    title: idea.title ?? "",
+                    category: idea.category ?? "",
+                    problem: idea.problem_statement ?? "",
+                    solution: idea.proposed_solution ?? "",
+                    description: idea.description ?? "",
+                    ideaType: idea.isPremium ? "paid" : "unpaid",
+                    price: idea.price ?? "",
+                    status: idea.status ?? ""
+                });
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        fetchBlogDetails();
+    }, [id, form]);
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         const { title, description, category, problem, solution, ideaType, price, status } = data;
         const images = await uploadImagesToCloudinary(ImageUrls, true);
@@ -85,12 +109,12 @@ const CreateIdea = () => {
             console.log(error)
         }
     }
-    if (!mounted) return null; // Or a loading spinner
+    if (!mounted) return null;
     return (
         <div className="min-h-screen flex flex-col lg:max-w-5xl lg:mx-auto my-5">
             <div className="flex items-center justify-between">
                 <PageHeader
-                    title="Create An Idea"
+                    title="Update Your Idea"
                     description="Got something unique in mind? Write it down!"
                 />
             </div>
@@ -255,4 +279,4 @@ const CreateIdea = () => {
     );
 };
 
-export default CreateIdea;
+export default UpdateIdea;
