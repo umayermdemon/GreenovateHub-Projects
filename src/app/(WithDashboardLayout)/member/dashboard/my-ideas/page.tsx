@@ -11,15 +11,15 @@ const MyIdeas = () => {
 
   const fetchIdeas = async () => {
     const res = await getMyIdeas();
+    console.log(res);
     if (res?.data) {
-      setIdeas(res?.data);
+      setIdeas(res.data.data);
     }
   };
   useEffect(() => {
     fetchIdeas();
   }, []);
   const { user } = useUser();
-  console.log(ideas);
   return (
     <div className="">
       <div className="flex items-center justify-between mx-8 mt-5">

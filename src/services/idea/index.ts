@@ -46,6 +46,34 @@ export const getMyIdeas = async () => {
     return Error(error as string);
   }
 };
+export const getAllIdeas = async (options?: { category?: string, searchTerm?: string }) => {
+    try {
+        const params = new URLSearchParams();
+        if (options?.searchTerm) {
+            params.append("searchTerm", options.searchTerm);
+        }
+        if (options?.category) {
+            params.append("category", options.category);
+        }
+
+ const query = params.toString() ? `?${params.toString()}` : "";
+        const res = await fetch(
+
+            `${process.env.NEXT_PUBLIC_BASE_URL}/ideas/get-all-ideas${query}`,
+            {
+                method: "GET",
+                headers: {
+                    "content-type": "application/json",
+                    Authorization: (await cookies()).get("accessToken")!.value,
+                },
+            }
+        );
+        const result = await res.json();
+        return result;
+    } catch (error) {
+        return Error(error as string);
+    }
+};
 export const getSingleIdea = async (id: ParamValue) => {
   try {
     const res = await fetch(
