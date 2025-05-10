@@ -98,6 +98,70 @@ const getAllBlogs = (filters, paginationOptions) => __awaiter(void 0, void 0, vo
         data: enhancedIdeas
     };
 });
+const getMyBlogs = (filters, paginationOptions, user) => __awaiter(void 0, void 0, void 0, function* () {
+    const { searchTerm, author } = filters, filterData = __rest(filters, ["searchTerm", "author"]);
+    const { page, limit, skip, sortBy, sortOrder } = (0, calculatePagination_1.default)(paginationOptions);
+    const andCondition = [];
+    andCondition.push({
+        authorId: user.userId
+    });
+    if (searchTerm) {
+        andCondition.push({
+            OR: blog_constant_1.blogSearchableFields.map(field => ({
+                [field]: {
+                    contains: searchTerm,
+                    mode: 'insensitive'
+                }
+            }))
+        });
+    }
+    if (author) {
+        andCondition.push({
+            author: {
+                name: {
+                    contains: author,
+                    mode: 'insensitive'
+                }
+            }
+        });
+    }
+    if (Object.keys(filterData).length > 0) {
+        const filterConditions = Object.keys(filterData).map(key => ({
+            [key]: {
+                equals: filterData[key]
+            }
+        }));
+        andCondition.push(...filterConditions);
+    }
+    const whereConditions = andCondition.length > 0 ? { AND: andCondition } : {};
+    const result = yield prisma_1.prisma.blog.findMany({
+        where: whereConditions,
+        skip,
+        take: limit,
+        orderBy: sortBy && sortOrder ? { [sortBy]: sortOrder } : { createdAt: "desc" },
+        include: {
+            Vote: true,
+            author: true
+        },
+    });
+    const total = yield prisma_1.prisma.blog.count({
+        where: whereConditions
+    });
+    const enhancedIdeas = result.map((blog) => {
+        const votes = blog.Vote || [];
+        const upVotes = votes.filter((v) => v.value === "up").length;
+        const downVotes = votes.filter((v) => v.value === "down").length;
+        return Object.assign(Object.assign({}, blog), { up_votes: upVotes, down_votes: downVotes });
+    });
+    return {
+        meta: {
+            page,
+            limit,
+            total
+        },
+        data: enhancedIdeas
+    };
+});
 const getBlog = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield prisma_1.prisma.blog.findUnique({
         where: {
@@ -112,7 +176,7 @@ const editBlog = (id, payload, user) => __awaiter(void 0, void 0, void 0, functi
             id
         }
     });
-    if ((blogData === null || blogData === void 0 ? void 0 : blogData.authorId) !== user.userId || user.role !== prisma_2.userRole.admin) {
+    if ((blogData === null || blogData === void 0 ? void 0 : blogData.authorId) !== user.userId && user.role !== prisma_2.userRole.admin) {
         throw new Error("You cannot update this blog");
     }
     const result = yield prisma_1.prisma.blog.update({
@@ -123,13 +187,35 @@ const editBlog = (id, payload, user) => __awaiter(void 0, void 0, void 0, functi
     });
     return result;
 });
+const removeImage = (id, image) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const blog = yield prisma_1.prisma.blog.findUnique({
+        where: {
+            id
+        },
+        select: {
+            images: true
+        }
+    });
+    const finalImages = (_a = blog === null || blog === void 0 ? void 0 : blog.images) === null || _a === void 0 ? void 0 : _a.filter((img) => img !== image);
+    const result = yield prisma_1.prisma.blog.update({
+        where: {
+            id
+        },
+        data: {
+            images: finalImages
+        }
+    });
+    return result;
+});
 const deleteBlog = (id, user) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(id);
     const blogData = yield prisma_1.prisma.blog.findUnique({
         where: {
             id
         }
     });
-    if ((blogData === null || blogData === void 0 ? void 0 : blogData.authorId) !== user.userId || user.role !== prisma_2.userRole.admin) {
+    if ((blogData === null || blogData === void 0 ? void 0 : blogData.authorId) !== user.userId && user.role !== prisma_2.userRole.admin) {
         throw new Error("You cannot delete this blog");
     }
     const result = yield prisma_1.prisma.blog.delete({
@@ -144,5 +230,7 @@ exports.blogServices = {
     getAllBlogs,
     getBlog,
     editBlog,
-    deleteBlog
+    deleteBlog,
+    getMyBlogs,
+    removeImage
 };

@@ -26,6 +26,6 @@ router.delete(
   auth(userRole.admin, userRole.member),
   blogController.deleteBlog
 );
-router.patch("/remove-image/:id", blogController.removeImage)
+router.patch("/remove-image/:id", blogController.removeImage);
 
 export const blogRouter = router;
