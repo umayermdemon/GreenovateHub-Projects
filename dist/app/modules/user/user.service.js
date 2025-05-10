@@ -14,10 +14,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userServices = void 0;
 const config_1 = __importDefault(require("../../config"));
+const AppError_1 = __importDefault(require("../../errors/AppError"));
 const jwt_helpers_1 = require("../../utils/jwt.helpers");
 const prisma_1 = require("../../utils/prisma");
 const bcrypt_1 = __importDefault(require("bcrypt"));
+const http_status_1 = __importDefault(require("http-status"));
 const registerUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const isUserExists = yield prisma_1.prisma.user.findUnique({
+        where: {
+            email: payload.email,
+        },
+    });
+    if (isUserExists) {
+        throw new AppError_1.default(http_status_1.default.NOT_ACCEPTABLE, "This email is already in use");
+    }
     const { password } = payload;
     const hashedPassword = yield bcrypt_1.default.hash(password, 10);
     const result = yield prisma_1.prisma.user.create({
@@ -49,6 +59,7 @@ const getMyProfile = (user) => __awaiter(void 0, void 0, void 0, function* () {
     return userData;
 });
 const updateUser = (user, updatedPayload) => __awaiter(void 0, void 0, void 0, function* () {
+    console.log(updatedPayload);
     const userData = yield prisma_1.prisma.user.findUniqueOrThrow({
         where: {
             email: user.email,
@@ -94,9 +105,27 @@ const deleteUser = (user, deletedId) => __awaiter(void 0, void 0, void 0, functi
     });
     return result;
 });
+const getAllUserFromDb = () => __awaiter(void 0, void 0, void 0, function* () {
+    const userData = yield prisma_1.prisma.user.findMany();
+    return userData;
+});
+const getSingleUserFromDb = (id) => __awaiter(void 0, void 0, void 0, function* () {
+    const userData = yield prisma_1.prisma.user.findUnique({
+        where: {
+            id,
+            isDeleted: false,
+        },
+    });
+    if (!userData) {
+        throw new AppError_1.default(http_status_1.default.NOT_FOUND, "User not found!");
+    }
+    return userData;
+});
 exports.userServices = {
     registerUser,
     getMyProfile,
     deleteUser,
     updateUser,
+    getAllUserFromDb,
+    getSingleUserFromDb,
 };

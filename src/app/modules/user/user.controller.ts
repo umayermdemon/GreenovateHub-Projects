@@ -52,9 +52,31 @@ const deleteUser = catchAsync(
   }
 );
 
+const getAllUserFromDb = catchAsync(async (req, res) => {
+  const result = await userServices.getAllUserFromDb();
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "Users are Retrieved Successfully",
+    data: result,
+  });
+});
+const getSingleUserFromDb = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await userServices.getSingleUserFromDb(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: "User is Retrieved Successfully",
+    data: result,
+  });
+});
+
 export const userController = {
   registerUser,
   getMyProfile,
   deleteUser,
   updateUser,
+  getAllUserFromDb,
+  getSingleUserFromDb,
 };

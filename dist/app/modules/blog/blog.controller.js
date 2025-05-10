@@ -42,6 +42,18 @@ const getAllBlogs = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
         data: result.data,
     });
 }));
+const getMyBlogs = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const filters = (0, pick_1.default)(req.query, blog_constant_1.blogfilterableFields);
+    const paginationOptions = (0, pick_1.default)(req.body, prisma_1.paginationQueries);
+    const result = yield blog_service_1.blogServices.getMyBlogs(filters, paginationOptions, req.user);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Blogs retrieved successfully",
+        meta: result.meta,
+        data: result.data,
+    });
+}));
 const getSingleBlog = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const result = yield blog_service_1.blogServices.getBlog(id);
@@ -62,6 +74,16 @@ const editBlog = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 
         data: result,
     });
 }));
+const removeImage = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const result = yield blog_service_1.blogServices.removeImage(id, req.body.image);
+    (0, sendResponse_1.default)(res, {
+        statusCode: http_status_1.default.OK,
+        success: true,
+        message: "Image removed successfully",
+        data: result,
+    });
+}));
 const deleteBlog = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { id } = req.params;
     const result = yield blog_service_1.blogServices.deleteBlog(id, req.user);
@@ -77,5 +99,7 @@ exports.blogController = {
     getSingleBlog,
     getAllBlogs,
     editBlog,
-    deleteBlog
+    deleteBlog,
+    getMyBlogs,
+    removeImage
 };

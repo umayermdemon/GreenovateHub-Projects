@@ -15,4 +15,6 @@ router.post("/register", (0, validateRequest_1.default)(user_validation_1.create
 router.get("/my-profile", (0, auth_1.default)(prisma_1.userRole.admin, prisma_1.userRole.member), user_controller_1.userController.getMyProfile);
 router.patch("/update-profile", (0, auth_1.default)(prisma_1.userRole.admin, prisma_1.userRole.member), user_controller_1.userController.updateUser);
 router.delete("/delete-user/:id", (0, auth_1.default)(prisma_1.userRole.admin, prisma_1.userRole.member), user_controller_1.userController.deleteUser);
+router.get("/", (0, auth_1.default)(prisma_1.userRole.admin), user_controller_1.userController.getAllUserFromDb);
+router.get("/:id", user_controller_1.userController.getSingleUserFromDb);
 exports.userRouter = router;

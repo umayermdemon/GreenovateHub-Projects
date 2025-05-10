@@ -45,25 +45,15 @@ const createVote = (payload, user) => __awaiter(void 0, void 0, void 0, function
             }
         });
     }
-    if (!isIdeaExists) {
+    if (payload.ideaId && !isIdeaExists) {
         throw new Error("Idea doesnot exists");
     }
-    if (!isBlogExists) {
+    if (payload.blogId && !isBlogExists) {
         throw new Error("Blog doesnot exists");
     }
     let result;
     if (isVoteExists) {
-        if (isVoteExists.isDeleted === true) {
-            result = yield prisma_1.prisma.vote.update({
-                where: {
-                    id: isVoteExists === null || isVoteExists === void 0 ? void 0 : isVoteExists.id
-                },
-                data: {
-                    isDeleted: false
-                }
-            });
-        }
-        else if ((isVoteExists.blogId === payload.blogId && isVoteExists.voterId === user.userId) || (isVoteExists.ideaId === payload.ideaId && isVoteExists.voterId === user.userId)) {
+        if ((isVoteExists.blogId === payload.blogId && isVoteExists.voterId === user.userId) || (isVoteExists.ideaId === payload.ideaId && isVoteExists.voterId === user.userId)) {
             result = yield prisma_1.prisma.vote.update({
                 where: {
                     id: isVoteExists.id
@@ -106,12 +96,9 @@ const removeVote = (payload, user) => __awaiter(void 0, void 0, void 0, function
     if (!isVoteExists) {
         throw new Error("Vote is not found");
     }
-    const result = yield prisma_1.prisma.vote.update({
+    const result = yield prisma_1.prisma.vote.delete({
         where: {
             id: isVoteExists.id
-        },
-        data: {
-            isDeleted: true
         }
     });
     return result;
