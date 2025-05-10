@@ -11,6 +11,7 @@ const MyIdeas = () => {
 
     const fetchIdeas = async () => {
         const res = await getMyIdeas();
+        console.log(res);
         if (res?.data) {
             setIdeas(res.data.data);
         }

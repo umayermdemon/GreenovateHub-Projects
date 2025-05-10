@@ -107,10 +107,10 @@ const IdeaCard = ({ data, refresh, userId }: IIdeaCard) => {
 
     return (
         <div>
-            <div className="flex flex-col bg-amber-50 relative border-amber-500 border rounded-md">
+            <div className="flex flex-col bg-amber-50 relative border-amber-500 border rounded-md lg:h-[450px]">
                 <div className="flex  relative">
                     <Image
-                        className="w-full rounded-t-md"
+                        className="w-[410px] h-[250px] rounded-t-md"
                         src={data.images[0]}
                         alt="image"
                         height={200}

@@ -3,7 +3,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Image from "next/image";
 
 import aboutImage from "@/app/assets/about.png";
-import playStore from "@/app/assets/playstore.png";
 import apple from "@/app/assets/apple.png";
 
 const features = [
@@ -132,7 +131,7 @@ const AboutPage = () => {
           <a
             href="#"
             className="bg-white px-6 py-3 rounded-xl shadow-md flex items-center justify-center gap-2 border">
-            <Image src={playStore} alt="Google Play" width={24} height={24} />
+            {/* <Image src={playStore} alt="Google Play" width={24} height={24} /> */}
             <span className="text-slate-800 font-medium">
               Available on Google Play
             </span>
