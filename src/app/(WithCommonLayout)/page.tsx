@@ -5,7 +5,7 @@ import TestimonialSection from "@/components/modules/Home/Testimonial";
 
 const HomePage = async () => {
   return (
-    <div className="bg-gradient-to-r from-green-100 to-green-50 py-4">
+    <div className="bg-gradient-to-r from-green-100 to-green-50 pt-4">
       <Banner />
       <FeaturedBlog />
       <CommunitySection />

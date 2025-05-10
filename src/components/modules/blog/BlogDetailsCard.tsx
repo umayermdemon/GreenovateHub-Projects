@@ -18,9 +18,17 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { createVote, undoVote } from "@/services/vote";
 
-const BlogDetailsCard = ({ blog, user, refresh }: { blog: TBlog; user: TAuthor, refresh: () => void }) => {
+const BlogDetailsCard = ({
+  blog,
+  user,
+  refresh,
+}: {
+  blog: TBlog;
+  user: TAuthor;
+  refresh: () => void;
+}) => {
   const router = useRouter();
-  
+
   const addVote = async (value: string) => {
     const voteData = {
       blogId: blog.id,
@@ -42,7 +50,7 @@ const BlogDetailsCard = ({ blog, user, refresh }: { blog: TBlog; user: TAuthor, 
     try {
       const res = await undoVote(voteData);
       if (res.success) {
-        refresh()
+        refresh();
       }
     } catch (error) {
       console.log(error);
@@ -111,7 +119,13 @@ const BlogDetailsCard = ({ blog, user, refresh }: { blog: TBlog; user: TAuthor, 
       <div className="flex justify-between items-center">
         <Badge
           variant="outline"
-          className="mb-4 capitalize bg-green-800 text-white p-2">
+          className={`mb-4 capitalize text-white p-2 ${
+            blog?.category === "waste"
+              ? "bg-yellow-700"
+              : blog.category === "energy"
+              ? "bg-red-700"
+              : "bg-green-700"
+          }`}>
           {blog?.category}
         </Badge>
         <div>

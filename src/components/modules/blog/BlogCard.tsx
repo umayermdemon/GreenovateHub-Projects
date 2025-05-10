@@ -18,6 +18,7 @@ import { deleteMyBlog } from "@/services/blog";
 import Swal from "sweetalert2";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
+import { Badge } from "@/components/ui/badge";
 
 interface IBlogCard {
   data: TBlog;
@@ -118,9 +119,17 @@ const BlogCard = ({ data, refresh, userId }: IBlogCard) => {
           />
         </div>
         <div className="flex justify-between mx-4 mt-3">
-          <p className="  bg-green-900 text-white px-2 rounded-full">
-            {data.category}
-          </p>
+          <Badge
+            variant="outline"
+            className={`mb-4 capitalize text-white p-2 ${
+              data?.category === "waste"
+                ? "bg-yellow-700"
+                : data.category === "energy"
+                ? "bg-red-700"
+                : "bg-green-700"
+            }`}>
+            {data?.category}
+          </Badge>
           <div className="text-[15px] cursor-pointer">
             <Popover>
               <PopoverTrigger className=" hover:bg-green-500 rounded-sm hover:text-white">
