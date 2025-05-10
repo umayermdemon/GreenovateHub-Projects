@@ -169,8 +169,17 @@ const getBlog = async (id: string) => {
     where: {
       id,
     },
+    include: {
+      Vote: true
+    }
   });
-  return result;
+  const up_votes = result?.Vote.filter((v) => v.value === "up").length;
+  const down_votes = result?.Vote.filter((v) => v.value === "down").length;
+  return {
+    ...result,
+    up_votes,
+    down_votes
+  }
 };
 
 const editBlog = async (id: string, payload: Partial<Blog>, user: IAuthUser) => {
