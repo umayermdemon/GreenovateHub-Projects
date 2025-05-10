@@ -28,7 +28,6 @@ import { toast } from "sonner";
 const CreateBlog = () => {
   const [ImageUrls, setImageUrls] = useState<File | File[]>([]);
   const [previewImages, setPreviewImages] = useState<(string | File)[]>([]);
-  console.log(previewImages);
   const { uploadImagesToCloudinary } = useImageUploader();
   const form = useForm({
     defaultValues: {
@@ -36,7 +35,7 @@ const CreateBlog = () => {
       description: "",
       category: "",
       status: "",
-      images: []
+      images: [],
     },
   });
   const {
@@ -54,15 +53,15 @@ const CreateBlog = () => {
       images,
       status,
     };
+    console.log(blogData);
     try {
       const res = await createBlog(blogData);
       if (res.success) {
-        form.reset();
         setImageUrls([]);
         setPreviewImages([]);
+        form.reset();
         window.location.reload();
         toast.success(res.message);
-
       }
     } catch (error) {
       console.log(error);
@@ -80,9 +79,12 @@ const CreateBlog = () => {
           </div>
           <Card>
             <CardHeader>
-              <CardTitle className="text-green-500">Start Writing Your Blog</CardTitle>
+              <CardTitle className="text-green-500">
+                Start Writing Your Blog
+              </CardTitle>
               <CardDescription>
-                Add a catchy title and give readers a glimpse of what your blog is about.
+                Add a catchy title and give readers a glimpse of what your blog
+                is about.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -117,7 +119,12 @@ const CreateBlog = () => {
                 className="w-full border-green-500 hover:border- mb-4 hover:border-amber-400 rounded-none"
               />
               <div className="space-y-2">
-                <Label htmlFor="image" className="font-semibold text-[14px]">Images <span className="text-green-500 text-xl relative top-0.5">*</span></Label>
+                <Label htmlFor="image" className="font-semibold text-[14px]">
+                  Images{" "}
+                  <span className="text-green-500 text-xl relative top-0.5">
+                    *
+                  </span>
+                </Label>
                 <div className="border border-dashed p-12 text-center border-green-500 hover:border-amber-400 transition-colors cursor-pointer">
                   <GFormImageUpload
                     setPreviewImages={setPreviewImages}
@@ -131,10 +138,13 @@ const CreateBlog = () => {
                 </div>
               </div>
               <div className="flex justify-end">
-                <Button type="submit" className="mt-4 rounded-none bg-green-500 cursor-pointer">{isSubmitting ? "Creating..." : "Submit"}</Button>
+                <Button
+                  type="submit"
+                  className="mt-4 rounded-none bg-green-500 cursor-pointer">
+                  {isSubmitting ? "Creating..." : "Submit"}
+                </Button>
               </div>
             </CardContent>
-
           </Card>
         </form>
       </Form>
@@ -142,4 +152,4 @@ const CreateBlog = () => {
   );
 };
 
-export default CreateBlog
+export default CreateBlog;

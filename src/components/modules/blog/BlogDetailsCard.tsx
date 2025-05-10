@@ -79,7 +79,13 @@ const BlogDetailsCard = ({ blog, user }: { blog: TBlog; user: TAuthor }) => {
       <div className="flex justify-between items-center">
         <Badge
           variant="outline"
-          className="mb-4 capitalize bg-green-800 text-white p-2">
+          className={`mb-4 capitalize text-white p-2 ${
+            blog?.category === "waste"
+              ? "bg-yellow-700"
+              : blog.category === "energy"
+              ? "bg-red-700"
+              : "bg-green-700"
+          }`}>
           {blog?.category}
         </Badge>
         <div>
