@@ -13,9 +13,10 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import useImageUploader from "@/components/utils/useImageUploader";
 import { useUser } from "@/context/UserContext";
-import { createIdea, getSingleIdea } from "@/services/idea";
+import {  getSingleIdea, removeIdeaImage, updateIdea } from "@/services/idea";
 import { TIdea } from "@/types/idea.types";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, Trash2 } from "lucide-react";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
@@ -63,7 +64,7 @@ const UpdateIdea = () => {
         }
     }, [setValue, isPaid]);
     useEffect(() => {
-        const fetchBlogDetails = async () => {
+        const fetchIdeaDetails = async () => {
             try {
                 const res = await getSingleIdea(id);
                 const idea = res.data;
@@ -82,7 +83,7 @@ const UpdateIdea = () => {
                 console.log(error);
             }
         };
-        fetchBlogDetails();
+        fetchIdeaDetails();
     }, [id, form]);
     const onSubmit: SubmitHandler<FieldValues> = async (data) => {
         const { title, description, category, problem, solution, ideaType, price, status } = data;
@@ -91,7 +92,7 @@ const UpdateIdea = () => {
             title,
             description,
             category,
-            images,
+            images: [...images, ...idea.images],
             problem_statement: problem,
             proposed_solution: solution,
             isPremium: ideaType === "paid" ? true : false,
@@ -99,8 +100,13 @@ const UpdateIdea = () => {
             status,
             authorId: user?.userId
         }
+        const updatedData = {
+            data: ideaData,
+            id: idea.id
+        }
         try {
-            const res = await createIdea(ideaData);
+            const res = await updateIdea(updatedData);
+            console.log(res);
             if (res.success) {
                 form.reset();
                 toast.success(res.message)
@@ -109,6 +115,18 @@ const UpdateIdea = () => {
             console.log(error)
         }
     }
+    const handleImageDelete = async (image: string) => {
+        try {
+            const opData = {
+                image,
+                id: idea.id,
+            };
+            const res = await removeIdeaImage(opData);
+            console.log(res);
+        } catch (error) {
+            console.log(error);
+        }
+    };
     if (!mounted) return null;
     return (
         <div className="min-h-screen flex flex-col lg:max-w-5xl lg:mx-auto my-5">
@@ -151,7 +169,7 @@ const UpdateIdea = () => {
                                         placeholder="Idea Title"
                                         control={form.control}
                                         className="border-green-500 hover:border- mb-4 hover:border-amber-400"
-                                        required
+
                                     />
                                     <GFormSelect
                                         name="category"
@@ -159,8 +177,38 @@ const UpdateIdea = () => {
                                         control={form.control}
                                         options={categoryOptions}
                                         className="w-full border-green-500 hover:border-amber-400 mb-4"
-                                        required
+
                                     />
+                                    {idea.images?.length > 0 && (
+                                        <>
+                                            <Label htmlFor="image" className="font-semibold text-[14px]">
+                                                Current Images
+                                                <span className="text-green-500 text-xl relative top-0.5">
+                                                    *
+                                                </span>
+                                            </Label>
+                                            <div className="border border-green-500 p-2 grid grid-cols-4 border-dashed">
+                                                {idea?.images?.map((image: string) => (
+                                                    <div key={image} className="relative">
+                                                        <Image
+                                                            src={image}
+                                                            alt="image"
+                                                            width={200}
+                                                            height={200}
+                                                            className="rounded-sm"
+                                                        />
+                                                        <Button
+                                                            onClick={() => handleImageDelete(image)}
+                                                            variant="destructive"
+                                                            size="icon"
+                                                            className="absolute top-0 right-1 rounded-full shadow-md  hover:scale-110 transition-transform cursor-pointer">
+                                                            <Trash2 size={14} className=" text-white" />
+                                                        </Button>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </>
+                                    )}
                                     <div className="space-y-2">
                                         <Label htmlFor="image" className="font-semibold text-[14px]">Images <span className="text-green-500 text-xl relative top-0.5">*</span></Label>
                                         <div className="border border-dashed rounded-lg p-12 text-center border-green-500 hover:border-amber-400 transition-colors cursor-pointer">
@@ -171,7 +219,6 @@ const UpdateIdea = () => {
                                                 previewImages={previewImages}
                                                 multiple={true}
                                                 onImageUpload={setImageUrls}
-                                                required
                                             />
                                         </div>
                                     </div>
@@ -199,7 +246,6 @@ const UpdateIdea = () => {
                                         placeholder="Problem"
                                         control={form.control}
                                         className="w-full border-green-500 hover:border-amber-400 mb-4"
-                                        required
                                     />
                                     <GFormInput
                                         name="solution"
@@ -207,7 +253,6 @@ const UpdateIdea = () => {
                                         placeholder="Solution"
                                         control={form.control}
                                         className="w-full border-green-500 hover:border-amber-400 mb-4"
-                                        required
                                     />
                                     <GFormTextarea
                                         name="description"
@@ -215,7 +260,6 @@ const UpdateIdea = () => {
                                         placeholder="Describe your Idea"
                                         className="w-full border-green-500 hover:border-amber-400 mb-4"
                                         control={form.control}
-                                        required
                                     />
                                 </CardContent>
                                 <CardFooter className="flex justify-between pt-4">
@@ -244,7 +288,6 @@ const UpdateIdea = () => {
                                         control={form.control}
                                         options={priceOptions}
                                         className="w-full border-green-500 hover:border-amber-400 mb-4"
-                                        required
                                     />
                                     <GFormInput
                                         name="price"
@@ -253,7 +296,6 @@ const UpdateIdea = () => {
                                         disabled={isPaid === 'unpaid'}
                                         control={form.control}
                                         className="w-full border-green-500 hover:border-amber-400 mb-4"
-                                        required
                                     />
                                     <GFormSelect
                                         name="status"
@@ -261,14 +303,13 @@ const UpdateIdea = () => {
                                         control={form.control}
                                         options={statusOptions}
                                         className="w-full border-green-500 hover:border-amber-400 mb-4"
-                                        required
                                     />
                                 </CardContent>
                                 <CardFooter className="flex justify-between">
                                     <Button style={{ backgroundColor: '#22c55e', cursor: "pointer" }} onClick={() => setActiveTab('solution')} type="button">
                                         <ArrowLeft className="ml-2 h-4 w-4 cursor-pointer" /> Prev: Solution
                                     </Button>
-                                    <Button style={{ backgroundColor: '#22c55e', cursor: 'pointer' }} type="submit">{isSubmitting ? "creating..." : "Submit"}</Button>
+                                    <Button style={{ backgroundColor: '#22c55e', cursor: 'pointer' }} type="submit">{isSubmitting ? "updating..." : "Update"}</Button>
                                 </CardFooter>
                             </Card>
                         </TabsContent>
