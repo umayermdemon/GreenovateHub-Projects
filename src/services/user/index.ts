@@ -47,7 +47,6 @@ export const getSingleUSer = async (id: string) => {
 };
 
 export const updateMyProfile = async (updateData: FieldValues) => {
-  console.log(updateData);
   try {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/users/update-profile`,

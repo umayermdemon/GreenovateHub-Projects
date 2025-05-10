@@ -28,9 +28,8 @@ const UpdateProfile = (myProfile: TUserProfile) => {
         const userUpdateData = {
             name,
             address,
-            image,
+            image: image || myProfile?.image,
         };
-        console.log(userUpdateData);
         try {
             const res = await updateMyProfile(userUpdateData);
             console.log(res);
