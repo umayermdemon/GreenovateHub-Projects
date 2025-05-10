@@ -93,3 +93,59 @@ export const getSingleIdea = async (id: ParamValue) => {
         return Error(error as string);
     }
 };
+export const removeIdeaImage = async (data: { id: string, image: string }) => {
+    try {
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/ideas/remove-image/${data.id}`,
+            {
+                method: "PATCH",
+                headers: {
+                    "content-type": "application/json",
+                    Authorization: (await cookies()).get("accessToken")!.value,
+                },
+                body: JSON.stringify({ image: data.image })
+            }
+        );
+        const result = await res.json();
+        return result;
+    } catch (error) {
+        return Error(error as string);
+    }
+};
+export const updateIdea = async (ideaData: { id: string, data: FieldValues }) => {
+    try {
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/ideas/update-idea/${ideaData.id}`,
+            {
+                method: "PATCH",
+                headers: {
+                    "content-type": "application/json",
+                    Authorization: (await cookies()).get("accessToken")!.value,
+                },
+                body: JSON.stringify(ideaData.data)
+            }
+        );
+        const result = await res.json();
+        return result;
+    } catch (error) {
+        return Error(error as string);
+    }
+};
+export const deleteMyIdea = async (id:string) => {
+    try {
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL}/ideas/delete-idea/${id}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "content-type": "application/json",
+                    Authorization: (await cookies()).get("accessToken")!.value,
+                },
+            }
+        );
+        const result = await res.json();
+        return result;
+    } catch (error) {
+        return Error(error as string);
+    }
+};
