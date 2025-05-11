@@ -24,6 +24,7 @@ model User {
   Blog                Blog[]
   Vote                Vote[]
   Comment             Comment[]
+  Payment             Payment[]
 
   @@map("users")
 }
@@ -46,6 +47,7 @@ model Idea {
   updatedAt         DateTime     @updatedAt
   Vote              Vote[]
   Comment           Comment[]
+  Payment           Payment[]
 
   @@map("ideas")
 }
@@ -63,6 +65,8 @@ model Blog {
   updatedAt   DateTime     @updatedAt
   Vote        Vote[]
   categoryId  String?
+
+  @@map("blogs")
 }
 
 model Vote {
@@ -78,6 +82,7 @@ model Vote {
 
   @@unique([voterId, ideaId])
   @@unique([voterId, blogId])
+  @@map("votes")
 }
 
 model Comment {
@@ -89,6 +94,24 @@ model Comment {
   idea        Idea     @relation(fields: [ideaId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  @@map("comments")
+}
+
+model Payment {
+  id            String        @id @default(uuid())
+  ideaId        String
+  idea          Idea          @relation(fields: [ideaId], references: [id])
+  authorId      String
+  author        User          @relation(fields: [authorId], references: [id])
+  transactionId String
+  status        paymentStatus @default(pending)
+  amount        Int
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@unique([ideaId, authorId])
+  @@map("payments")
 }
 
 enum ideaStatus {
@@ -96,6 +119,12 @@ enum ideaStatus {
   draft
   published
   unpublished
+}
+
+enum paymentStatus {
+  pending
+  paid
+  unpaid
 }
 
 enum blogStatus {

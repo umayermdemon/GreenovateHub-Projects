@@ -5,6 +5,7 @@ import { ideaRouter } from "../modules/idea/idea.route";
 import { blogRouter } from "../modules/blog/blog.route";
 import { voteRouter } from "../modules/vote/vote.route";
 import { commentRouter } from "../modules/comment/comment.route";
+import { paymentRouter } from "../modules/payment/payment.route";
 
 const router = Router();
 
@@ -32,6 +33,10 @@ const moduleRoutes: any = [
   {
     path: "/comments",
     route: commentRouter,
+  },
+  {
+    path: "/payments",
+    route: paymentRouter,
   },
 ];
 

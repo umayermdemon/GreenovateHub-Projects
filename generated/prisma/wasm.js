@@ -182,6 +182,17 @@ exports.Prisma.CommentScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  ideaId: 'ideaId',
+  authorId: 'authorId',
+  transactionId: 'transactionId',
+  status: 'status',
+  amount: 'amount',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -226,12 +237,19 @@ exports.voteValue = exports.$Enums.voteValue = {
   down: 'down'
 };
 
+exports.paymentStatus = exports.$Enums.paymentStatus = {
+  pending: 'pending',
+  paid: 'paid',
+  unpaid: 'unpaid'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Idea: 'Idea',
   Blog: 'Blog',
   Vote: 'Vote',
-  Comment: 'Comment'
+  Comment: 'Comment',
+  Payment: 'Payment'
 };
 
 /**

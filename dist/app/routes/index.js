@@ -7,6 +7,7 @@ const idea_route_1 = require("../modules/idea/idea.route");
 const blog_route_1 = require("../modules/blog/blog.route");
 const vote_route_1 = require("../modules/vote/vote.route");
 const comment_route_1 = require("../modules/comment/comment.route");
+const payment_route_1 = require("../modules/payment/payment.route");
 const router = (0, express_1.Router)();
 const moduleRoutes = [
     {
@@ -32,6 +33,10 @@ const moduleRoutes = [
     {
         path: "/comments",
         route: comment_route_1.commentRouter,
+    },
+    {
+        path: "/payments",
+        route: payment_route_1.paymentRouter,
     },
 ];
 moduleRoutes.forEach((route) => router.use(route.path, route.route));
