@@ -2,50 +2,55 @@
 import IdeaCard from "@/components/modules/Idea/IdeaCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useUser } from "@/context/UserContext";
 import { getAllIdeas } from "@/services/idea";
 import { TIdea } from "@/types/idea.types";
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import { debounce } from "lodash";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/ui/pagination";
+import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
 
 const tabOrder = ["all", "energy", "waste", "transportation"];
 
 const IdeaPage = () => {
+  interface TMeta {
+    page: number,
+    limit: number,
+    total: number,
+    totalPage: number
+  }
   const [ideas, setIdeas] = useState<TIdea[]>([]);
   const [selectedTab, setSelectedTab] = useState<string>("all");
+  const [meta, setMeta] = useState<TMeta>({} as TMeta);
   const [searchTerm, setSearchTerm] = useState<string>("");
-
-  const fetchIdeas = async (category?: string, search?: string) => {
-    const res = await getAllIdeas({ category, searchTerm: search ?? searchTerm });
-    if (res?.data) {
-      setIdeas(res.data);
-    }
-  };
-  const debouncedFetch = debounce((term: string) => {
-    fetchIdeas(selectedTab === "all" ? undefined : selectedTab, term)
-  }, 500)
-
+  const [currentPage, setCurrentPage] = useState(1);
   useEffect(() => {
-    fetchIdeas();
-  }, []);
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    debouncedFetch(value);
-  }
+    const fetchIdeas = async () => {
+      const res = await getAllIdeas({
+        category: selectedTab === "all" ? "" : selectedTab,
+        searchTerm: searchTerm,
+        limit:"2"
+      });
+      if (res?.data) {
+        setIdeas(res.data);
+        setMeta(meta)
+      }
+    };
+    fetchIdeas()
+  }, [searchTerm, selectedTab, meta]);
+
   const { user } = useUser();
   return (
+
     <div className="mx-8 my-6">
-      <div className="flex  my-3 gap-2 ">
-        <div className="flex">
+      <div className="flex flex-row-reverse gap-3 mx-4">
+        <div className="flex flex-1">
           <Input
             placeholder="Search Idea..."
-            className="lg:w-[300px] border-black rounded-r-none focus:border-green-500 focus:ring-0 focus:outline-none"
+            className="lg:w-full border-black rounded-r-none focus:border-green-500 focus:ring-0 focus:outline-none"
             value={searchTerm}
-            onChange={handleSearchChange}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
 
           <Button
@@ -55,45 +60,57 @@ const IdeaPage = () => {
             <Search size={18} />
           </Button>
         </div>
-        <Select>
-          <SelectTrigger className="w-[180px] ">
-            <SelectValue placeholder="Order By" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="asc"></SelectItem>
-            <SelectItem value="desc">Dark</SelectItem>
-            <SelectItem value="system">System</SelectItem>
-          </SelectContent>
-        </Select>
-
+        <div className="flex-1">
+          <Tabs
+            value={selectedTab}
+            onValueChange={(val) => {
+              setSelectedTab(val === "all" ? "" : val);
+            }}
+            className="mb-5">
+            <TabsList className="w-full">
+              {tabOrder.map((tab) => (
+                <TabsTrigger
+                  key={tab}
+                  value={tab}
+                  className="w-full data-[state=active]:bg-green-500 data-[state=active]:text-white">
+                  {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
+        </div>
       </div>
-      <Tabs
-        value={selectedTab}
-        onValueChange={(val) => {
-          setSelectedTab(val);
-          fetchIdeas(val === "all" ? undefined : val);
-        }}
-        className="mb-5">
-        <TabsList className="w-full">
-          {tabOrder.map((tab) => (
-            <TabsTrigger
-              key={tab}
-              value={tab}
-              className="w-full data-[state=active]:bg-green-500 data-[state=active]:text-white">
-              {tab.charAt(0).toUpperCase() + tab.slice(1)}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
-      <div className="grid grid-cols-3 gap-4 mx-5 ">
+
+      <div className="grid grid-cols-4 gap-2 mx-5 ">
         {ideas?.map((idea: TIdea) => (
           <IdeaCard
             key={idea.id}
             data={idea}
-            refresh={fetchIdeas}
             userId={user?.userId}
           />
         ))}
+      </div>
+      <div className="mt-3">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <Button disabled={currentPage === 1} className="text-amber-500 bg-white border border-amber-500" onClick={() => setCurrentPage(currentPage + 1)}><BiLeftArrow />Previous</Button>
+            </PaginationItem>
+            <PaginationItem>
+              <div className="flex gap-2">
+                {[...Array(Math.max(1, meta?.totalPage || 1))].map((_, index) => (
+                  <PaginationItem key={index}>
+                    <PaginationLink onClick={() => setCurrentPage(index + 1)} className={`border text-green-500 border-green-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white ${index === (Number(meta?.page) - 1) ? "bg-green-500 text-white" : ""}`} href="#">{index + 1}</PaginationLink>
+                  </PaginationItem>
+                ))}
+              </div>
+            </PaginationItem>
+            <PaginationItem>
+              <Button disabled={currentPage === meta?.totalPage} className="bg-amber-500 text-white" onClick={() => setCurrentPage(currentPage + 1)}>Next <BiRightArrow /></Button>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+
       </div>
     </div>
   );

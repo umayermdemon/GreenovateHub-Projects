@@ -49,7 +49,9 @@ export const getMyIdeas = async () => {
 interface IdeaFilterType {
     category?: string,
     searchTerm?: string,
-    status?: string
+    status?: string,
+    page?: string,
+    limit?:string
 }
 export const getAllIdeas = async (options?: IdeaFilterType) => {
     try {
@@ -63,6 +65,12 @@ export const getAllIdeas = async (options?: IdeaFilterType) => {
         }
         if (options?.status) {
             params.append("status", options.status);
+        }
+        if (options?.page) {
+            params.append("page", options.page);
+        }
+        if (options?.limit) {
+            params.append("limit", options.limit);
         }
 
         const query = params.toString() ? `?${params.toString()}` : "";

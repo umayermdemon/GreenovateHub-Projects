@@ -7,6 +7,7 @@ import { Check, X } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { toast } from "sonner";
 import { updateBlog } from "@/services/blog";
+import Link from "next/link";
 
 interface PBlog {
     data: TBlog[]
@@ -56,10 +57,12 @@ const PendingBlog = ({ data }: PBlog) => {
                         {
                             data.map((blog: TBlog) => (<div key={blog.id} className="flex items-center justify-between ">
                                 <div className="flex items-center gap-3">
-                                    <Avatar>
-                                        <AvatarImage src={blog.images[0]} alt="" />
-                                        <AvatarFallback>{blog.title.charAt(0)}</AvatarFallback>
-                                    </Avatar>
+                                    <Link href={`/member/dashboard/my-blogs/details/${blog.id}`}>
+                                        <Avatar>
+                                            <AvatarImage src={blog.images[0]} alt="" />
+                                            <AvatarFallback>{blog.title.charAt(0)}</AvatarFallback>
+                                        </Avatar>
+                                    </Link>
                                     <div>
                                         <p className="font-medium">{blog.title.split(" ").slice(0, 5).join(" ")}</p>                                        <p className="text-sm text-muted-foreground">by
                                             <span className="italic ml-1 text-green-500">{blog.author.name}</span> | <span className="text-sky-500 italic">

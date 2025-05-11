@@ -22,10 +22,9 @@ import { deleteMyIdea } from "@/services/idea";
 interface IIdeaCard {
   data: TIdea;
   userId: string | undefined;
-  refresh: () => void;
 }
 
-const IdeaCard = ({ data, refresh, userId }: IIdeaCard) => {
+const IdeaCard = ({ data, userId }: IIdeaCard) => {
   const timeAgo = formatDistanceToNow(new Date(data.createdAt), {
     addSuffix: true,
   });
@@ -45,7 +44,7 @@ const IdeaCard = ({ data, refresh, userId }: IIdeaCard) => {
         if (isDisLiked) {
           setIsDisLiked(false);
         }
-        refresh();
+
       }
     } catch (error) {
       console.log(error);
@@ -58,7 +57,6 @@ const IdeaCard = ({ data, refresh, userId }: IIdeaCard) => {
     try {
       const res = await undoVote(voteData);
       if (res.success) {
-        refresh();
         if (isLiked) {
           setIsLiked(false);
         } else {
@@ -91,7 +89,6 @@ const IdeaCard = ({ data, refresh, userId }: IIdeaCard) => {
           const res = await deleteMyIdea(id);
           console.log(res);
           if (res.success) {
-            refresh();
           }
         } catch (error) {
           console.log(error);
