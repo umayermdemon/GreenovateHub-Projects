@@ -1,11 +1,10 @@
 import AllIdeaPage from "@/components/modules/Idea/AllIdeaPage";
-import { getAllIdeas } from "@/services/idea";
 
 const AllIdeas = async () => {
-    const { data } = await getAllIdeas();
     return (
-        <div>
-            <AllIdeaPage data={data} />
+        <div className="mx-6">
+            <h1 className="my-5 text-3xl font-bold text-green-500">All Ideas</h1>
+            <AllIdeaPage />
         </div>
     );
 };
