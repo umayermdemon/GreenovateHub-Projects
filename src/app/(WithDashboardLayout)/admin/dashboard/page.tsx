@@ -1,12 +1,27 @@
-const AdminHomePage = () => {
+import PendingBlog from "@/components/modules/blog/PendingBlog";
+import StatCard from "@/components/modules/Dashboard/Member/StatCard";
+import PendingIdea from "@/components/modules/Idea/PendingIdea";
+import { getAllBlogs } from "@/services/blog";
+import { FaBlog, FaComment, FaEye, FaUserCircle } from "react-icons/fa";
+
+
+const AdminHomePage = async () => {
+  const { data: blogData } = await getAllBlogs({ status: "pending" })
   return (
-    <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-      <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-        <div className="aspect-video rounded-xl bg-red-200" />
-        <div className="aspect-video rounded-xl bg-red-200" />
-        <div className="aspect-video rounded-xl bg-red-200" />
+    <div className="flex flex-1 flex-col gap-4 p-4 pt-0 my-5">
+      <h1 className="text-2xl font-bold mb-6 text-green-700">
+        Welcome, Harry 👋
+      </h1>
+      <div className="grid gap-4 md:grid-cols-4 mb-6">
+        <StatCard title="Total Blogs" value={12} icon={<FaBlog />} />
+        <StatCard title="Comments" value={34} icon={<FaComment />} />
+        <StatCard title="Views" value={560} icon={<FaEye />} />
+        <StatCard title="Profile" value="80%" icon={<FaUserCircle />} />
       </div>
-      <div className="min-h-[100vh] flex-1 rounded-xl bg-red-200 md:min-h-min" />
+      <div className="grid grid-cols-2 gap-8">
+        <PendingIdea />
+        <PendingBlog data={blogData} />
+      </div>
     </div>
   );
 };

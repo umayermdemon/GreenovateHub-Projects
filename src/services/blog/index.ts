@@ -25,10 +25,28 @@ export const createBlog = async (blogData: FieldValues) => {
     return Error(error as string);
   }
 };
-export const getAllBlogs = async () => {
+interface BlogFilterType {
+  category?: string,
+  searchTerm?: string,
+  status?: string
+}
+export const getAllBlogs = async (options?: BlogFilterType) => {
   try {
+    const params = new URLSearchParams();
+    if (options?.searchTerm) {
+      params.append("searchTerm", options.searchTerm);
+    }
+    console.log(options?.searchTerm);
+    if (options?.category) {
+      params.append("category", options.category);
+    }
+    if (options?.status) {
+      params.append("status", options.status);
+    }
+
+    const query = params.toString() ? `?${params.toString()}` : "";
     const res = await fetch(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/blogs/get-all-blogs`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/blogs/get-all-blogs${query}`,
       {
         next: { tags: ["Blogs"] },
       }
@@ -74,6 +92,7 @@ export const getSingleBlog = async (id: ParamValue) => {
     return Error(error as string);
   }
 };
+
 export const removeBlogImage = async (data: { id: string; image: string }) => {
   try {
     const res = await fetch(

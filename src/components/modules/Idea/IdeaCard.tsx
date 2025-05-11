@@ -111,7 +111,7 @@ const IdeaCard = ({ data, refresh, userId }: IIdeaCard) => {
         <div className="flex  relative">
           <Image
             className="w-[410px] h-[250px] rounded-t-md"
-            src={data.images[0]}
+            src={data.images[0] || "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"}
             alt="image"
             height={200}
             width={300}
