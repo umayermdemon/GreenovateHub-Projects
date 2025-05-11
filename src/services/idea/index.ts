@@ -74,6 +74,9 @@ export const getAllIdeas = async (options?: IdeaFilterType) => {
                     "content-type": "application/json",
                     Authorization: (await cookies()).get("accessToken")!.value,
                 },
+                next: {
+                    tags: ["Ideas"]
+                }
             }
         );
         const result = await res.json();
@@ -132,6 +135,7 @@ export const updateIdea = async (ideaData: { id: string, data: FieldValues }) =>
                 body: JSON.stringify(ideaData.data)
             }
         );
+        revalidateTag("Ideas")
         const result = await res.json();
         return result;
     } catch (error) {

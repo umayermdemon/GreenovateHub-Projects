@@ -50,6 +50,7 @@ export const getAllBlogs = async (options?: BlogFilterType) => {
       {
         next: { tags: ["Blogs"] },
       }
+      
     );
     const result = await res.json();
     return result;

@@ -29,7 +29,7 @@ interface IBlogCard {
 const BlogCard = ({ data, refresh, userId }: IBlogCard) => {
   const timeAgo = formatDistanceToNow(new Date(data.createdAt), {
     addSuffix: true,
-  });
+  })
   const { user } = useUser();
   const [isLiked, setIsLiked] = useState(false);
   const [isDisLiked, setIsDisLiked] = useState(false);
