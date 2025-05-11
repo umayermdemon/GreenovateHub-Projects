@@ -42,7 +42,8 @@ const makePayment = async (
     order_id: payload?.order_id,
     currency: "BDT",
     customer_name: isExistUser?.name || payload?.customer_name,
-    customer_address: isExistUser?.address || payload?.customer_address,
+    customer_address:
+      isExistUser?.address || payload?.customer_address || "West Datta Para",
     customer_email: user?.email,
     customer_phone: payload?.customer_phone,
     customer_city: payload?.customer_city,
@@ -70,7 +71,6 @@ const makePayment = async (
         ideaId: isIdeaExists?.id,
         authorId: isIdeaExists?.authorId,
         amount: amount,
-        status: "pending",
         transactionId: result?.sp_order_id,
       },
     });
@@ -79,10 +79,35 @@ const makePayment = async (
   return result;
 };
 const verifyPayment = async (order_id: string) => {
-  const verifyPayment = await paymentUtils.verifyPaymentAsync(order_id);
-  if (verifyPayment?.length) {
-    // const result= await prisma.payment.create
+  const isPaymentExists = await prisma.payment.findUnique({
+    where: {
+      transactionId: order_id,
+    },
+  });
+  if (isPaymentExists?.status === "paid") {
+    throw new AppError(
+      status.BAD_REQUEST,
+      "Payment has already been completed"
+    );
   }
+  const verifyPayment = await paymentUtils.verifyPaymentAsync(order_id);
+  let result;
+  if (verifyPayment?.length) {
+    result = await prisma.payment.update({
+      where: {
+        transactionId: order_id,
+      },
+      data: {
+        status:
+          verifyPayment[0]?.bank_status === "Success"
+            ? "paid"
+            : verifyPayment[0]?.bank_status === "Failed"
+            ? "unpaid"
+            : "pending",
+      },
+    });
+  }
+  console.log(result);
   return verifyPayment;
 };
 

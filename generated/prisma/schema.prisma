@@ -104,7 +104,7 @@ model Payment {
   idea          Idea          @relation(fields: [ideaId], references: [id])
   authorId      String
   author        User          @relation(fields: [authorId], references: [id])
-  transactionId String
+  transactionId String        @unique
   status        paymentStatus @default(pending)
   amount        Int
   createdAt     DateTime      @default(now())

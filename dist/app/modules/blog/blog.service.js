@@ -43,12 +43,12 @@ const getAllBlogs = (filters, paginationOptions) => __awaiter(void 0, void 0, vo
     const andCondition = [];
     if (searchTerm) {
         andCondition.push({
-            OR: blog_constant_1.blogSearchableFields.map(field => ({
+            OR: blog_constant_1.blogSearchableFields.map((field) => ({
                 [field]: {
                     contains: searchTerm,
-                    mode: 'insensitive'
-                }
-            }))
+                    mode: "insensitive",
+                },
+            })),
         });
     }
     if (author) {
@@ -56,16 +56,16 @@ const getAllBlogs = (filters, paginationOptions) => __awaiter(void 0, void 0, vo
             author: {
                 name: {
                     contains: author,
-                    mode: 'insensitive'
-                }
-            }
+                    mode: "insensitive",
+                },
+            },
         });
     }
     if (Object.keys(filterData).length > 0) {
-        const filterConditions = Object.keys(filterData).map(key => ({
+        const filterConditions = Object.keys(filterData).map((key) => ({
             [key]: {
-                equals: filterData[key]
-            }
+                equals: filterData[key],
+            },
         }));
         andCondition.push(...filterConditions);
     }
@@ -77,11 +77,11 @@ const getAllBlogs = (filters, paginationOptions) => __awaiter(void 0, void 0, vo
         orderBy: sortBy && sortOrder ? { [sortBy]: sortOrder } : { createdAt: "desc" },
         include: {
             Vote: true,
-            author: true
+            author: true,
         },
     });
     const total = yield prisma_1.prisma.blog.count({
-        where: whereConditions
+        where: whereConditions,
     });
     const enhancedIdeas = result.map((blog) => {
         const votes = blog.Vote || [];
@@ -93,9 +93,9 @@ const getAllBlogs = (filters, paginationOptions) => __awaiter(void 0, void 0, vo
         meta: {
             page,
             limit,
-            total
+            total,
         },
-        data: enhancedIdeas
+        data: enhancedIdeas,
     };
 });
 const getMyBlogs = (filters, paginationOptions, user) => __awaiter(void 0, void 0, void 0, function* () {
@@ -103,16 +103,16 @@ const getMyBlogs = (filters, paginationOptions, user) => __awaiter(void 0, void 
     const { page, limit, skip, sortBy, sortOrder } = (0, calculatePagination_1.default)(paginationOptions);
     const andCondition = [];
     andCondition.push({
-        authorId: user.userId
+        authorId: user.userId,
     });
     if (searchTerm) {
         andCondition.push({
-            OR: blog_constant_1.blogSearchableFields.map(field => ({
+            OR: blog_constant_1.blogSearchableFields.map((field) => ({
                 [field]: {
                     contains: searchTerm,
-                    mode: 'insensitive'
-                }
-            }))
+                    mode: "insensitive",
+                },
+            })),
         });
     }
     if (author) {
@@ -120,16 +120,16 @@ const getMyBlogs = (filters, paginationOptions, user) => __awaiter(void 0, void 
             author: {
                 name: {
                     contains: author,
-                    mode: 'insensitive'
-                }
-            }
+                    mode: "insensitive",
+                },
+            },
         });
     }
     if (Object.keys(filterData).length > 0) {
-        const filterConditions = Object.keys(filterData).map(key => ({
+        const filterConditions = Object.keys(filterData).map((key) => ({
             [key]: {
-                equals: filterData[key]
-            }
+                equals: filterData[key],
+            },
         }));
         andCondition.push(...filterConditions);
     }
@@ -141,11 +141,11 @@ const getMyBlogs = (filters, paginationOptions, user) => __awaiter(void 0, void 
         orderBy: sortBy && sortOrder ? { [sortBy]: sortOrder } : { createdAt: "desc" },
         include: {
             Vote: true,
-            author: true
+            author: true,
         },
     });
     const total = yield prisma_1.prisma.blog.count({
-        where: whereConditions
+        where: whereConditions,
     });
     const enhancedIdeas = result.map((blog) => {
         const votes = blog.Vote || [];
@@ -157,9 +157,9 @@ const getMyBlogs = (filters, paginationOptions, user) => __awaiter(void 0, void 
         meta: {
             page,
             limit,
-            total
+            total,
         },
-        data: enhancedIdeas
+        data: enhancedIdeas,
     };
 });
 const getBlog = (id) => __awaiter(void 0, void 0, void 0, function* () {
@@ -173,8 +173,8 @@ const getBlog = (id) => __awaiter(void 0, void 0, void 0, function* () {
 const editBlog = (id, payload, user) => __awaiter(void 0, void 0, void 0, function* () {
     const blogData = yield prisma_1.prisma.blog.findUnique({
         where: {
-            id
-        }
+            id,
+        },
     });
     if ((blogData === null || blogData === void 0 ? void 0 : blogData.authorId) !== user.userId && user.role !== prisma_2.userRole.admin) {
         throw new Error("You cannot update this blog");
@@ -191,37 +191,36 @@ const removeImage = (id, image) => __awaiter(void 0, void 0, void 0, function* (
     var _a;
     const blog = yield prisma_1.prisma.blog.findUnique({
         where: {
-            id
+            id,
         },
         select: {
-            images: true
-        }
+            images: true,
+        },
     });
     const finalImages = (_a = blog === null || blog === void 0 ? void 0 : blog.images) === null || _a === void 0 ? void 0 : _a.filter((img) => img !== image);
     const result = yield prisma_1.prisma.blog.update({
         where: {
-            id
+            id,
         },
         data: {
-            images: finalImages
-        }
+            images: finalImages,
+        },
     });
     return result;
 });
 const deleteBlog = (id, user) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(id);
     const blogData = yield prisma_1.prisma.blog.findUnique({
         where: {
-            id
-        }
+            id,
+        },
     });
     if ((blogData === null || blogData === void 0 ? void 0 : blogData.authorId) !== user.userId && user.role !== prisma_2.userRole.admin) {
         throw new Error("You cannot delete this blog");
     }
     const result = yield prisma_1.prisma.blog.delete({
         where: {
-            id
-        }
+            id,
+        },
     });
     return result;
 });
@@ -232,5 +231,5 @@ exports.blogServices = {
     editBlog,
     deleteBlog,
     getMyBlogs,
-    removeImage
+    removeImage,
 };

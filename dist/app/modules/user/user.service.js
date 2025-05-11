@@ -59,7 +59,6 @@ const getMyProfile = (user) => __awaiter(void 0, void 0, void 0, function* () {
     return userData;
 });
 const updateUser = (user, updatedPayload) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(updatedPayload);
     const userData = yield prisma_1.prisma.user.findUniqueOrThrow({
         where: {
             email: user.email,
