@@ -46,8 +46,12 @@ export const getMyIdeas = async () => {
         return Error(error as string);
     }
 };
-export const getAllIdeas = async (options?: { category?: string, searchTerm?: string }) => {
-    console.log(options);
+interface IdeaFilterType {
+    category?: string,
+    searchTerm?: string,
+    status?: string
+}
+export const getAllIdeas = async (options?: IdeaFilterType) => {
     try {
         const params = new URLSearchParams();
         if (options?.searchTerm) {
@@ -56,6 +60,9 @@ export const getAllIdeas = async (options?: { category?: string, searchTerm?: st
         console.log(options?.searchTerm);
         if (options?.category) {
             params.append("category", options.category);
+        }
+        if (options?.status) {
+            params.append("status", options.status);
         }
 
         const query = params.toString() ? `?${params.toString()}` : "";
@@ -131,7 +138,7 @@ export const updateIdea = async (ideaData: { id: string, data: FieldValues }) =>
         return Error(error as string);
     }
 };
-export const deleteMyIdea = async (id:string) => {
+export const deleteMyIdea = async (id: string) => {
     try {
         const res = await fetch(
             `${process.env.NEXT_PUBLIC_BASE_URL}/ideas/delete-idea/${id}`,

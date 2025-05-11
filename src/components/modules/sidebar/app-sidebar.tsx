@@ -12,7 +12,6 @@ import {
     Sparkles,
     BookOpenText,
     Palette,
-    Users,
     UserCog,
     LogOut,
     Bell,
@@ -81,48 +80,66 @@ const AppSidebar = () => {
         },
         {
             title: "Dashboard",
-            url: "/member/dashboard",
+            url: `/${role}/dashboard`,
             icon: LayoutDashboard,
         },
-        {
-            title: "Create Blog",
-            url: "/member/dashboard/create-blog",
-            icon: PenLine,
-        },
-        {
-            title: "Create Idea",
-            url: "/member/dashboard/create-idea",
-            icon: Sparkles,
-        },
-        {
-            title: "My Blogs",
-            url: "/member/dashboard/my-blogs",
-            icon: BookOpenText,
-        },
-        {
-            title: "My Ideas",
-            url: "/member/dashboard/my-ideas",
-            icon: Palette,
-        },
-        {
-            title: "My Followers",
-            url: "/member/dashboard/my-followers",
-            icon: Users,
-        },
+        ...(role === 'member' ? [
+            {
+                title: "Create Blog",
+                url: "/member/dashboard/create-blog",
+                icon: PenLine,
+            },
+            {
+                title: "Create Idea",
+                url: "/member/dashboard/create-idea",
+                icon: Sparkles,
+            },
+            {
+                title: "My Blogs",
+                url: "/member/dashboard/my-blogs",
+                icon: BookOpenText,
+            },
+            {
+                title: "My Ideas",
+                url: "/member/dashboard/my-ideas",
+                icon: Palette,
+            },
+            {
+                title: "Draft Ideas",
+                url: "/member/dashboard/draft-ideas",
+                icon: Palette,
+            },
+            {
+                title: "Settings",
+                url: "/member/dashboard/settings",
+                icon: Settings,
+            },
+        ] : []),
         ...(role === "admin"
             ? [
                 {
+                    title: "All Blogs",
+                    url: "/admin/dashboard/all-blogs",
+                    icon: BookOpenText,
+                },
+                {
+                    title: "All Ideas",
+                    url: "/admin/dashboard/all-ideas",
+                    icon: Palette,
+                },
+                {
                     title: "User Management",
-                    url: "/dashboard/manage-users",
+                    url: "/admin/dashboard/manage-users",
                     icon: UserCog,
+                },
+                {
+                    title: "Settings",
+                    url: "/admin/dashboard/settings",
+                    icon: Settings,
                 },
             ]
             : []),
-        {
-            title: "Settings",
-            url: "/dashboard/settings",
-            icon: Settings,
-        },
+
     ];
 
     return (
