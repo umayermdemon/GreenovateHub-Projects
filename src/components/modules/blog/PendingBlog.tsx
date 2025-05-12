@@ -17,7 +17,7 @@ const PendingBlog = ({ data }: PBlog) => {
         const statusData = {
             id,
             data: {
-                status: "published"
+                status: "approved"
             }
         }
         try {
@@ -33,7 +33,7 @@ const PendingBlog = ({ data }: PBlog) => {
         const statusData = {
             id,
             data: {
-                status: "unpublished"
+                status: "rejected"
             }
         }
         try {

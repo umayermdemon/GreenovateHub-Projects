@@ -5,7 +5,7 @@ export const categoryOptions = [
 ];
 
 export const statusOptions = [
-    { label: "Pending", value: "pending" },
+    { label: "Under Review", value: "underReview" },
     { label: "Draft", value: "draft" },
 ];
 export const priceOptions = [

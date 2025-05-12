@@ -106,6 +106,7 @@ const UpdateIdea = () => {
         }
         try {
             const res = await updateIdea(updatedData);
+            console.log(res);
             if (res.success) {
                 form.reset();
                 toast.success(res.message)

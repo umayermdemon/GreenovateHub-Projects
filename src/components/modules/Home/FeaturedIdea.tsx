@@ -12,7 +12,7 @@ const FeaturedIdea = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchIdeas = async () => {
-    const res = await getAllIdeas({ status: "published" });
+    const res = await getAllIdeas({ status: "approved" });
     if (res?.data) {
       setIdeas(res.data);
     }
@@ -32,18 +32,18 @@ const FeaturedIdea = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {isLoading
             ? Array.from({ length: 3 }).map((_, i) => (
-                <IdeaCardSkeleton key={i} />
-              ))
+              <IdeaCardSkeleton key={i} />
+            ))
             : idea
-                ?.slice(0, 3)
-                .map((idea: TIdea) => (
-                  <IdeaCard
-                    key={idea.id}
-                    data={idea}
-                    refresh={fetchIdeas}
-                    userId={user?.userId}
-                  />
-                ))}
+              ?.slice(0, 3)
+              .map((idea: TIdea) => (
+                <IdeaCard
+                  key={idea.id}
+                  data={idea}
+                  refresh={fetchIdeas}
+                  userId={user?.userId}
+                />
+              ))}
         </div>
         <div className="text-center mt-10">
           <Link
