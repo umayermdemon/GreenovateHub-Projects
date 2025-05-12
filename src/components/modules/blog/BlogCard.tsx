@@ -108,10 +108,10 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
 
   return (
     <div>
-      <div className="flex flex-col bg-green-50 relative border-green-500 border rounded-md">
+      <div className="flex flex-col lg:h-[0px] bg-green-50 relative border-green-500 border rounded-md">
         <div className="flex  relative">
           <Image
-            className="w-full rounded-t-md"
+            className="w-full lg:h-[250px] rounded-t-md"
             src={
               data?.images[0] ||
               "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
@@ -124,13 +124,12 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
         <div className="flex justify-between mx-4 mt-3">
           <Badge
             variant="outline"
-            className={`mb-4 capitalize text-white p-2 ${
-              data?.category === "waste"
+            className={`mb-4 capitalize text-white p-2 ${data?.category === "waste"
                 ? "bg-yellow-700"
                 : data.category === "energy"
-                ? "bg-red-700"
-                : "bg-green-700"
-            }`}>
+                  ? "bg-red-700"
+                  : "bg-green-700"
+              }`}>
             {data?.category}
           </Badge>
           <div className="text-[15px] cursor-pointer">
