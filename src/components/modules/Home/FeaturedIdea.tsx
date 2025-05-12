@@ -12,7 +12,7 @@ const FeaturedIdea = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     const fetchIdeas = async () => {
-        const res = await getAllIdeas();
+        const res = await getAllIdeas({status:"published"});
         if (res?.data) {
             setIdeas(res.data);
         }

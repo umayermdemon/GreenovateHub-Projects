@@ -22,6 +22,7 @@ const AllIdeaPage = () => {
     const [limit, setLimit] = useState(10);
     const [data, setData] = useState<TIdea[] | []>([]);
     const [meta, setMeta] = useState<TMeta>({} as TMeta);
+    const [status, setStatus] = useState("");
     const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -30,13 +31,15 @@ const AllIdeaPage = () => {
             const { data, meta } = await getAllIdeas({
                 page: currentPage.toString(),
                 limit: limit.toString(),
-                searchTerm: searchTerm
+                searchTerm: searchTerm,
+                status: status
             });
             setData(data);
             setMeta(meta)
         }
         fetchIdea()
-    }, [currentPage, limit, searchTerm])
+    }, [currentPage, limit, searchTerm, status]);
+    console.log(status);
     return (
         <div>
             <div className="flex gap-5">
@@ -69,6 +72,18 @@ const AllIdeaPage = () => {
                         <Search size={18} />
                     </Button>
                 </div>
+                <Select onValueChange={(val) => setStatus(val)}>
+                    <SelectTrigger
+                        className="mb-4 border-green-500 text-green-500 focus:ring-0 focus:ring-offset-0 focus:border-green-500"
+                    >
+                        <SelectValue placeholder="Set Status" />
+                    </SelectTrigger>
+                    <SelectContent className="text-green-500">
+                        <SelectItem value="pending">Pending</SelectItem>
+                        <SelectItem value="published">Published</SelectItem>
+                        <SelectItem value="unpublished">Unpublished</SelectItem>
+                    </SelectContent>
+                </Select>
             </div>
             <Card>
                 <CardHeader>

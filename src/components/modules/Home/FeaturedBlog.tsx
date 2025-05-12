@@ -12,7 +12,7 @@ const FeaturedBlog = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchBlogs = async () => {
-    const res = await getAllBlogs();
+    const res = await getAllBlogs({status:"published"});
     if (res?.data) {
       setBlogs(res.data);
     }
