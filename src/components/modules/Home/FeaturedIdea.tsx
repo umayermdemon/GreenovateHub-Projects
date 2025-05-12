@@ -11,21 +11,8 @@ const FeaturedIdea = () => {
   const [idea, setIdeas] = useState<TIdea[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-<<<<<<< HEAD
-    const fetchIdeas = async () => {
-        const res = await getAllIdeas({status:"approved"});
-        if (res?.data) {
-            setIdeas(res.data);
-        }
-        setIsLoading(false);
-    };
-    useEffect(() => {
-        fetchIdeas();
-    }, []);
-    const { user } = useUser();
-=======
   const fetchIdeas = async () => {
-    const res = await getAllIdeas({ status: "published" });
+    const res = await getAllIdeas({ status: "approved" });
     if (res?.data) {
       setIdeas(res.data);
     }
@@ -35,7 +22,6 @@ const FeaturedIdea = () => {
     fetchIdeas();
   }, []);
   const { user } = useUser();
->>>>>>> 96c0e9fe8ca5f1025a3e2a42abf108ac67728841
 
   return (
     <section className="bg-gray-100 py-16">
@@ -46,18 +32,18 @@ const FeaturedIdea = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {isLoading
             ? Array.from({ length: 3 }).map((_, i) => (
-                <IdeaCardSkeleton key={i} />
-              ))
+              <IdeaCardSkeleton key={i} />
+            ))
             : idea
-                ?.slice(0, 3)
-                .map((idea: TIdea) => (
-                  <IdeaCard
-                    key={idea.id}
-                    data={idea}
-                    refresh={fetchIdeas}
-                    userId={user?.userId}
-                  />
-                ))}
+              ?.slice(0, 3)
+              .map((idea: TIdea) => (
+                <IdeaCard
+                  key={idea.id}
+                  data={idea}
+                  refresh={fetchIdeas}
+                  userId={user?.userId}
+                />
+              ))}
         </div>
         <div className="text-center mt-10">
           <Link
