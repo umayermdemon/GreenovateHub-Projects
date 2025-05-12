@@ -8,13 +8,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import Image from "next/image";
 
 const ManageMemberDashboard = ({ blogs }: { blogs: TBlog[] }) => {
-  const filteredBlogs = blogs
-    .filter((blog) => {
-      const createdAtDate = new Date(blog.createdAt);
-      const sevenDaysAgo = new Date();
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-      return createdAtDate >= sevenDaysAgo;
-    })
+  const filteredBlogs = blogs?.filter((blog) => {
+    const createdAtDate = new Date(blog?.createdAt);
+    const sevenDaysAgo = new Date();
+    sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+    return createdAtDate >= sevenDaysAgo;
+  })
     .sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -27,13 +26,13 @@ const ManageMemberDashboard = ({ blogs }: { blogs: TBlog[] }) => {
       cell: ({ row }) => (
         <div className="flex items-center space-x-3">
           <Image
-            src={row.original.images[0]}
-            alt={row.original.title}
+            src={row?.original?.images[0]}
+            alt={row?.original?.title}
             width={150}
             height={150}
             className=" rounded-full object-contain"
           />
-          <span className="truncate">{row.original.title}</span>
+          <span className="truncate">{row?.original?.title}</span>
         </div>
       ),
     },
