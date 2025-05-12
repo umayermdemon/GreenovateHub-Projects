@@ -79,9 +79,9 @@ const AllIdeaPage = () => {
                         <SelectValue placeholder="Set Status" />
                     </SelectTrigger>
                     <SelectContent className="text-green-500">
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="published">Published</SelectItem>
-                        <SelectItem value="unpublished">Unpublished</SelectItem>
+                        <SelectItem value="underReview">Under Review</SelectItem>
+                        <SelectItem value="approved">Approved</SelectItem>
+                        <SelectItem value="rejected">Rejected</SelectItem>
                     </SelectContent>
                 </Select>
             </div>

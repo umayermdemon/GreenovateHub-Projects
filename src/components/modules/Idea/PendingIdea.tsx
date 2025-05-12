@@ -16,7 +16,7 @@ const PendingIdea = ({ data }: PIdea) => {
         const statusData = {
             id,
             data: {
-                status: "published"
+                status: "approved"
             }
         }
         try {
@@ -32,7 +32,7 @@ const PendingIdea = ({ data }: PIdea) => {
         const statusData = {
             id,
             data: {
-                status: "unpublished"
+                status: "reject"
             }
         }
         try {

@@ -7,8 +7,8 @@ import { FaBlog, FaComment, FaEye} from "react-icons/fa";
 
 
 const AdminHomePage = async () => {
-  const { data: blogData } = await getAllBlogs({ status: "pending" })
-  const { data: ideaData } = await getAllIdeas({ status: "pending" })
+  const { data: blogData } = await getAllBlogs({ status: "underReview" });
+  const { data: ideaData } = await getAllIdeas({ status: "underReview" });
   return (
     <div className="flex flex-1 flex-col gap-4 p-4 pt-0 my-5">
       <h1 className="text-2xl font-bold mb-6 text-green-700">
