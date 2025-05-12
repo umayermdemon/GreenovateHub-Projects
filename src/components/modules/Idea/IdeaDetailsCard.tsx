@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 import { createVote, undoVote } from "@/services/vote";
 import { PaymentModal } from "./PaymentModal";
 import { useEffect, useState } from "react";
-import { getSingleOrder } from "@/services/payment";
+import { getSingleOrder } from "@/services/order";
 import { TOrder } from "@/types";
 
 const getStatusColor = (status: string) => {
@@ -47,7 +47,8 @@ const IdeaDetailsCard = ({
   user: TAuthor;
   refresh: () => void;
 }) => {
-  const [currentOrder, setCurrentOrder] = useState<TOrder>();
+  const [currentOrder, setCurrentOrder] = useState<TOrder | null>(null);
+  console.log({ user });
   const router = useRouter();
   const isUpvoted = idea.up_votes > 0;
   const isDownvoted = idea.down_votes > 0;
@@ -108,7 +109,7 @@ const IdeaDetailsCard = ({
     };
     getPayment();
   }, [idea?.id]);
-  console.log(currentOrder, "kjbkb");
+  console.log(idea, user);
   if (!idea) {
     return (
       <div className="text-center py-10 text-muted-foreground">Loading...</div>
@@ -118,7 +119,7 @@ const IdeaDetailsCard = ({
   return (
     <div className="max-w-5xl mx-auto min-h-[calc(100vh-100px)] p-4 my-4 shadow-lg bg-amber-50  border rounded-md">
       {/* Images */}
-      {idea.images?.length > 0 && (
+      {idea.images?.length > 0 ? (
         <Swiper
           modules={[Pagination, Autoplay]}
           pagination={{ clickable: true }}
@@ -128,8 +129,10 @@ const IdeaDetailsCard = ({
           {idea.images.map((img, idx) => (
             <SwiperSlide key={idx}>
               <Image
-                src={img}
-                alt={`Blog Image ${idx + 1}`}
+                src={
+                  img || "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
+                }
+                alt={`Idea Image ${idx + 1}`}
                 width={800}
                 height={800}
                 className="rounded-xl w-full h-[500px] object-fill border-2"
@@ -137,6 +140,14 @@ const IdeaDetailsCard = ({
             </SwiperSlide>
           ))}
         </Swiper>
+      ) : (
+        <Image
+          src="https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
+          alt="Idea Image"
+          width={800}
+          height={800}
+          className="rounded-xl w-full h-[500px] object-fill border-2"
+        />
       )}
 
       {/* Top Row: Category & Actions */}

@@ -12,7 +12,7 @@ import GFormInput from "@/components/shared/Form/GFormInput";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Form } from "@/components/ui/form";
 import { TAuthor } from "@/types/blog.types";
-import { makePayment } from "@/services/payment";
+import { makePayment } from "@/services/order";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 

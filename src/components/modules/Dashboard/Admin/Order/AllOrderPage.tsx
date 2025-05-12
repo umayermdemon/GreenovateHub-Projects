@@ -1,6 +1,5 @@
 "use client";
 
-import { PaymentModal } from "@/components/modules/Idea/PaymentModal";
 import {
   Table,
   TableBody,
@@ -9,27 +8,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getSingleUser } from "@/services/user";
-import { IUser, TOrder } from "@/types";
+import { TOrder } from "@/types";
 import { Trash } from "lucide-react";
-import { useEffect, useState } from "react";
+import Link from "next/link";
 
-const OrderPageDetails = ({
-  orders,
-  user,
-}: {
-  orders: TOrder[];
-  user: IUser;
-}) => {
-  const [currentUser, setCurrentUser] = useState(null);
-  useEffect(() => {
-    const getUser = async () => {
-      const res = await getSingleUser(user?.userId);
-
-      setCurrentUser(res?.data);
-    };
-    getUser();
-  }, [user?.userId]);
+const AllOrderPage = ({ orders }: { orders: TOrder[] }) => {
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold mb-6">Order List</h1>
@@ -48,7 +31,11 @@ const OrderPageDetails = ({
         <TableBody>
           {orders?.map((order) => (
             <TableRow key={order.id}>
-              <TableCell>{order.ideaTitle}</TableCell>
+              <Link
+                href={`/admin/dashboard/all-orders/details/${order?.id}`}
+                className="hover:underline">
+                <TableCell>{order.ideaTitle}</TableCell>
+              </Link>
               <TableCell>{order.id}</TableCell>
               <TableCell>
                 {order.status === "paid" ? order.transactionId : "N/A"}
@@ -70,19 +57,9 @@ const OrderPageDetails = ({
                 {new Date(order.updatedAt).toLocaleDateString()}
               </TableCell>
               <TableCell>
-                {order.status === "pending" ? (
-                  <PaymentModal
-                    idea={{
-                      id: order?.ideaId,
-                      price: order?.amount.toLocaleString(),
-                    }}
-                    user={currentUser!}
-                  />
-                ) : (
-                  <p>
-                    <Trash color="red" />
-                  </p>
-                )}
+                <p>
+                  <Trash color="red" />
+                </p>
               </TableCell>
             </TableRow>
           ))}
@@ -92,4 +69,4 @@ const OrderPageDetails = ({
   );
 };
 
-export default OrderPageDetails;
+export default AllOrderPage;

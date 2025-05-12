@@ -11,7 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
-import { verifyPayment } from "@/services/payment";
+import { verifyPayment } from "@/services/order";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
@@ -69,22 +69,25 @@ export default function OrderVerification() {
     verifyData();
   }, [order_id]);
 
-  console.log({ data });
-
   return loading ? (
     <Skeleton />
   ) : (
-    <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6">Payment Verification</h1>
-      <div className="grid gap-6 md:grid-cols-2">
-        <Card>
+    <div className="container mx-auto max-w-4xl p-4">
+      <h1 className="text-3xl font-bold mb-6 text-center">
+        Payment Verification
+      </h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 gap-y-8">
+        {/* Payment Details */}
+        <Card className="w-full">
           <CardHeader>
-            <CardTitle>Payment Details</CardTitle>
+            <CardTitle className="text-lg md:text-xl">
+              Payment Details
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <dl className="grid grid-cols-2 gap-2">
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <dt className="font-semibold">Order ID:</dt>
-              <dd>{data?.order_id || "N/A"}</dd>
+              <dd className="break-words">{data?.order_id || "N/A"}</dd>
               <dt className="font-semibold">Amount:</dt>
               <dd>
                 {data?.currency || "N/A"} {data?.amount?.toFixed(2) || "0.00"}
@@ -108,16 +111,19 @@ export default function OrderVerification() {
           </CardContent>
         </Card>
 
-        <Card>
+        {/* Payment Info */}
+        <Card className="w-full">
           <CardHeader>
-            <CardTitle>Payment Information</CardTitle>
+            <CardTitle className="text-lg md:text-xl">
+              Payment Information
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <dl className="grid grid-cols-2 gap-2">
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <dt className="font-semibold">Method:</dt>
               <dd>{data?.method}</dd>
               <dt className="font-semibold">Transaction ID:</dt>
-              <dd>{data?.bank_trx_id}</dd>
+              <dd className="break-words">{data?.bank_trx_id}</dd>
               <dt className="font-semibold">Invoice No:</dt>
               <dd>{data?.invoice_no}</dd>
               <dt className="font-semibold">SP Code:</dt>
@@ -128,33 +134,38 @@ export default function OrderVerification() {
           </CardContent>
         </Card>
 
-        <Card>
+        {/* Customer Info */}
+        <Card className="w-full">
           <CardHeader>
-            <CardTitle>Customer Information</CardTitle>
+            <CardTitle className="text-lg md:text-xl">
+              Customer Information
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <dl className="grid grid-cols-2 gap-2">
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <dt className="font-semibold">Name:</dt>
               <dd>{data?.name}</dd>
               <dt className="font-semibold">Email:</dt>
-              <dd>{data?.email}</dd>
+              <dd className="break-words">{data?.email}</dd>
               <dt className="font-semibold">Phone:</dt>
               <dd>{data?.phone_no}</dd>
               <dt className="font-semibold">Address:</dt>
-              <dd>{data?.address}</dd>
+              <dd className="break-words">{data?.address}</dd>
               <dt className="font-semibold">City:</dt>
               <dd>{data?.city}</dd>
             </dl>
           </CardContent>
         </Card>
 
-        <Card>
+        {/* Final CTA */}
+        <Card className="w-full">
           <CardHeader>
-            <CardTitle>Verification Status</CardTitle>
+            <CardTitle className="text-lg md:text-xl">
+              Verification Status
+            </CardTitle>
           </CardHeader>
-
           <CardFooter>
-            <Link href="/member/dashboard/my-orders">
+            <Link href="/member/dashboard/my-orders" className="w-full">
               <Button className="w-full cursor-pointer">View Orders</Button>
             </Link>
           </CardFooter>

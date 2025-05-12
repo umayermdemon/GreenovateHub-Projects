@@ -2,7 +2,7 @@
 
 import BlogDetailsCard from "@/components/modules/blog/BlogDetailsCard";
 import { getSingleBlog } from "@/services/blog";
-import { getSingleUSer } from "@/services/user";
+import { getSingleUser } from "@/services/user";
 import BlogDetailsSkeleton from "@/skeletons/BlogDetailsSkeleton";
 import { TAuthor, TBlog } from "@/types/blog.types";
 import { useParams } from "next/navigation";
@@ -19,7 +19,7 @@ const BlogDetails = () => {
     if (res?.data) {
       setBlog(res.data);
     }
-    const user = await getSingleUSer(blog?.authorId);
+    const user = await getSingleUser(blog?.authorId);
     if (user?.data) {
       setUser(user.data);
       setLoading(false);
