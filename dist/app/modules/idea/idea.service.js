@@ -29,7 +29,6 @@ const calculatePagination_1 = __importDefault(require("../../utils/calculatePagi
 const prisma_2 = require("../../utils/prisma");
 const idea_constant_1 = require("./idea.constant");
 const createIdea = (payload, user) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(payload);
     if (!user.userId) {
         throw new Error("User not found");
     }
@@ -47,12 +46,12 @@ const getAllIdeas = (filters, paginationOptions) => __awaiter(void 0, void 0, vo
     const andCondition = [];
     if (searchTerm) {
         andCondition.push({
-            OR: idea_constant_1.ideaSearchAbleFields.map(field => ({
+            OR: idea_constant_1.ideaSearchAbleFields.map((field) => ({
                 [field]: {
                     contains: searchTerm,
-                    mode: 'insensitive'
-                }
-            }))
+                    mode: "insensitive",
+                },
+            })),
         });
     }
     if (author) {
@@ -60,17 +59,17 @@ const getAllIdeas = (filters, paginationOptions) => __awaiter(void 0, void 0, vo
             author: {
                 name: {
                     contains: author,
-                    mode: 'insensitive'
-                }
-            }
+                    mode: "insensitive",
+                },
+            },
         });
     }
     // add filterData condition
     if (Object.keys(filterData).length > 0) {
-        const filterConditions = Object.keys(filterData).map(key => ({
+        const filterConditions = Object.keys(filterData).map((key) => ({
             [key]: {
-                equals: filterData[key]
-            }
+                equals: filterData[key],
+            },
         }));
         andCondition.push(...filterConditions);
     }
@@ -79,14 +78,14 @@ const getAllIdeas = (filters, paginationOptions) => __awaiter(void 0, void 0, vo
         where: whereConditions,
         skip,
         take: limit,
-        orderBy: sortBy && sortOrder ? { [sortBy]: sortOrder } : { createdAt: 'desc' },
+        orderBy: sortBy && sortOrder ? { [sortBy]: sortOrder } : { createdAt: "desc" },
         include: {
             Vote: true,
-            author: true
+            author: true,
         },
     });
     const total = yield prisma_2.prisma.idea.count({
-        where: whereConditions
+        where: whereConditions,
     });
     const enhancedIdeas = result.map((idea) => {
         const votes = idea.Vote || [];
@@ -98,9 +97,9 @@ const getAllIdeas = (filters, paginationOptions) => __awaiter(void 0, void 0, vo
         meta: {
             total,
             page,
-            limit
+            limit,
         },
-        data: enhancedIdeas
+        data: enhancedIdeas,
     };
 });
 const getSingleIdea = (id) => __awaiter(void 0, void 0, void 0, function* () {

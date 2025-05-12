@@ -33,7 +33,6 @@ const createIdea = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
 const getAllIdeas = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const ideaFilters = (0, pick_1.default)(req.query, idea_constant_1.ideaFilterableFields);
     const paginationOptions = (0, pick_1.default)(req.query, prisma_1.paginationQueries);
-    console.log(ideaFilters);
     const result = yield idea_service_1.ideaServices.getAllIdeas(ideaFilters, paginationOptions);
     (0, sendResponse_1.default)(res, {
         statusCode: http_status_1.default.OK,

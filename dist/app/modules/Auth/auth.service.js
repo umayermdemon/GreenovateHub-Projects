@@ -39,7 +39,7 @@ const login = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const refreshToken = jwt_helpers_1.jwtHelpers.generateToken({
         email: userData.email,
         role: userData.role,
-        userId: userData.id
+        userId: userData.id,
     }, config_1.default.jwt_refresh_secret, config_1.default.jwt_refresh_expires_in || "1d");
     return {
         accessToken,
@@ -67,7 +67,7 @@ const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = jwt_helpers_1.jwtHelpers.generateToken({
         email: userData.email,
         role: userData.role,
-        userId: userData.id
+        userId: userData.id,
     }, config_1.default.jwt_secret, config_1.default.jwt_expires_in);
     return { accessToken };
 });
@@ -117,10 +117,8 @@ const forgotPassword = (payload) => __awaiter(void 0, void 0, void 0, function* 
 
         </div>
         `);
-    //console.log(resetPassLink)
 });
 const resetPassword = (token, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log({ token, payload });
     const userData = yield prisma_1.prisma.user.findUniqueOrThrow({
         where: {
             id: payload.id,

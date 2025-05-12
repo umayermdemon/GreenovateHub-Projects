@@ -2,6 +2,9 @@
 CREATE TYPE "ideaStatus" AS ENUM ('pending', 'draft', 'published', 'unpublished');
 
 -- CreateEnum
+CREATE TYPE "paymentStatus" AS ENUM ('pending', 'paid', 'unpaid');
+
+-- CreateEnum
 CREATE TYPE "blogStatus" AS ENUM ('pending', 'draft', 'published', 'unpublished');
 
 -- CreateEnum
@@ -49,7 +52,7 @@ CREATE TABLE "ideas" (
 );
 
 -- CreateTable
-CREATE TABLE "Blog" (
+CREATE TABLE "blogs" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "images" TEXT[],
@@ -61,11 +64,11 @@ CREATE TABLE "Blog" (
     "updatedAt" TIMESTAMP(3) NOT NULL,
     "categoryId" TEXT,
 
-    CONSTRAINT "Blog_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "blogs_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Vote" (
+CREATE TABLE "votes" (
     "id" TEXT NOT NULL,
     "voterId" TEXT NOT NULL,
     "value" "voteValue" NOT NULL,
@@ -73,11 +76,11 @@ CREATE TABLE "Vote" (
     "blogId" TEXT,
     "isDeleted" BOOLEAN NOT NULL DEFAULT false,
 
-    CONSTRAINT "Vote_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "votes_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "Comment" (
+CREATE TABLE "comments" (
     "id" TEXT NOT NULL,
     "content" TEXT NOT NULL,
     "commenterId" TEXT NOT NULL,
@@ -85,7 +88,21 @@ CREATE TABLE "Comment" (
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
-    CONSTRAINT "Comment_pkey" PRIMARY KEY ("id")
+    CONSTRAINT "comments_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "payments" (
+    "id" TEXT NOT NULL,
+    "ideaId" TEXT NOT NULL,
+    "authorId" TEXT NOT NULL,
+    "transactionId" TEXT NOT NULL,
+    "status" "paymentStatus" NOT NULL DEFAULT 'pending',
+    "amount" INTEGER NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "payments_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateIndex
@@ -95,31 +112,40 @@ CREATE UNIQUE INDEX "users_id_key" ON "users"("id");
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Blog_title_key" ON "Blog"("title");
+CREATE UNIQUE INDEX "blogs_title_key" ON "blogs"("title");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Vote_voterId_ideaId_key" ON "Vote"("voterId", "ideaId");
+CREATE UNIQUE INDEX "votes_voterId_ideaId_key" ON "votes"("voterId", "ideaId");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Vote_voterId_blogId_key" ON "Vote"("voterId", "blogId");
+CREATE UNIQUE INDEX "votes_voterId_blogId_key" ON "votes"("voterId", "blogId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "payments_ideaId_authorId_key" ON "payments"("ideaId", "authorId");
 
 -- AddForeignKey
 ALTER TABLE "ideas" ADD CONSTRAINT "ideas_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Blog" ADD CONSTRAINT "Blog_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "blogs" ADD CONSTRAINT "blogs_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Vote" ADD CONSTRAINT "Vote_voterId_fkey" FOREIGN KEY ("voterId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "votes" ADD CONSTRAINT "votes_voterId_fkey" FOREIGN KEY ("voterId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Vote" ADD CONSTRAINT "Vote_ideaId_fkey" FOREIGN KEY ("ideaId") REFERENCES "ideas"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "votes" ADD CONSTRAINT "votes_ideaId_fkey" FOREIGN KEY ("ideaId") REFERENCES "ideas"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Vote" ADD CONSTRAINT "Vote_blogId_fkey" FOREIGN KEY ("blogId") REFERENCES "Blog"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "votes" ADD CONSTRAINT "votes_blogId_fkey" FOREIGN KEY ("blogId") REFERENCES "blogs"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Comment" ADD CONSTRAINT "Comment_commenterId_fkey" FOREIGN KEY ("commenterId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "comments" ADD CONSTRAINT "comments_commenterId_fkey" FOREIGN KEY ("commenterId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Comment" ADD CONSTRAINT "Comment_ideaId_fkey" FOREIGN KEY ("ideaId") REFERENCES "ideas"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "comments" ADD CONSTRAINT "comments_ideaId_fkey" FOREIGN KEY ("ideaId") REFERENCES "ideas"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "payments" ADD CONSTRAINT "payments_ideaId_fkey" FOREIGN KEY ("ideaId") REFERENCES "ideas"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "payments" ADD CONSTRAINT "payments_authorId_fkey" FOREIGN KEY ("authorId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
