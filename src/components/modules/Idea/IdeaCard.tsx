@@ -31,19 +31,19 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
   useEffect(() => {
     const fetchIsVoted = async () => {
       const ideaData = {
-        ideaId: data.id
-      }
+        ideaId: data.id,
+      };
       try {
-        const res = await isUserVoted(ideaData)
+        const res = await isUserVoted(ideaData);
         if (res) {
-          setVote(res.data)
+          setVote(res.data);
         }
       } catch (error) {
         console.log(error);
       }
-    }
-    fetchIsVoted()
-  }, [data])
+    };
+    fetchIsVoted();
+  }, [data, userId]);
   const timeAgo = formatDistanceToNow(new Date(data.createdAt), {
     addSuffix: true,
   });
@@ -51,31 +51,31 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
   const addVote = async (value: string) => {
     const voteData = {
       ideaId: data.id,
-      value
-    }
+      value,
+    };
     try {
       const res = await createVote(voteData);
       console.log(res);
       if (res.success) {
-        refresh()
+        refresh();
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   const removeVote = async () => {
     const voteData = {
-      ideaId: data.id
-    }
+      ideaId: data.id,
+    };
     try {
       const res = await undoVote(voteData);
       if (res.success) {
-        refresh()
+        refresh();
       }
     } catch (error) {
       console.log(error);
     }
-  }
+  };
   const deleteIdea = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -90,7 +90,7 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
         try {
           const res = await deleteMyIdea(id);
           if (res.success) {
-            refresh()
+            refresh();
           }
         } catch (error) {
           console.log(error);
@@ -110,7 +110,10 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
         <div className="flex  relative">
           <Image
             className="w-[410px] h-[250px] rounded-t-md"
-            src={data.images[0] || "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"}
+            src={
+              data?.images[0] ||
+              "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
+            }
             alt="image"
             height={200}
             width={300}
@@ -130,9 +133,10 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
                   <ul className="divide-y divide-gray-200">
                     <Link
                       href={
-                        user
+                        user?.role === "member"
                           ? `/member/dashboard/my-ideas/details/${data.id}`
-                          : `/blogs/${data.id}`
+                          : // : `/blogs/${data.id}`
+                            `/admin/dashboard/all-ideas/details/${data.id}`
                       }
                       passHref>
                       <li className="cursor-pointer hover:bg-amber-500 flex gap-1 hover:text-white px-1 text-amber-600 pb-0.5">
@@ -178,7 +182,7 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
                 <div className="flex gap-2 bg-amber-500 px-2 py-1 rounded-full">
                   <div className="flex gap-0.5 border-r cursor-pointer pr-1 text-white text-[19px]">
                     <p>
-                      {vote.isVoted && vote.value === "up" ? (
+                      {vote?.isVoted && vote?.value === "up" ? (
                         <BiSolidLike onClick={removeVote} />
                       ) : (
                         <AiOutlineLike onClick={() => addVote("up")} />
@@ -188,7 +192,7 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
                     <p className="text-sm">{data.up_votes || 0}</p>
                   </div>
                   <p className=" cursor-pointer pr-1 text-white text-[19px]">
-                    {vote.isVoted && vote.value === "down" ? (
+                    {vote?.isVoted && vote?.value === "down" ? (
                       <AiFillDislike onClick={removeVote} />
                     ) : (
                       <AiOutlineDislike onClick={() => addVote("down")} />

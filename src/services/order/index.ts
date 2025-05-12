@@ -42,12 +42,15 @@ export const verifyPayment = async (order_id: string) => {
 };
 export const getMyOrder = async () => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/payments/me`, {
-      method: "GET",
-      headers: {
-        Authorization: (await cookies()).get("accessToken")!.value,
-      },
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/payments/my-order`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: (await cookies()).get("accessToken")!.value,
+        },
+      }
+    );
     const result = await res.json();
     return result;
   } catch (error) {
@@ -65,6 +68,20 @@ export const getSingleOrder = async (ideaId: string) => {
         },
       }
     );
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    return Error(error as string);
+  }
+};
+export const getAllOrder = async () => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/payments`, {
+      method: "GET",
+      headers: {
+        Authorization: (await cookies()).get("accessToken")!.value,
+      },
+    });
     const result = await res.json();
     return result;
   } catch (error) {

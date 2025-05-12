@@ -11,7 +11,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
-import { verifyPayment } from "@/services/payment";
+import { verifyPayment } from "@/services/order";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 

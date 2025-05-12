@@ -139,6 +139,11 @@ const AppSidebar = () => {
             icon: Palette,
           },
           {
+            title: "All Orders",
+            url: "/admin/dashboard/all-orders",
+            icon: Palette,
+          },
+          {
             title: "User Management",
             url: "/admin/dashboard/manage-users",
             icon: UserCog,
