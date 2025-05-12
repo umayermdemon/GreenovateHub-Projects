@@ -1,8 +1,9 @@
 "use client";
 
 import IdeaDetailsCard from "@/components/modules/Idea/IdeaDetailsCard";
+import { useUser } from "@/context/UserContext";
 import { getSingleIdea } from "@/services/idea";
-import { getSingleUSer } from "@/services/user";
+import { getSingleUser } from "@/services/user";
 import IdeaDetailsSkeleton from "@/skeletons/IdeaDetailsSkeleton";
 import { TAuthor } from "@/types/blog.types";
 import { TIdea } from "@/types/idea.types";
@@ -14,6 +15,7 @@ const IdeaDetails = () => {
   const [idea, setIdea] = useState<TIdea | null>(null);
   const [user, setUser] = useState<TAuthor | null>(null);
   const [loading, setLoading] = useState(true);
+  const { user: currentUser } = useUser();
 
   const fetchData = useCallback(async () => {
     setLoading(true);
@@ -21,7 +23,7 @@ const IdeaDetails = () => {
       const res = await getSingleIdea(id);
       if (res?.data) {
         setIdea(res.data);
-        const userRes = await getSingleUSer(res.data.authorId);
+        const userRes = await getSingleUser(currentUser?.userId as string);
         if (userRes?.data) {
           setUser(userRes.data);
           setLoading(false);
@@ -30,7 +32,7 @@ const IdeaDetails = () => {
     } catch (error) {
       console.error("Error fetching data:", error);
     }
-  }, [id]);
+  }, [id, currentUser?.userId]);
 
   useEffect(() => {
     fetchData();
