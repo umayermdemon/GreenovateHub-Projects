@@ -37,13 +37,6 @@ const makePayment = async (
     throw new AppError(status.BAD_REQUEST, "This idea is free!");
   }
 
-  // if (payload?.customer_email === isExistUser?.email) {
-  //   throw new AppError(
-  //     status.BAD_REQUEST,
-  //     "You are not allowed to make a payment for your own idea"
-  //   );
-  // }
-
   const paymentData = {
     amount: isIdeaExists?.price,
     order_id: payload?.order_id,
@@ -85,7 +78,7 @@ const makePayment = async (
       data: {
         ideaId: isIdeaExists?.id,
         ideaTitle: isIdeaExists?.title,
-        authorId: isIdeaExists?.authorId,
+        authorId: user?.userId,
         amount: amount,
         transactionId: result?.sp_order_id,
       },
