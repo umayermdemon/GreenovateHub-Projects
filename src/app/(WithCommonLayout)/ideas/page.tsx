@@ -30,6 +30,7 @@ const IdeaPage = () => {
       category: selectedTab === "all" ? "" : selectedTab,
       searchTerm: searchTerm,
       page: currentPage.toString(),
+      status: "published"
     });
     if (res.success) {
       setIdeas(res.data);

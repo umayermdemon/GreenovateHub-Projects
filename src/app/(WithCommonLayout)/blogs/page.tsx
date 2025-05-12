@@ -31,6 +31,7 @@ const BlogPage = () => {
       category: selectedTab === "all" ? "" : selectedTab,
       searchTerm: searchTerm,
       page: currentPage.toString(),
+      status:"published"
     });
     if (res.success) {
       setBlogs(res.data);
