@@ -6,7 +6,12 @@ import status from "http-status";
 import globalErrorHandler from "./app/middlewares/globalErrorHandler";
 import router from "./app/routes";
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "https://greeni-circle-client.vercel.app",
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 
 // parser
