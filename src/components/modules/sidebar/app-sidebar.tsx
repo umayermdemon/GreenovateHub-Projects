@@ -15,6 +15,9 @@ import {
   UserCog,
   LogOut,
   Bell,
+  FilePen,
+  Package,
+  FileText,
 } from "lucide-react";
 
 import {
@@ -112,12 +115,17 @@ const AppSidebar = () => {
           {
             title: "My Orders",
             url: "/member/dashboard/my-orders",
-            icon: Palette,
+            icon: Package,
           },
           {
             title: "Draft Ideas",
             url: "/member/dashboard/draft-ideas",
-            icon: Palette,
+            icon: FilePen,
+          },
+          {
+            title: "Draft Blogs",
+            url: "/member/dashboard/draft-blogs",
+            icon: FileText,
           },
           {
             title: "Settings",
