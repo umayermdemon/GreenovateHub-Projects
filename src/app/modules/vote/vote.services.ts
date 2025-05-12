@@ -100,7 +100,49 @@ const removeVote = async (payload: Partial<IVote>, user: IAuthUser) => {
     })
     return result
 }
+const isVoted = async (payload: { blogId?: string, ideaId?: string }, user: IAuthUser) => {
+    let vote;
+    if (payload.blogId) {
+        vote = await prisma.vote.findUnique({
+            where: {
+                voterId_blogId: {
+                    voterId: user.userId,
+                    blogId: payload.blogId
+                },
+            },
+            select: {
+                value: true
+            }
+        })
+    }
+    if (payload.ideaId) {
+        vote = await prisma.vote.findUnique({
+            where: {
+                voterId_ideaId: {
+                    voterId: user.userId,
+                    ideaId: payload.ideaId
+                },
+            },
+            select: {
+                value: true
+            }
+        })
+    }
+    let result;
+    if (!vote) {
+        result = {
+            isVoted: false
+        }
+    } else {
+        result = {
+            ...vote,
+            isVoted: true
+        }
+    }
+    return result
+}
 export const voteServices = {
     createVote,
-    removeVote
+    removeVote,
+    isVoted
 }

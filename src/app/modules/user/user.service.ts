@@ -51,7 +51,6 @@ const getMyProfile = async (user: IAuthUser) => {
   return userData;
 };
 const updateUser = async (user: IAuthUser, updatedPayload: Partial<IUser>) => {
-  console.log(updatedPayload);
   const userData = await prisma.user.findUniqueOrThrow({
     where: {
       email: user.email,

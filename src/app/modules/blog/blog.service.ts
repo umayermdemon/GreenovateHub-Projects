@@ -69,6 +69,7 @@ const getAllBlogs = async (filters: TBlogFilterRequest, paginationOptions: IPagi
   const total = await prisma.blog.count({
     where: whereConditions
   })
+  const totalPage = Math.max(1, Math.ceil(total / limit));
   const enhancedIdeas = result.map((blog) => {
     const votes = blog.Vote || [];
 
@@ -85,7 +86,8 @@ const getAllBlogs = async (filters: TBlogFilterRequest, paginationOptions: IPagi
     meta: {
       page,
       limit,
-      total
+      total,
+      totalPage
     },
     data: enhancedIdeas
   }

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const ideaStatusEnum = z.enum(["pending", "approved", "rejected"]);
+export const ideaStatusEnum = z.enum(["pending", "draft", "published", "unpublished"]);
 const categoryEnum = z.enum(["energy", "waste", "transportation"]);
 export const createIdeaValidationSchema = z.object({
   title: z.string().min(1),
