@@ -4,76 +4,78 @@ import { SlOptions } from "react-icons/sl";
 import { formatDistanceToNow } from "date-fns";
 import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { BiSolidLike } from "react-icons/bi";
-import { useState } from "react";
-import { createVote, undoVote } from "@/services/vote";
+import { createVote, isUserVoted, undoVote } from "@/services/vote";
 import { AiFillDislike } from "react-icons/ai";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { Edit, Eye, Trash2 } from "lucide-react";
+import { Edit, Eye, MessageSquareMore, Trash2 } from "lucide-react";
 import Swal from "sweetalert2";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
 import { TIdea } from "@/types/idea.types";
 import { deleteMyIdea } from "@/services/idea";
+import { TIsVoted } from "../blog/BlogCard";
+import { useEffect, useState } from "react";
 
 interface IIdeaCard {
   data: TIdea;
   userId: string | undefined;
+  refresh: () => void;
 }
 
-const IdeaCard = ({ data, userId }: IIdeaCard) => {
+const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
+  const [vote, setVote] = useState<TIsVoted>({} as TIsVoted);
+  useEffect(() => {
+    const fetchIsVoted = async () => {
+      const ideaData = {
+        ideaId: data.id
+      }
+      try {
+        const res = await isUserVoted(ideaData)
+        if (res) {
+          setVote(res.data)
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchIsVoted()
+  }, [data])
   const timeAgo = formatDistanceToNow(new Date(data.createdAt), {
     addSuffix: true,
   });
   const { user } = useUser();
-  const [isLiked, setIsLiked] = useState(false);
-  const [isDisLiked, setIsDisLiked] = useState(false);
-  const isUpvoted = data.up_votes > 0;
-  const isDownvoted = data.down_votes > 0;
   const addVote = async (value: string) => {
     const voteData = {
-      blogId: data.id,
-      value: value,
-    };
+      ideaId: data.id,
+      value
+    }
     try {
       const res = await createVote(voteData);
+      console.log(res);
       if (res.success) {
-        if (isDisLiked) {
-          setIsDisLiked(false);
-        }
-
+        refresh()
       }
     } catch (error) {
       console.log(error);
     }
-  };
+  }
   const removeVote = async () => {
     const voteData = {
-      blogId: data.id,
-    };
+      ideaId: data.id
+    }
     try {
       const res = await undoVote(voteData);
       if (res.success) {
-        if (isLiked) {
-          setIsLiked(false);
-        } else {
-          setIsDisLiked(false);
-        }
+        refresh()
       }
     } catch (error) {
       console.log(error);
     }
-  };
-  const addDisLike = async () => {
-    setIsDisLiked(true);
-    addVote("down");
-  };
-  const removeDisLike = async () => {
-    removeVote();
-  };
+  }
   const deleteIdea = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -87,8 +89,8 @@ const IdeaCard = ({ data, userId }: IIdeaCard) => {
       if (result.isConfirmed) {
         try {
           const res = await deleteMyIdea(id);
-          console.log(res);
           if (res.success) {
+            refresh()
           }
         } catch (error) {
           console.log(error);
@@ -176,7 +178,7 @@ const IdeaCard = ({ data, userId }: IIdeaCard) => {
                 <div className="flex gap-2 bg-amber-500 px-2 py-1 rounded-full">
                   <div className="flex gap-0.5 border-r cursor-pointer pr-1 text-white text-[19px]">
                     <p>
-                      {isLiked || isUpvoted ? (
+                      {vote.isVoted && vote.value === "up" ? (
                         <BiSolidLike onClick={removeVote} />
                       ) : (
                         <AiOutlineLike onClick={() => addVote("up")} />
@@ -186,13 +188,14 @@ const IdeaCard = ({ data, userId }: IIdeaCard) => {
                     <p className="text-sm">{data.up_votes || 0}</p>
                   </div>
                   <p className=" cursor-pointer pr-1 text-white text-[19px]">
-                    {isDisLiked || isDownvoted ? (
-                      <AiFillDislike onClick={removeDisLike} />
+                    {vote.isVoted && vote.value === "down" ? (
+                      <AiFillDislike onClick={removeVote} />
                     ) : (
-                      <AiOutlineDislike onClick={addDisLike} />
+                      <AiOutlineDislike onClick={() => addVote("down")} />
                     )}
                   </p>
                 </div>
+                <MessageSquareMore size={24} className="text-amber-500" />
               </div>
             </div>
           </div>

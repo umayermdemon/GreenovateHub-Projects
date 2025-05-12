@@ -6,6 +6,7 @@ import { getMyBlogs } from "@/services/blog";
 import { TBlog } from "@/types/blog.types";
 import { useEffect, useState } from "react";
 
+
 const MyBlogs = () => {
     const [blogs, setBlogs] = useState<TBlog[]>([]);
 
@@ -19,7 +20,6 @@ const MyBlogs = () => {
         fetchBlogs();
     }, []);
     const { user } = useUser();
-    console.log(user);
     return (
         <div className="">
             <div className="flex items-center justify-between mx-8 mt-5">
@@ -31,7 +31,7 @@ const MyBlogs = () => {
 
             <div className="grid grid-cols-3 gap-4 mx-5 ">
                 {
-                    blogs?.map((blog: TBlog) => (<BlogCard key={blog.id} data={blog} refresh={fetchBlogs} userId={user?.userId} />))
+                    blogs?.map((blog: TBlog) => (<BlogCard key={blog.id} data={blog} userId={user?.userId} refresh={fetchBlogs} />))
                 }
             </div>
         </div>

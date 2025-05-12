@@ -3,11 +3,6 @@ import { TBlog } from "@/types/blog.types";
 import Image from "next/image";
 import { SlOptions } from "react-icons/sl";
 import { formatDistanceToNow } from "date-fns";
-import { AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
-import { BiSolidLike } from "react-icons/bi";
-import { useState } from "react";
-import { createVote, undoVote } from "@/services/vote";
-import { AiFillDislike } from "react-icons/ai";
 import {
   Popover,
   PopoverContent,
@@ -19,64 +14,70 @@ import Swal from "sweetalert2";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
 import { Badge } from "@/components/ui/badge";
+import { createVote, isUserVoted, undoVote } from "@/services/vote";
+import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
+import { BiSolidLike } from "react-icons/bi";
+import { useEffect, useState } from "react";
 
 interface IBlogCard {
   data: TBlog;
   userId: string | undefined;
-  refresh: () => void;
+  refresh: () => void
+}
+export interface TIsVoted {
+  value?: "up" | "down",
+  isVoted: boolean
 }
 
-const BlogCard = ({ data, refresh, userId }: IBlogCard) => {
+const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
+  const [vote, setVote] = useState<TIsVoted>({} as TIsVoted);
+  useEffect(() => {
+    const fetchIsVoted = async () => {
+      const blogData = {
+        blogId: data.id
+      }
+      try {
+        const res = await isUserVoted(blogData)
+        if (res) {
+          setVote(res.data)
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    fetchIsVoted()
+  }, [data])
   const timeAgo = formatDistanceToNow(new Date(data.createdAt), {
     addSuffix: true,
   })
   const { user } = useUser();
-  const [isLiked, setIsLiked] = useState(false);
-  const [isDisLiked, setIsDisLiked] = useState(false);
-  const isUpvoted = data.up_votes > 0;
-  const isDownvoted = data.down_votes > 0;
   const addVote = async (value: string) => {
     const voteData = {
       blogId: data.id,
-      value: value,
-    };
+      value
+    }
     try {
       const res = await createVote(voteData);
       if (res.success) {
-        if (isDisLiked) {
-          setIsDisLiked(false);
-        }
-        refresh();
+        refresh()
       }
     } catch (error) {
       console.log(error);
     }
-  };
+  }
   const removeVote = async () => {
     const voteData = {
-      blogId: data.id,
-    };
+      blogId: data.id
+    }
     try {
       const res = await undoVote(voteData);
       if (res.success) {
-        refresh();
-        if (isLiked) {
-          setIsLiked(false);
-        } else {
-          setIsDisLiked(false);
-        }
+        refresh()
       }
     } catch (error) {
       console.log(error);
     }
-  };
-  const addDisLike = async () => {
-    setIsDisLiked(true);
-    addVote("down");
-  };
-  const removeDisLike = async () => {
-    removeVote();
-  };
+  }
   const deleteBlog = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -92,7 +93,6 @@ const BlogCard = ({ data, refresh, userId }: IBlogCard) => {
           const res = await deleteMyBlog(id);
           console.log(res);
           if (res.success) {
-            refresh();
           }
         } catch (error) {
           console.log(error);
@@ -121,13 +121,12 @@ const BlogCard = ({ data, refresh, userId }: IBlogCard) => {
         <div className="flex justify-between mx-4 mt-3">
           <Badge
             variant="outline"
-            className={`mb-4 capitalize text-white p-2 ${
-              data?.category === "waste"
-                ? "bg-yellow-700"
-                : data.category === "energy"
+            className={`mb-4 capitalize text-white p-2 ${data?.category === "waste"
+              ? "bg-yellow-700"
+              : data.category === "energy"
                 ? "bg-red-700"
                 : "bg-green-700"
-            }`}>
+              }`}>
             {data?.category}
           </Badge>
           <div className="text-[15px] cursor-pointer">
@@ -188,21 +187,16 @@ const BlogCard = ({ data, refresh, userId }: IBlogCard) => {
                 <div className="flex gap-2 bg-green-500 px-2 py-1 rounded-full">
                   <div className="flex gap-0.5 border-r cursor-pointer pr-1 text-white text-[19px]">
                     <p>
-                      {isLiked || isUpvoted ? (
-                        <BiSolidLike onClick={removeVote} />
-                      ) : (
-                        <AiOutlineLike onClick={() => addVote("up")} />
-                      )}
+                      {
+                        vote?.isVoted && vote?.value === "up" ? <BiSolidLike onClick={removeVote} /> : <AiOutlineLike onClick={() => addVote("up")} />
+                      }
                     </p>
-
                     <p className="text-sm">{data.up_votes || 0}</p>
                   </div>
                   <p className=" cursor-pointer pr-1 text-white text-[19px]">
-                    {isDisLiked || isDownvoted ? (
-                      <AiFillDislike onClick={removeDisLike} />
-                    ) : (
-                      <AiOutlineDislike onClick={addDisLike} />
-                    )}
+                    {
+                      vote?.isVoted && vote?.value === "down" ? <AiFillDislike onClick={removeVote} /> : <AiOutlineDislike onClick={() => addVote("down")} />
+                    }
                   </p>
                 </div>
               </div>
