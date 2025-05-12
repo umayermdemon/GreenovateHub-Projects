@@ -62,19 +62,19 @@ const TestimonialSection = () => {
   const [index, setIndex] = useState(0);
 
   const handleNext = () => {
-    setIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+    setIndex((prevIndex) => (prevIndex + 1) % testimonials?.length);
   };
 
   const handlePrev = () => {
     setIndex(
-      (prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length
+      (prevIndex) => (prevIndex - 1 + testimonials?.length) % testimonials?.length
     );
   };
 
   const visibleTestimonials = [
     testimonials[index],
-    testimonials[(index + 1) % testimonials.length],
-    testimonials[(index + 2) % testimonials.length],
+    testimonials[(index + 1) % testimonials?.length],
+    testimonials[(index + 2) % testimonials?.length],
   ];
 
   return (
@@ -101,10 +101,10 @@ const TestimonialSection = () => {
               </div>
               <p className="italic text-sm text-gray-700 mb-4">{t.quote}</p>
               <div className="flex justify-center mb-3 text-yellow-400">
-                {Array.from({ length: t.rating }).map((_, i) => (
+                {Array.from({ length: t.rating })?.map((_, i) => (
                   <Star key={i} size={16} fill="currentColor" stroke="none" />
                 ))}
-                {Array.from({ length: 5 - t.rating }).map((_, i) => (
+                {Array.from({ length: 5 - t.rating })?.map((_, i) => (
                   <Star key={i} size={16} className="text-gray-600" />
                 ))}
               </div>

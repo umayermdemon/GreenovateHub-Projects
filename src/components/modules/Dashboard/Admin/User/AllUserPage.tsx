@@ -8,8 +8,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { getAllUser } from "@/services/user";
 import { TAuthor } from "@/types";
 import { Trash } from "lucide-react";
+import { useEffect, useState } from "react";
 
 // address: "West Datta Para";
 // createdAt: "2025-05-11T15:59:04.156Z";
@@ -23,7 +25,17 @@ import { Trash } from "lucide-react";
 // role: "member";
 // updatedAt: "2025-05-11T17:21:02.796Z";
 
-const AllUserPage = ({ users }: { users: TAuthor[] }) => {
+const AllUserPage = () => {
+  const [users, setUsers] = useState<TAuthor[] | []>([]);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const res = await getAllUser();
+      if (res?.success) {
+        setUsers(res.data)
+      }
+    }
+    fetchUsers()
+  })
   return (
     <div className="p-6">
       <h1 className="text-2xl font-semibold mb-6">All User List</h1>

@@ -54,7 +54,7 @@ const PendingIdea = ({ data }: PIdea) => {
                 <CardContent>
                     <div className="space-y-5 ">
                         {
-                            data.map((idea: TIdea) => (<div key={idea.id} className="flex items-center justify-between ">
+                            data?.map((idea: TIdea) => (<div key={idea.id} className="flex items-center justify-between ">
                                 <div className="flex items-center gap-3">
                                     <Avatar>
                                         <AvatarImage src={idea.images[0]} alt="" />

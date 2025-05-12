@@ -12,7 +12,7 @@ const useImageUploader = () => {
             ? selectedFiles
             : [selectedFiles];
 
-        if (!selectedFiles || files.length === 0) {
+        if (!selectedFiles || files?.length === 0) {
             return multiple ? [] : "";
         }
 

@@ -50,12 +50,12 @@ const PendingBlog = ({ data }: PBlog) => {
             <Card>
                 <CardHeader>
                     <CardTitle>Pending Blogs</CardTitle>
-                    <CardDescription>You have {data.length} pending Blogs</CardDescription>
+                    <CardDescription>You have {data?.length} pending Blogs</CardDescription>
                 </CardHeader>
                 <CardContent>
                     <div className="space-y-5">
                         {
-                            data.map((blog: TBlog) => (<div key={blog.id} className="flex items-center justify-between ">
+                            data?.map((blog: TBlog) => (<div key={blog.id} className="flex items-center justify-between ">
                                 <div className="flex items-center gap-3">
                                     <Link href={`/member/dashboard/my-blogs/details/${blog.id}`}>
                                         <Avatar>

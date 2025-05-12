@@ -43,7 +43,7 @@ const GFormImageUpload = ({
         const files = e.target.files;
         if (!files) return;
 
-        if (multiple && selectedFiles.length + files.length > 5) {
+        if (multiple && selectedFiles?.length + files?.length > 5) {
             toast.warning("You can only upload a maximum of 5 images.");
             return;
         }
@@ -51,7 +51,7 @@ const GFormImageUpload = ({
         const newPreviewImages: string[] = [];
         const newFiles: File[] = [];
 
-        for (let i = 0; i < files.length; i++) {
+        for (let i = 0; i < files?.length; i++) {
             const file = files[i];
             newPreviewImages.push(URL.createObjectURL(file));
             newFiles.push(file);

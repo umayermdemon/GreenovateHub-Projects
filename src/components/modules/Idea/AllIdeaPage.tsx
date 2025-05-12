@@ -180,11 +180,10 @@ const AllIdeaPage = () => {
                     <PaginationItem key={index}>
                       <PaginationLink
                         onClick={() => setCurrentPage(index + 1)}
-                        className={`border text-green-500 border-green-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white ${
-                          index === Number(meta?.page) - 1
+                        className={`border text-green-500 border-green-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white ${index === Number(meta?.page) - 1
                             ? "bg-green-500 text-white"
                             : ""
-                        }`}
+                          }`}
                         href="#">
                         {index + 1}
                       </PaginationLink>

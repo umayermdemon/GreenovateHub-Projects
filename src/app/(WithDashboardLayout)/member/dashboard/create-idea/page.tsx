@@ -45,8 +45,8 @@ const CreateIdea = () => {
     const { watch, setValue, formState: { isSubmitting } } = form;
 
     const goToNext = () => {
-        const currentIndex = tabOrder.indexOf(activeTab);
-        if (currentIndex < tabOrder.length - 1) {
+        const currentIndex = tabOrder?.indexOf(activeTab);
+        if (currentIndex < tabOrder?.length - 1) {
             setActiveTab(tabOrder[currentIndex + 1]);
         }
     };

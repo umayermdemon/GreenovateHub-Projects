@@ -95,7 +95,7 @@ const BlogDetailsCard = ({
 
   return (
     <div className="max-w-5xl mx-auto min-h-[calc(100vh-100px)] p-4 my-4 shadow-lg rounded-md bg-green-50 border border-green-500">
-      {blog?.images && blog?.images.length > 0 && (
+      {blog?.images && blog?.images?.length > 0 && (
         <Swiper
           modules={[Pagination, Autoplay]}
           pagination={{ clickable: true }}
