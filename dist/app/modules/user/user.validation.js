@@ -25,8 +25,6 @@ exports.createUserValidationSchema = zod_1.z.object({
 });
 exports.updateUserValidationSchema = zod_1.z.object({
     name: zod_1.z.string().optional(),
-    role: exports.userRoleEnum.optional(),
-    email: zod_1.z.string().email().optional(),
-    password: zod_1.z.string().optional(),
+    address: zod_1.z.string().optional(),
     image: zod_1.z.string().optional(),
 });
