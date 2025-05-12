@@ -46,7 +46,7 @@ const OrderPageDetails = ({
           </TableRow>
         </TableHeader>
         <TableBody>
-          {orders.map((order) => (
+          {orders?.map((order) => (
             <TableRow key={order.id}>
               <TableCell>{order.ideaTitle}</TableCell>
               <TableCell>{order.id}</TableCell>

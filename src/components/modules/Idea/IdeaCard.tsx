@@ -43,7 +43,7 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
       }
     }
     fetchIsVoted()
-  }, [data])
+  }, [data, userId])
   const timeAgo = formatDistanceToNow(new Date(data.createdAt), {
     addSuffix: true,
   });
