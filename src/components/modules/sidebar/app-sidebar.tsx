@@ -15,6 +15,9 @@ import {
   UserCog,
   LogOut,
   Bell,
+  FilePen,
+  Package,
+  FileText,
 } from "lucide-react";
 
 import {
@@ -89,66 +92,71 @@ const AppSidebar = () => {
     },
     ...(role === "member"
       ? [
-          {
-            title: "Create Blog",
-            url: "/member/dashboard/create-blog",
-            icon: PenLine,
-          },
-          {
-            title: "Create Idea",
-            url: "/member/dashboard/create-idea",
-            icon: Sparkles,
-          },
-          {
-            title: "My Blogs",
-            url: "/member/dashboard/my-blogs",
-            icon: BookOpenText,
-          },
-          {
-            title: "My Ideas",
-            url: "/member/dashboard/my-ideas",
-            icon: Palette,
-          },
-          {
-            title: "My Orders",
-            url: "/member/dashboard/my-orders",
-            icon: Palette,
-          },
-          {
-            title: "Draft Ideas",
-            url: "/member/dashboard/draft-ideas",
-            icon: Palette,
-          },
-          {
-            title: "Settings",
-            url: "/member/dashboard/settings",
-            icon: Settings,
-          },
-        ]
+        {
+          title: "Create Blog",
+          url: "/member/dashboard/create-blog",
+          icon: PenLine,
+        },
+        {
+          title: "Create Idea",
+          url: "/member/dashboard/create-idea",
+          icon: Sparkles,
+        },
+        {
+          title: "My Blogs",
+          url: "/member/dashboard/my-blogs",
+          icon: BookOpenText,
+        },
+        {
+          title: "My Ideas",
+          url: "/member/dashboard/my-ideas",
+          icon: Palette,
+        },
+        {
+          title: "My Orders",
+          url: "/member/dashboard/my-orders",
+          icon: Package,
+        },
+        {
+          title: "Draft Ideas",
+          url: "/member/dashboard/draft-ideas",
+          icon: FilePen,
+        },
+        {
+          title: "Draft Blogs",
+          url: "/member/dashboard/draft-blogs",
+          icon: FileText,
+        },
+        {
+          title: "Settings",
+          url: "/member/dashboard/settings",
+          icon: Settings,
+        },
+      ]
       : []),
     ...(role === "admin"
       ? [
-          {
-            title: "All Blogs",
-            url: "/admin/dashboard/all-blogs",
-            icon: BookOpenText,
-          },
-          {
-            title: "All Ideas",
-            url: "/admin/dashboard/all-ideas",
-            icon: Palette,
-          },
-          {
-            title: "User Management",
-            url: "/admin/dashboard/manage-users",
-            icon: UserCog,
-          },
-          {
-            title: "Settings",
-            url: "/admin/dashboard/settings",
-            icon: Settings,
-          },
-        ]
+        {
+          title: "All Blogs",
+          url: "/admin/dashboard/all-blogs",
+          icon: BookOpenText,
+        },
+        {
+          title: "All Ideas",
+          url: "/admin/dashboard/all-ideas",
+          icon: Palette,
+        },
+        {
+          title: "User Management",
+          url: "/admin/dashboard/manage-users",
+          icon: UserCog,
+        },
+        {
+          title: "Settings",
+          url: "/admin/dashboard/settings",
+          icon: Settings,
+        },
+      ]
       : []),
   ];
 
@@ -165,14 +173,12 @@ const AppSidebar = () => {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link
-                      className={` ${
-                        pathname === item.url ? "bg-green-500 text-white" : ""
-                      } text-[16px] rounded-none `}
+                      className={` ${pathname === item.url ? "bg-green-500 text-white" : ""
+                        } text-[16px] rounded-none `}
                       href={item.url}>
                       <item.icon
-                        className={`mr-2 ${
-                          pathname === item.url ? "text-white" : ""
-                        } text-green-500 h-5 w-5`}
+                        className={`mr-2 ${pathname === item.url ? "text-white" : ""
+                          } text-green-500 h-5 w-5`}
                       />
                       <span>{item.title}</span>
                     </Link>

@@ -106,10 +106,10 @@ const UpdateIdea = () => {
         }
         try {
             const res = await updateIdea(updatedData);
-            console.log(res);
             if (res.success) {
                 form.reset();
                 toast.success(res.message)
+                window.location.href="/member/dashboard/my-ideas"
             }
         } catch (error) {
             console.log(error)
