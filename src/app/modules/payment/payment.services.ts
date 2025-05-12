@@ -119,7 +119,7 @@ const verifyPayment = async (order_id: string) => {
   console.log(result);
   return verifyPayment;
 };
-const getPaymentForMe = async (user: IAuthUser) => {
+const getOrderWhichPayMe = async (user: IAuthUser) => {
   const result = await prisma.payment.findMany({
     where: {
       authorId: user?.userId,
@@ -127,6 +127,13 @@ const getPaymentForMe = async (user: IAuthUser) => {
   });
   if (!result) {
     throw new AppError(status.NOT_FOUND, "Payment not found!");
+  }
+  return result;
+};
+const getAllOrder = async () => {
+  const result = await prisma.payment.findMany();
+  if (!result) {
+    throw new AppError(status.NOT_FOUND, "Payments not found!");
   }
   return result;
 };
@@ -148,6 +155,7 @@ const getSinglePayment = async (user: IAuthUser, ideaId: string) => {
 export const paymentServices = {
   makePayment,
   verifyPayment,
-  getPaymentForMe,
+  getOrderWhichPayMe,
   getSinglePayment,
+  getAllOrder,
 };
