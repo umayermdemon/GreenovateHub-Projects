@@ -6,7 +6,7 @@ import { useUser } from "@/context/UserContext";
 import { getAllIdeas } from "@/services/idea";
 import { TIdea } from "@/types/idea.types";
 import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink } from "@/components/ui/pagination";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
@@ -25,20 +25,20 @@ const IdeaPage = () => {
   const [meta, setMeta] = useState<TMeta>({} as TMeta);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
+  const fetchIdeas = useCallback(async () => {
+    const res = await getAllIdeas({
+      category: selectedTab === "all" ? "" : selectedTab,
+      searchTerm: searchTerm,
+      page: currentPage.toString(),
+    });
+    if (res.success) {
+      setIdeas(res.data);
+      setMeta(res.meta)
+    }
+  }, [selectedTab, searchTerm, currentPage])
   useEffect(() => {
-    const fetchIdeas = async () => {
-      const res = await getAllIdeas({
-        category: selectedTab === "all" ? "" : selectedTab,
-        searchTerm: searchTerm,
-        limit:"2"
-      });
-      if (res?.data) {
-        setIdeas(res.data);
-        setMeta(meta)
-      }
-    };
     fetchIdeas()
-  }, [searchTerm, selectedTab, meta]);
+  }, [searchTerm, selectedTab, currentPage, fetchIdeas]);
 
   const { user } = useUser();
   return (
@@ -48,13 +48,12 @@ const IdeaPage = () => {
         <div className="flex flex-1">
           <Input
             placeholder="Search Idea..."
-            className="lg:w-full border-black rounded-r-none focus:border-green-500 focus:ring-0 focus:outline-none"
+            className="lg:w-full border-green-500 rounded-r-none focus:border-green-500"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-
           <Button
-            className="rounded-l-none rounded-r-full cursor-pointer"
+            className="rounded-l-none rounded-r-full cursor-pointer bg-green-500"
             size="icon"
           >
             <Search size={18} />
@@ -64,7 +63,7 @@ const IdeaPage = () => {
           <Tabs
             value={selectedTab}
             onValueChange={(val) => {
-              setSelectedTab(val === "all" ? "" : val);
+              setSelectedTab(val);
             }}
             className="mb-5">
             <TabsList className="w-full">
@@ -84,6 +83,7 @@ const IdeaPage = () => {
       <div className="grid grid-cols-4 gap-2 mx-5 ">
         {ideas?.map((idea: TIdea) => (
           <IdeaCard
+            refresh={fetchIdeas}
             key={idea.id}
             data={idea}
             userId={user?.userId}
@@ -94,7 +94,7 @@ const IdeaPage = () => {
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <Button disabled={currentPage === 1} className="text-amber-500 bg-white border border-amber-500" onClick={() => setCurrentPage(currentPage + 1)}><BiLeftArrow />Previous</Button>
+              <Button disabled={currentPage === 1} className="text-amber-500 bg-white border border-amber-500" onClick={() => setCurrentPage(currentPage - 1)}><BiLeftArrow />Previous</Button>
             </PaginationItem>
             <PaginationItem>
               <div className="flex gap-2">

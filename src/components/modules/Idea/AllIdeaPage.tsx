@@ -97,7 +97,7 @@ const AllIdeaPage = () => {
                                     </div>
                                 </div>
                                 <div className="flex gap-9 w-[60%] justify-end">
-                                    <p className=" bg-green-500 px-1.5 py-1 rounded-full text-white">{idea.status}</p>
+                                    <p className="text-green-500">{idea.status}</p>
                                     <p className="bg-amber-500 px-1.5 py-1 rounded-full text-white">{idea.category}</p>
                                     <Button size="sm" variant="outline" className="h-8 w-8 p-0 cursor-pointer bg-sky-500 text-white">
                                         <Eye className="h-4 w-4" />
@@ -118,7 +118,7 @@ const AllIdeaPage = () => {
                 <Pagination>
                     <PaginationContent>
                         <PaginationItem>
-                            <Button disabled={currentPage === 1} className="text-amber-500 bg-white border border-amber-500" onClick={() => setCurrentPage(currentPage + 1)}><BiLeftArrow />Previous</Button>
+                            <Button disabled={currentPage === 1} className="text-amber-500 bg-white border border-amber-500" onClick={() => setCurrentPage(currentPage - 1)}><BiLeftArrow />Previous</Button>
                         </PaginationItem>
                         <PaginationItem>
                             <div className="flex gap-2">

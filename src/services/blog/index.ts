@@ -28,9 +28,12 @@ export const createBlog = async (blogData: FieldValues) => {
 interface BlogFilterType {
   category?: string,
   searchTerm?: string,
-  status?: string
+  status?: string,
+  page?: string,
+  limit?:string
 }
 export const getAllBlogs = async (options?: BlogFilterType) => {
+  console.log(!options?.limit);
   try {
     const params = new URLSearchParams();
     if (options?.searchTerm) {
@@ -43,6 +46,9 @@ export const getAllBlogs = async (options?: BlogFilterType) => {
     if (options?.status) {
       params.append("status", options.status);
     }
+    if (options?.limit) {
+      params.append("limit", options.limit.toString());
+    }
 
     const query = params.toString() ? `?${params.toString()}` : "";
     const res = await fetch(
@@ -50,7 +56,7 @@ export const getAllBlogs = async (options?: BlogFilterType) => {
       {
         next: { tags: ["Blogs"] },
       }
-      
+
     );
     const result = await res.json();
     return result;

@@ -163,7 +163,7 @@ const IdeaDetailsCard = ({
             {idea.isPremium ? `Premium - $${idea.price}` : "Free"}
           </div>
 
-          {currentOrder?.status === "paid" ? (
+          {/* {currentOrder?.status === "paid" ? (
             <button className="bg-gray-600 text-sm text-white font-medium px-2 py-2 rounded-lg transition">
               Paid ৳{idea.price}
             </button>
@@ -172,6 +172,13 @@ const IdeaDetailsCard = ({
             idea?.authorId !== user?.id && (
               <PaymentModal idea={idea} user={user} />
             )
+          )} */}
+          {currentOrder?.status === "paid" ? (
+            <button className="bg-gray-600 text-sm text-white font-medium px-2 py-2 rounded-lg transition">
+              Paid ৳{idea.price}
+            </button>
+          ) : (
+            idea.isPremium && <PaymentModal idea={idea} user={user} />
           )}
         </div>
       </div>
