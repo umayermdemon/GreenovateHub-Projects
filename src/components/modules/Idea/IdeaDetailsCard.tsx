@@ -109,7 +109,7 @@ const IdeaDetailsCard = ({
     };
     getPayment();
   }, [idea?.id]);
-  console.log(idea, user);
+  console.log(user);
   if (!idea) {
     return (
       <div className="text-center py-10 text-muted-foreground">Loading...</div>
