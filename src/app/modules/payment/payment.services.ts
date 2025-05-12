@@ -37,6 +37,13 @@ const makePayment = async (
     throw new AppError(status.BAD_REQUEST, "This idea is free!");
   }
 
+  // if (payload?.customer_email === isExistUser?.email) {
+  //   throw new AppError(
+  //     status.BAD_REQUEST,
+  //     "You are not allowed to make a payment for your own idea"
+  //   );
+  // }
+
   const paymentData = {
     amount: isIdeaExists?.price,
     order_id: payload?.order_id,
@@ -47,6 +54,7 @@ const makePayment = async (
     customer_email: user?.email,
     customer_phone: payload?.customer_phone,
     customer_city: payload?.customer_city,
+    idea_title: isIdeaExists?.title,
     client_ip,
   };
 
@@ -56,9 +64,16 @@ const makePayment = async (
         ideaId: isIdeaExists?.id,
         authorId: isIdeaExists?.authorId,
       },
+      isDeleted: false,
     },
   });
 
+  if (isPaymentExists?.status === "paid") {
+    throw new AppError(
+      status.BAD_REQUEST,
+      "Payment has already been completed"
+    );
+  }
   if (isPaymentExists) {
     throw new AppError(status.BAD_REQUEST, "Payment already initialize!");
   }
@@ -69,6 +84,7 @@ const makePayment = async (
     const res = await prisma.payment.create({
       data: {
         ideaId: isIdeaExists?.id,
+        ideaTitle: isIdeaExists?.title,
         authorId: isIdeaExists?.authorId,
         amount: amount,
         transactionId: result?.sp_order_id,
@@ -76,7 +92,7 @@ const makePayment = async (
     });
     console.log(res);
   }
-  return result;
+  return result?.checkout_url;
 };
 const verifyPayment = async (order_id: string) => {
   const isPaymentExists = await prisma.payment.findUnique({
@@ -110,8 +126,35 @@ const verifyPayment = async (order_id: string) => {
   console.log(result);
   return verifyPayment;
 };
+const getPaymentForMe = async (user: IAuthUser) => {
+  const result = await prisma.payment.findMany({
+    where: {
+      authorId: user?.userId,
+    },
+  });
+  if (!result) {
+    throw new AppError(status.NOT_FOUND, "Payment not found!");
+  }
+  return result;
+};
+const getSinglePayment = async (user: IAuthUser, ideaId: string) => {
+  const result = await prisma.payment.findUnique({
+    where: {
+      ideaId_authorId: {
+        ideaId: ideaId,
+        authorId: user?.userId,
+      },
+    },
+  });
+  if (!result) {
+    throw new AppError(status.NOT_FOUND, "Payment not found!");
+  }
+  return result;
+};
 
 export const paymentServices = {
   makePayment,
   verifyPayment,
+  getPaymentForMe,
+  getSinglePayment,
 };

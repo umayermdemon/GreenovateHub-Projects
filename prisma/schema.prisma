@@ -101,12 +101,14 @@ model Comment {
 model Payment {
   id            String        @id @default(uuid())
   ideaId        String
+  ideaTitle     String
   idea          Idea          @relation(fields: [ideaId], references: [id])
   authorId      String
   author        User          @relation(fields: [authorId], references: [id])
   transactionId String        @unique
   status        paymentStatus @default(pending)
   amount        Int
+  isDeleted     Boolean       @default(false)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
 

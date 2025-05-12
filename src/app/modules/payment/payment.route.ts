@@ -18,5 +18,11 @@ router.post(
   auth(userRole.member),
   paymentControllers.verifyPayment
 );
+router.get("/me", auth(userRole.member), paymentControllers.getPaymentForMe);
+router.get(
+  "/:ideaId",
+  auth(userRole.member),
+  paymentControllers.getSinglePayment
+);
 
 export const paymentRouter = router;

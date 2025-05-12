@@ -185,10 +185,12 @@ exports.Prisma.CommentScalarFieldEnum = {
 exports.Prisma.PaymentScalarFieldEnum = {
   id: 'id',
   ideaId: 'ideaId',
+  ideaTitle: 'ideaTitle',
   authorId: 'authorId',
   transactionId: 'transactionId',
   status: 'status',
   amount: 'amount',
+  isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

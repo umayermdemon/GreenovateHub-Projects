@@ -7446,10 +7446,12 @@ export namespace Prisma {
   export type PaymentMinAggregateOutputType = {
     id: string | null
     ideaId: string | null
+    ideaTitle: string | null
     authorId: string | null
     transactionId: string | null
     status: $Enums.paymentStatus | null
     amount: number | null
+    isDeleted: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7457,10 +7459,12 @@ export namespace Prisma {
   export type PaymentMaxAggregateOutputType = {
     id: string | null
     ideaId: string | null
+    ideaTitle: string | null
     authorId: string | null
     transactionId: string | null
     status: $Enums.paymentStatus | null
     amount: number | null
+    isDeleted: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -7468,10 +7472,12 @@ export namespace Prisma {
   export type PaymentCountAggregateOutputType = {
     id: number
     ideaId: number
+    ideaTitle: number
     authorId: number
     transactionId: number
     status: number
     amount: number
+    isDeleted: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -7489,10 +7495,12 @@ export namespace Prisma {
   export type PaymentMinAggregateInputType = {
     id?: true
     ideaId?: true
+    ideaTitle?: true
     authorId?: true
     transactionId?: true
     status?: true
     amount?: true
+    isDeleted?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7500,10 +7508,12 @@ export namespace Prisma {
   export type PaymentMaxAggregateInputType = {
     id?: true
     ideaId?: true
+    ideaTitle?: true
     authorId?: true
     transactionId?: true
     status?: true
     amount?: true
+    isDeleted?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -7511,10 +7521,12 @@ export namespace Prisma {
   export type PaymentCountAggregateInputType = {
     id?: true
     ideaId?: true
+    ideaTitle?: true
     authorId?: true
     transactionId?: true
     status?: true
     amount?: true
+    isDeleted?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -7609,10 +7621,12 @@ export namespace Prisma {
   export type PaymentGroupByOutputType = {
     id: string
     ideaId: string
+    ideaTitle: string
     authorId: string
     transactionId: string
     status: $Enums.paymentStatus
     amount: number
+    isDeleted: boolean
     createdAt: Date
     updatedAt: Date
     _count: PaymentCountAggregateOutputType | null
@@ -7639,10 +7653,12 @@ export namespace Prisma {
   export type PaymentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     ideaId?: boolean
+    ideaTitle?: boolean
     authorId?: boolean
     transactionId?: boolean
     status?: boolean
     amount?: boolean
+    isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     idea?: boolean | IdeaDefaultArgs<ExtArgs>
@@ -7652,10 +7668,12 @@ export namespace Prisma {
   export type PaymentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     ideaId?: boolean
+    ideaTitle?: boolean
     authorId?: boolean
     transactionId?: boolean
     status?: boolean
     amount?: boolean
+    isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     idea?: boolean | IdeaDefaultArgs<ExtArgs>
@@ -7665,10 +7683,12 @@ export namespace Prisma {
   export type PaymentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     ideaId?: boolean
+    ideaTitle?: boolean
     authorId?: boolean
     transactionId?: boolean
     status?: boolean
     amount?: boolean
+    isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     idea?: boolean | IdeaDefaultArgs<ExtArgs>
@@ -7678,15 +7698,17 @@ export namespace Prisma {
   export type PaymentSelectScalar = {
     id?: boolean
     ideaId?: boolean
+    ideaTitle?: boolean
     authorId?: boolean
     transactionId?: boolean
     status?: boolean
     amount?: boolean
+    isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ideaId" | "authorId" | "transactionId" | "status" | "amount" | "createdAt" | "updatedAt", ExtArgs["result"]["payment"]>
+  export type PaymentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ideaId" | "ideaTitle" | "authorId" | "transactionId" | "status" | "amount" | "isDeleted" | "createdAt" | "updatedAt", ExtArgs["result"]["payment"]>
   export type PaymentInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     idea?: boolean | IdeaDefaultArgs<ExtArgs>
     author?: boolean | UserDefaultArgs<ExtArgs>
@@ -7709,10 +7731,12 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       ideaId: string
+      ideaTitle: string
       authorId: string
       transactionId: string
       status: $Enums.paymentStatus
       amount: number
+      isDeleted: boolean
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["payment"]>
@@ -8142,10 +8166,12 @@ export namespace Prisma {
   interface PaymentFieldRefs {
     readonly id: FieldRef<"Payment", 'String'>
     readonly ideaId: FieldRef<"Payment", 'String'>
+    readonly ideaTitle: FieldRef<"Payment", 'String'>
     readonly authorId: FieldRef<"Payment", 'String'>
     readonly transactionId: FieldRef<"Payment", 'String'>
     readonly status: FieldRef<"Payment", 'paymentStatus'>
     readonly amount: FieldRef<"Payment", 'Int'>
+    readonly isDeleted: FieldRef<"Payment", 'Boolean'>
     readonly createdAt: FieldRef<"Payment", 'DateTime'>
     readonly updatedAt: FieldRef<"Payment", 'DateTime'>
   }
@@ -8656,10 +8682,12 @@ export namespace Prisma {
   export const PaymentScalarFieldEnum: {
     id: 'id',
     ideaId: 'ideaId',
+    ideaTitle: 'ideaTitle',
     authorId: 'authorId',
     transactionId: 'transactionId',
     status: 'status',
     amount: 'amount',
+    isDeleted: 'isDeleted',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -9272,10 +9300,12 @@ export namespace Prisma {
     NOT?: PaymentWhereInput | PaymentWhereInput[]
     id?: StringFilter<"Payment"> | string
     ideaId?: StringFilter<"Payment"> | string
+    ideaTitle?: StringFilter<"Payment"> | string
     authorId?: StringFilter<"Payment"> | string
     transactionId?: StringFilter<"Payment"> | string
     status?: EnumpaymentStatusFilter<"Payment"> | $Enums.paymentStatus
     amount?: IntFilter<"Payment"> | number
+    isDeleted?: BoolFilter<"Payment"> | boolean
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
     idea?: XOR<IdeaScalarRelationFilter, IdeaWhereInput>
@@ -9285,10 +9315,12 @@ export namespace Prisma {
   export type PaymentOrderByWithRelationInput = {
     id?: SortOrder
     ideaId?: SortOrder
+    ideaTitle?: SortOrder
     authorId?: SortOrder
     transactionId?: SortOrder
     status?: SortOrder
     amount?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     idea?: IdeaOrderByWithRelationInput
@@ -9303,9 +9335,11 @@ export namespace Prisma {
     OR?: PaymentWhereInput[]
     NOT?: PaymentWhereInput | PaymentWhereInput[]
     ideaId?: StringFilter<"Payment"> | string
+    ideaTitle?: StringFilter<"Payment"> | string
     authorId?: StringFilter<"Payment"> | string
     status?: EnumpaymentStatusFilter<"Payment"> | $Enums.paymentStatus
     amount?: IntFilter<"Payment"> | number
+    isDeleted?: BoolFilter<"Payment"> | boolean
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
     idea?: XOR<IdeaScalarRelationFilter, IdeaWhereInput>
@@ -9315,10 +9349,12 @@ export namespace Prisma {
   export type PaymentOrderByWithAggregationInput = {
     id?: SortOrder
     ideaId?: SortOrder
+    ideaTitle?: SortOrder
     authorId?: SortOrder
     transactionId?: SortOrder
     status?: SortOrder
     amount?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PaymentCountOrderByAggregateInput
@@ -9334,10 +9370,12 @@ export namespace Prisma {
     NOT?: PaymentScalarWhereWithAggregatesInput | PaymentScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Payment"> | string
     ideaId?: StringWithAggregatesFilter<"Payment"> | string
+    ideaTitle?: StringWithAggregatesFilter<"Payment"> | string
     authorId?: StringWithAggregatesFilter<"Payment"> | string
     transactionId?: StringWithAggregatesFilter<"Payment"> | string
     status?: EnumpaymentStatusWithAggregatesFilter<"Payment"> | $Enums.paymentStatus
     amount?: IntWithAggregatesFilter<"Payment"> | number
+    isDeleted?: BoolWithAggregatesFilter<"Payment"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Payment"> | Date | string
   }
@@ -9807,9 +9845,11 @@ export namespace Prisma {
 
   export type PaymentCreateInput = {
     id?: string
+    ideaTitle: string
     transactionId: string
     status?: $Enums.paymentStatus
     amount: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     idea: IdeaCreateNestedOneWithoutPaymentInput
@@ -9819,19 +9859,23 @@ export namespace Prisma {
   export type PaymentUncheckedCreateInput = {
     id?: string
     ideaId: string
+    ideaTitle: string
     authorId: string
     transactionId: string
     status?: $Enums.paymentStatus
     amount: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type PaymentUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ideaTitle?: StringFieldUpdateOperationsInput | string
     transactionId?: StringFieldUpdateOperationsInput | string
     status?: EnumpaymentStatusFieldUpdateOperationsInput | $Enums.paymentStatus
     amount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     idea?: IdeaUpdateOneRequiredWithoutPaymentNestedInput
@@ -9841,10 +9885,12 @@ export namespace Prisma {
   export type PaymentUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     ideaId?: StringFieldUpdateOperationsInput | string
+    ideaTitle?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     transactionId?: StringFieldUpdateOperationsInput | string
     status?: EnumpaymentStatusFieldUpdateOperationsInput | $Enums.paymentStatus
     amount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9852,19 +9898,23 @@ export namespace Prisma {
   export type PaymentCreateManyInput = {
     id?: string
     ideaId: string
+    ideaTitle: string
     authorId: string
     transactionId: string
     status?: $Enums.paymentStatus
     amount: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type PaymentUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ideaTitle?: StringFieldUpdateOperationsInput | string
     transactionId?: StringFieldUpdateOperationsInput | string
     status?: EnumpaymentStatusFieldUpdateOperationsInput | $Enums.paymentStatus
     amount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9872,10 +9922,12 @@ export namespace Prisma {
   export type PaymentUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     ideaId?: StringFieldUpdateOperationsInput | string
+    ideaTitle?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     transactionId?: StringFieldUpdateOperationsInput | string
     status?: EnumpaymentStatusFieldUpdateOperationsInput | $Enums.paymentStatus
     amount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10370,10 +10422,12 @@ export namespace Prisma {
   export type PaymentCountOrderByAggregateInput = {
     id?: SortOrder
     ideaId?: SortOrder
+    ideaTitle?: SortOrder
     authorId?: SortOrder
     transactionId?: SortOrder
     status?: SortOrder
     amount?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10385,10 +10439,12 @@ export namespace Prisma {
   export type PaymentMaxOrderByAggregateInput = {
     id?: SortOrder
     ideaId?: SortOrder
+    ideaTitle?: SortOrder
     authorId?: SortOrder
     transactionId?: SortOrder
     status?: SortOrder
     amount?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -10396,10 +10452,12 @@ export namespace Prisma {
   export type PaymentMinOrderByAggregateInput = {
     id?: SortOrder
     ideaId?: SortOrder
+    ideaTitle?: SortOrder
     authorId?: SortOrder
     transactionId?: SortOrder
     status?: SortOrder
     amount?: SortOrder
+    isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -11397,9 +11455,11 @@ export namespace Prisma {
 
   export type PaymentCreateWithoutAuthorInput = {
     id?: string
+    ideaTitle: string
     transactionId: string
     status?: $Enums.paymentStatus
     amount: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     idea: IdeaCreateNestedOneWithoutPaymentInput
@@ -11408,9 +11468,11 @@ export namespace Prisma {
   export type PaymentUncheckedCreateWithoutAuthorInput = {
     id?: string
     ideaId: string
+    ideaTitle: string
     transactionId: string
     status?: $Enums.paymentStatus
     amount: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11571,10 +11633,12 @@ export namespace Prisma {
     NOT?: PaymentScalarWhereInput | PaymentScalarWhereInput[]
     id?: StringFilter<"Payment"> | string
     ideaId?: StringFilter<"Payment"> | string
+    ideaTitle?: StringFilter<"Payment"> | string
     authorId?: StringFilter<"Payment"> | string
     transactionId?: StringFilter<"Payment"> | string
     status?: EnumpaymentStatusFilter<"Payment"> | $Enums.paymentStatus
     amount?: IntFilter<"Payment"> | number
+    isDeleted?: BoolFilter<"Payment"> | boolean
     createdAt?: DateTimeFilter<"Payment"> | Date | string
     updatedAt?: DateTimeFilter<"Payment"> | Date | string
   }
@@ -11674,9 +11738,11 @@ export namespace Prisma {
 
   export type PaymentCreateWithoutIdeaInput = {
     id?: string
+    ideaTitle: string
     transactionId: string
     status?: $Enums.paymentStatus
     amount: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     author: UserCreateNestedOneWithoutPaymentInput
@@ -11684,10 +11750,12 @@ export namespace Prisma {
 
   export type PaymentUncheckedCreateWithoutIdeaInput = {
     id?: string
+    ideaTitle: string
     authorId: string
     transactionId: string
     status?: $Enums.paymentStatus
     amount: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12582,9 +12650,11 @@ export namespace Prisma {
   export type PaymentCreateManyAuthorInput = {
     id?: string
     ideaId: string
+    ideaTitle: string
     transactionId: string
     status?: $Enums.paymentStatus
     amount: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12731,9 +12801,11 @@ export namespace Prisma {
 
   export type PaymentUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ideaTitle?: StringFieldUpdateOperationsInput | string
     transactionId?: StringFieldUpdateOperationsInput | string
     status?: EnumpaymentStatusFieldUpdateOperationsInput | $Enums.paymentStatus
     amount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     idea?: IdeaUpdateOneRequiredWithoutPaymentNestedInput
@@ -12742,9 +12814,11 @@ export namespace Prisma {
   export type PaymentUncheckedUpdateWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
     ideaId?: StringFieldUpdateOperationsInput | string
+    ideaTitle?: StringFieldUpdateOperationsInput | string
     transactionId?: StringFieldUpdateOperationsInput | string
     status?: EnumpaymentStatusFieldUpdateOperationsInput | $Enums.paymentStatus
     amount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12752,9 +12826,11 @@ export namespace Prisma {
   export type PaymentUncheckedUpdateManyWithoutAuthorInput = {
     id?: StringFieldUpdateOperationsInput | string
     ideaId?: StringFieldUpdateOperationsInput | string
+    ideaTitle?: StringFieldUpdateOperationsInput | string
     transactionId?: StringFieldUpdateOperationsInput | string
     status?: EnumpaymentStatusFieldUpdateOperationsInput | $Enums.paymentStatus
     amount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -12777,10 +12853,12 @@ export namespace Prisma {
 
   export type PaymentCreateManyIdeaInput = {
     id?: string
+    ideaTitle: string
     authorId: string
     transactionId: string
     status?: $Enums.paymentStatus
     amount: number
+    isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12835,9 +12913,11 @@ export namespace Prisma {
 
   export type PaymentUpdateWithoutIdeaInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ideaTitle?: StringFieldUpdateOperationsInput | string
     transactionId?: StringFieldUpdateOperationsInput | string
     status?: EnumpaymentStatusFieldUpdateOperationsInput | $Enums.paymentStatus
     amount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     author?: UserUpdateOneRequiredWithoutPaymentNestedInput
@@ -12845,20 +12925,24 @@ export namespace Prisma {
 
   export type PaymentUncheckedUpdateWithoutIdeaInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ideaTitle?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     transactionId?: StringFieldUpdateOperationsInput | string
     status?: EnumpaymentStatusFieldUpdateOperationsInput | $Enums.paymentStatus
     amount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PaymentUncheckedUpdateManyWithoutIdeaInput = {
     id?: StringFieldUpdateOperationsInput | string
+    ideaTitle?: StringFieldUpdateOperationsInput | string
     authorId?: StringFieldUpdateOperationsInput | string
     transactionId?: StringFieldUpdateOperationsInput | string
     status?: EnumpaymentStatusFieldUpdateOperationsInput | $Enums.paymentStatus
     amount?: IntFieldUpdateOperationsInput | number
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
