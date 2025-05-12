@@ -42,50 +42,51 @@ const getAllIdeas = async (
     });
   }
   andCondition.push({
-    isDeleted: false
-  })
+    isDeleted: false,
+  });
   if (author) {
     andCondition.push({
       author: {
         name: {
           contains: author,
-          mode: 'insensitive'
-        }
-      }
-    })
+          mode: "insensitive",
+        },
+      },
+    });
   }
   // add filterData condition
   if (Object.keys(filterData).length > 0) {
-    const filterConditions = Object.keys(filterData).map(key => ({
+    const filterConditions = Object.keys(filterData).map((key) => ({
       [key]: {
-        equals: filterData[key as keyof typeof filterData]
-      }
-    }))
-    andCondition.push(...filterConditions)
+        equals: filterData[key as keyof typeof filterData],
+      },
+    }));
+    andCondition.push(...filterConditions);
   }
 
-  const whereConditions: Prisma.IdeaWhereInput = andCondition.length > 0 ? { AND: andCondition } : {}
+  const whereConditions: Prisma.IdeaWhereInput =
+    andCondition.length > 0 ? { AND: andCondition } : {};
 
   const result = await prisma.idea.findMany({
     where: whereConditions,
     skip,
     take: limit,
-    orderBy: sortBy && sortOrder ? { [sortBy]: sortOrder } : { createdAt: 'desc' },
+    orderBy:
+      sortBy && sortOrder ? { [sortBy]: sortOrder } : { createdAt: "desc" },
     include: {
       Vote: true,
-      author: true
+      author: true,
     },
   });
   const total = await prisma.idea.count({
-    where: whereConditions
-  })
+    where: whereConditions,
+  });
   const totalPage = Math.max(1, Math.ceil(total / limit));
   const enhancedIdeas = result.map((idea) => {
     const votes = idea.Vote || [];
 
     const upVotes = votes.filter((v) => v.value === "up").length;
     const downVotes = votes.filter((v) => v.value === "down").length;
-
 
     return {
       ...idea,
@@ -99,28 +100,33 @@ const getAllIdeas = async (
       total,
       page,
       limit,
-      totalPage
+      totalPage,
     },
-    data: enhancedIdeas
-  }
+    data: enhancedIdeas,
+  };
 };
-const getMyIdeas = async (filters: TIdeaFilterRequest, paginationOptions: IPaginationOptions, user: IAuthUser) => {
+const getMyIdeas = async (
+  filters: TIdeaFilterRequest,
+  paginationOptions: IPaginationOptions,
+  user: IAuthUser
+) => {
   const { searchTerm, author, ...filterData } = filters;
-  const { limit, page, skip, sortBy, sortOrder } = calculatePagination(paginationOptions)
+  const { limit, page, skip, sortBy, sortOrder } =
+    calculatePagination(paginationOptions);
   const andCondition: Prisma.IdeaWhereInput[] = [];
   andCondition.push({
     authorId: user.userId,
-    isDeleted: false
-  })
+    isDeleted: false,
+  });
   if (searchTerm) {
     andCondition.push({
-      OR: ideaSearchAbleFields.map(field => ({
+      OR: ideaSearchAbleFields.map((field) => ({
         [field]: {
           contains: searchTerm,
-          mode: 'insensitive'
-        }
-      }))
-    })
+          mode: "insensitive",
+        },
+      })),
+    });
   }
   if (author) {
     andCondition.push({
@@ -208,20 +214,20 @@ const getSingleIdea = async (id: string) => {
 const removeIdeaImage = async (id: string, image: string) => {
   const idea = await prisma.idea.findUnique({
     where: {
-      id
-    }
-  })
+      id,
+    },
+  });
   const updatedImage = idea?.images?.filter((img) => img !== image);
   const result = await prisma.idea.update({
     where: {
-      id
+      id,
     },
     data: {
-      images: updatedImage
-    }
-  })
-  return result
-}
+      images: updatedImage,
+    },
+  });
+  return result;
+};
 const updateIdea = async (user: IAuthUser, id: string, payload: Idea) => {
   if (!user.userId) {
     throw new Error("User not found");
@@ -281,5 +287,5 @@ export const ideaServices = {
   getSingleIdea,
   updateIdea,
   deleteIdea,
-  removeIdeaImage
+  removeIdeaImage,
 };
