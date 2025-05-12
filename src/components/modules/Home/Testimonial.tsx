@@ -4,7 +4,11 @@ import { useState } from "react";
 import { Star, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 
-import user1 from "@/app/assets/author/user1.jpg";
+import user1 from "../../../app/assets/user/user1.jpg";
+import user2 from "../../../app/assets/user/user2.jpg";
+import user3 from "../../../app/assets/user/user3.jpg";
+import user4 from "../../../app/assets/user/user4.jpg";
+import user5 from "../../../app/assets/user/user5.jpg";
 
 const testimonials = [
   {
@@ -21,7 +25,7 @@ const testimonials = [
     title: "Founder",
     company: "Solar Steps",
     rating: 5,
-    image: user1,
+    image: user2,
     quote:
       "The portal gave my solar startup exposure and helped us find early adopters in the community. I'm grateful for this platform.",
   },
@@ -30,7 +34,7 @@ const testimonials = [
     title: "CEO",
     company: "EcoShift",
     rating: 5,
-    image: user1,
+    image: user3,
     quote:
       "A fantastic space to share and grow sustainable ideas. Green Circle is exactly what the world needs right now.",
   },
@@ -39,7 +43,7 @@ const testimonials = [
     title: "Sustainability Lead",
     company: "Green Future",
     rating: 5,
-    image: user1,
+    image: user4,
     quote:
       "We launched a zero-waste campaign through Green Circle. The support and feedback from the community was invaluable.",
   },
@@ -48,7 +52,7 @@ const testimonials = [
     title: "Climate Analyst",
     company: "EcoWatch",
     rating: 4,
-    image: user1,
+    image: user5,
     quote:
       "I use Green Circle to stay updated on grassroots innovations. It's a hub of fresh, practical climate solutions.",
   },
