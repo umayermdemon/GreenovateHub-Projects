@@ -86,7 +86,7 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
   };
 
   return (
-    <div className="w-full sm:w-[95%] md:w-[90%] lg:w-[410px] mx-auto mb-6">
+    <div className="w-full sm:w-[95%] mx-auto mb-6">
       <div className="flex flex-col bg-amber-50 relative border-amber-500 border rounded-md">
         <Link
           href={

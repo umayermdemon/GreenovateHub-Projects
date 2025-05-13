@@ -30,7 +30,8 @@ const IdeaPage = () => {
       category: selectedTab === "all" ? "" : selectedTab,
       searchTerm: searchTerm,
       page: currentPage.toString(),
-      status: "approved"
+      status: "approved",
+      limit:"8"
     });
     if (res.success) {
       setIdeas(res.data);
@@ -81,7 +82,7 @@ const IdeaPage = () => {
         </div>
       </div>
 
-      <div className="grid lg:grid-cols-4 gap-2 mx-5 grid-cols-1">
+      <div className="grid lg:grid-cols-4  mx-5 grid-cols-1">
         {ideas?.map((idea: TIdea) => (
           <IdeaCard
             refresh={fetchIdeas}
