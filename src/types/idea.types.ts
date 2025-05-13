@@ -12,7 +12,7 @@ export type TIdea = {
     proposed_solution: string;
     isPremium: boolean;
     price: string;
-    status: "pending" | "approved" | "unpublished" | "published" | "draft";
+    status: "underReview" | "approved" | "rejected" | "draft";
     isDeleted: boolean;
     createdAt: string;
     updatedAt: string;

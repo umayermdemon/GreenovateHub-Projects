@@ -28,7 +28,7 @@ export type TBlog = {
   description: string;
   authorId: string;
   category: string;
-  status: "pending" | "approved" | "unpublished" | "published" | "draft";
+  status: "underReview" | "approved" | "rejected" | "draft";
   createdAt: string;
   updatedAt: string;
   categoryId: null;
