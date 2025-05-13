@@ -51,7 +51,7 @@ interface IdeaFilterType {
     searchTerm?: string,
     status?: string,
     page?: string,
-    limit?:string
+    limit?: string
 }
 export const getAllIdeas = async (options?: IdeaFilterType) => {
     try {
@@ -78,15 +78,13 @@ export const getAllIdeas = async (options?: IdeaFilterType) => {
             `${process.env.NEXT_PUBLIC_BASE_URL}/ideas/get-all-ideas${query}`,
             {
                 method: "GET",
-                headers: {
-                    "content-type": "application/json",
-                    Authorization: (await cookies()).get("accessToken")!.value,
-                },
                 next: {
-                    tags: ["Ideas"]
+                    tags: ['ideas']
                 }
             }
+
         );
+
         const result = await res.json();
         return result;
     } catch (error) {
@@ -143,7 +141,7 @@ export const updateIdea = async (ideaData: { id: string, data: FieldValues }) =>
                 body: JSON.stringify(ideaData.data)
             }
         );
-        revalidateTag("Ideas")
+         revalidateTag("ideas")
         const result = await res.json();
         return result;
     } catch (error) {
@@ -162,6 +160,7 @@ export const deleteMyIdea = async (id: string) => {
                 },
             }
         );
+       await revalidateTag("ideas")
         const result = await res.json();
         return result;
     } catch (error) {

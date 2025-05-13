@@ -47,7 +47,7 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
       }
     };
     fetchIsVoted();
-  }, [data, userId]);
+  }, [data.id, userId]);
 
   const timeAgo = formatDistanceToNow(new Date(data.createdAt), {
     addSuffix: true,
@@ -125,13 +125,12 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
       <div className="flex justify-between items-center px-4 pt-3">
         <Badge
           variant="outline"
-          className={`capitalize text-white px-3 py-1 ${
-            data?.category === "waste"
+          className={`capitalize text-white px-3 py-1 ${data?.category === "waste"
               ? "bg-yellow-700"
               : data.category === "energy"
-              ? "bg-red-700"
-              : "bg-green-700"
-          }`}>
+                ? "bg-red-700"
+                : "bg-green-700"
+            }`}>
           {data?.category}
         </Badge>
 

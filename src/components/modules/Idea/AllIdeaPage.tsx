@@ -2,13 +2,7 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
   Pagination,
@@ -23,180 +17,200 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { getAllIdeas } from "@/services/idea";
+import { deleteMyIdea, getAllIdeas } from "@/services/idea";
 import { TIdea } from "@/types/idea.types";
 import { formatDistanceToNow } from "date-fns";
 import { Edit, Eye, Search, Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
 import { BiLeftArrow, BiRightArrow } from "react-icons/bi";
+import Swal from "sweetalert2";
+
 interface TMeta {
   page: number;
   limit: number;
   total: number;
   totalPage: number;
 }
+
 const AllIdeaPage = () => {
   const [limit, setLimit] = useState(10);
-  const [data, setData] = useState<TIdea[] | []>([]);
+  const [data, setData] = useState<TIdea[]>([]);
   const [meta, setMeta] = useState<TMeta>({} as TMeta);
   const [status, setStatus] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
+  const fetchIdeas = useCallback(async () => {
+    const { data, meta } = await getAllIdeas({
+      page: currentPage.toString(),
+      limit: limit.toString(),
+      searchTerm,
+      status,
+    });
+    setData(data);
+    setMeta(meta);
+  }, [currentPage, limit, searchTerm, status])
   useEffect(() => {
-    const fetchIdea = async () => {
-      const { data, meta } = await getAllIdeas({
-        page: currentPage.toString(),
-        limit: limit.toString(),
-        searchTerm: searchTerm,
-        status: status,
-      });
-      setData(data);
-      setMeta(meta);
-    };
-    fetchIdea();
-  }, [currentPage, limit, searchTerm, status]);
-  console.log(status);
+    fetchIdeas();
+  }, [fetchIdeas]);
+
+  const deleteIdea = async (id: string) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const res = await deleteMyIdea(id);
+          if (res.success) {
+            fetchIdeas()
+          }
+        } catch (error) {
+          console.log(error);
+        }
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+      }
+    });
+  };
   return (
     <div>
-      <div className="flex gap-5">
-        <Select onValueChange={(val) => setLimit(Number(val))}>
-          <SelectTrigger className="mb-4 border-green-500 text-green-500 focus:ring-0 focus:ring-offset-0 focus:border-green-500">
-            <SelectValue placeholder="Set limit" />
-          </SelectTrigger>
-          <SelectContent className="text-green-500">
-            <SelectItem value="2">2</SelectItem>
-            <SelectItem value="10">10</SelectItem>
-            <SelectItem value="20">20</SelectItem>
-            <SelectItem value="50">50</SelectItem>
-          </SelectContent>
-        </Select>
+      <div className="lg:flex gap-5 mb-5 space-y-2 lg:space-y-0">
+        <div className="flex gap-3 flex-1">
+          <Select onValueChange={(val) => setLimit(Number(val))}>
+            <SelectTrigger className="border-green-500 text-green-500 flex-1">
+              <SelectValue placeholder="Set limit" />
+            </SelectTrigger>
+            <SelectContent>
+              {[2, 10, 20, 50]?.map((val) => (
+                <SelectItem key={val} value={val.toString()}>{val}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Select onValueChange={(val) => setStatus(val === 'all' ? "" : val)}>
+            <SelectTrigger className="border-green-500 text-green-500 flex-1">
+              <SelectValue placeholder="Set Status" />
+            </SelectTrigger>
+            <SelectContent>
+              {["all", "underReview", "approved", "rejected"]?.map((val) => (
+                <SelectItem key={val} value={val}> {val.charAt(0).toUpperCase() + val.slice(1)}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-        <div className="flex">
+        <div className="flex flex-1">
           <Input
             placeholder="Search Idea..."
-            className="lg:w-[300px] border-green-500 rounded-r-none focus:border-green-500 focus:ring-0 focus:outline-none"
+            className="border-green-500 rounded-r-none rounded-l-full w-full"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-
-          <Button
-            className="rounded-l-none rounded-r-full cursor-pointer bg-green-500"
-            size="icon">
+          <Button className="rounded-r-full bg-green-500" size="icon">
             <Search size={18} />
           </Button>
         </div>
-        <Select onValueChange={(val) => setStatus(val)}>
-          <SelectTrigger className="mb-4 border-green-500 text-green-500 focus:ring-0 focus:ring-offset-0 focus:border-green-500">
-            <SelectValue placeholder="Set Status" />
-          </SelectTrigger>
-          <SelectContent className="text-green-500">
-            <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="published">Published</SelectItem>
-            <SelectItem value="unpublished">Unpublished</SelectItem>
-          </SelectContent>
-        </Select>
       </div>
+
       <Card>
-        <CardHeader>
-          <CardTitle>All Submitted Ideas – Admin Panel</CardTitle>
-          <CardDescription>
-            View and manage all user-submitted ideas with full administrative
-            control
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-5 px-2 divide-y divide-amber-500">
-            {data.map((idea: TIdea) => (
-              <div
-                key={idea.id}
-                className="flex items-center justify-between pb-2">
-                <div className="flex w-[40%]  items-center gap-3">
-                  <Avatar className="w-[50px] h-[50px] border-green-500 border">
-                    <AvatarImage src={idea.images[0]} alt="" />
-                    <AvatarFallback></AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="font-medium">
-                      {idea.title.split(" ").slice(0, 6).join(" ")}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      by
-                      <span className="italic ml-1 text-amber-800">
-                        {idea.author.name}
-                      </span>{" "}
-                      |{" "}
-                      <span className="text-sky-800 italic">
-                        {formatDistanceToNow(new Date(idea.createdAt), {
-                          addSuffix: true,
-                        })}
-                      </span>
-                    </p>
-                  </div>
-                </div>
-                <div className="flex gap-9 w-[60%] justify-end">
-                  <p className="text-green-500">{idea.status}</p>
-                  <p className="bg-amber-500 px-1.5 py-1 rounded-full text-white">
-                    {idea.category}
+        <CardContent className="space-y-5 divide-y divide-amber-500">
+          {data?.map((idea) => (
+            <div key={idea.id} className="lg:flex justify-between pb-5">
+              <div className="flex items-center gap-3 lg:w-[40%]">
+                <Avatar className="border border-green-500">
+                  <AvatarImage src={idea.images[0]} />
+                  <AvatarFallback />
+                </Avatar>
+                <div>
+                  <p className="font-medium">{idea.title.split(" ").slice(0, 6).join(" ")}</p>
+                  <p className="text-sm text-muted-foreground">
+                    by <span className="italic text-amber-800">{idea.author.name}</span> |{" "}
+                    <span className="italic text-sky-800">
+                      {formatDistanceToNow(new Date(idea.createdAt), { addSuffix: true })}
+                    </span>
                   </p>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    className="h-8 w-8 p-0 cursor-pointer bg-sky-500 text-white">
-                    <Eye className="h-4 w-4" />
+                </div>
+              </div>
+
+              <div className="flex flex-col lg:gap-8 lg:flex-row lg:items-center lg:justify-end lg:w-[60%]">
+                <div className="flex gap-5 justify-between lg:mt-0 mt-2.5">
+                  <p className={`
+                     px-2 py-1 rounded-full w-[130px] text-center truncate 
+                     flex items-center justify-center gap-2
+                     ${idea.status === "approved" ? "bg-green-100 text-green-500" : ""}
+                     ${idea.status === "rejected" ? "bg-red-100 text-red-500" : ""}
+                     ${idea.status === "underReview" ? "bg-yellow-300 text-amber-600" : ""}`}>
+                    <span
+                      className={` w-[7px] h-[7px] rounded-full relative left-1 truncate
+                        ${idea.status === "approved" ? "bg-green-500" : ""}
+                        ${idea.status === "rejected" ? "bg-red-500" : ""}
+                        ${idea.status === "underReview" ? "bg-amber-600" : ""}`}
+                    />
+                    {idea.status.charAt(0).toUpperCase() + idea.status.slice(1)}
+                  </p>
+
+                  <p className="bg-amber-500 text-white px-2 py-1 rounded-full w-[120px] text-center truncate">{idea.category}</p>
+                </div>
+                <div className="flex lg:gap-8 justify-evenly lg:mt-0 mt-2">
+                  <Link href={`/admin/dashboard/all-ideas/details/${idea.id}`}>
+                    <Button size="sm" variant="outline" className="bg-sky-500 text-white h-8 w-8 p-0">
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                  </Link>
+                  <Button size="sm" className="bg-green-500 hover:bg-amber-500 h-8 w-8 p-0">
+                    <Edit className="h-4 w-4" />
                   </Button>
-                  <Button
-                    size="sm"
-                    className="h-8 w-8 p-0 cursor-pointer hover:bg-amber-500 bg-green-500">
-                    <Edit className="h-4 w-4 " />
-                  </Button>
-                  <Button
-                    size="sm"
-                    className="h-8 w-8 p-0 cursor-pointer bg-red-500 text-white">
-                    <Trash2 className="h-4 w-4 " />
+                  <Button onClick={() => deleteIdea(idea.id)} size="sm" className="bg-red-500 text-white h-8 w-8 p-0">
+                    <Trash2 className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </CardContent>
       </Card>
-      <div className="mt-3">
+
+      <div className="mt-4">
         <Pagination>
           <PaginationContent>
             <PaginationItem>
               <Button
                 disabled={currentPage === 1}
-                className="text-amber-500 bg-white border border-amber-500"
-                onClick={() => setCurrentPage(currentPage - 1)}>
-                <BiLeftArrow />
-                Previous
+                onClick={() => setCurrentPage((prev) => prev - 1)}
+                className="text-amber-500 border border-amber-500 bg-white"
+              >
+                <BiLeftArrow /> Previous
               </Button>
             </PaginationItem>
+
             <PaginationItem>
               <div className="flex gap-2">
-                {[...Array(Math.max(1, meta?.totalPage || 1))].map(
-                  (_, index) => (
-                    <PaginationItem key={index}>
-                      <PaginationLink
-                        onClick={() => setCurrentPage(index + 1)}
-                        className={`border text-green-500 border-green-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white ${index === Number(meta?.page) - 1
-                            ? "bg-green-500 text-white"
-                            : ""
-                          }`}
-                        href="#">
-                        {index + 1}
-                      </PaginationLink>
-                    </PaginationItem>
-                  )
-                )}
+                {[...Array(Math.max(1, meta?.totalPage || 1))].map((_, index) => (
+                  <PaginationItem key={index}>
+                    <PaginationLink
+                      onClick={() => setCurrentPage(index + 1)}
+                      href="#"
+                      className={`border text-green-500 border-green-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white ${index === currentPage - 1 ? "bg-green-500 text-white" : ""
+                        }`}
+                    >
+                      {index + 1}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
               </div>
             </PaginationItem>
+
             <PaginationItem>
               <Button
                 disabled={currentPage === meta?.totalPage}
+                onClick={() => setCurrentPage((prev) => prev + 1)}
                 className="bg-amber-500 text-white"
-                onClick={() => setCurrentPage(currentPage + 1)}>
+              >
                 Next <BiRightArrow />
               </Button>
             </PaginationItem>

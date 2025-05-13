@@ -30,10 +30,9 @@ interface BlogFilterType {
   searchTerm?: string,
   status?: string,
   page?: string,
-  limit?:string
+  limit?: string
 }
 export const getAllBlogs = async (options?: BlogFilterType) => {
-  console.log(!options?.limit);
   try {
     const params = new URLSearchParams();
     if (options?.searchTerm) {
@@ -53,10 +52,6 @@ export const getAllBlogs = async (options?: BlogFilterType) => {
     const query = params.toString() ? `?${params.toString()}` : "";
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_BASE_URL}/blogs/get-all-blogs${query}`,
-      {
-        next: { tags: ["Blogs"] },
-      }
-
     );
     const result = await res.json();
     return result;
