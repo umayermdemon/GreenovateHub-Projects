@@ -88,18 +88,25 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
   return (
     <div className="w-full sm:w-[95%] md:w-[90%] lg:w-[410px] mx-auto mb-6">
       <div className="flex flex-col bg-amber-50 relative border-amber-500 border rounded-md">
-        <div className="relative">
-          <Image
-            className="w-full h-[200px] sm:h-[250px] object-cover rounded-t-md"
-            src={
-              data?.images[0] ||
-              "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
-            }
-            alt="image"
-            height={200}
-            width={410}
-          />
-        </div>
+        <Link
+          href={
+            user?.role === "member"
+              ? `/member/dashboard/my-ideas/details/${data.id}`
+              : `/admin/dashboard/all-ideas/details/${data.id}`
+          }>
+          <div className="relative">
+            <Image
+              className="w-full h-[200px] sm:h-[250px] object-cover rounded-t-md"
+              src={
+                data?.images[0] ||
+                "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
+              }
+              alt="image"
+              height={200}
+              width={410}
+            />
+          </div>
+        </Link>
 
         <div className="flex justify-between px-4 mt-3">
           <p className="bg-green-900 text-white text-sm px-2 py-0.5 rounded-full">
@@ -185,7 +192,14 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
                   />
                 )}
               </div>
-              <MessageSquareMore size={22} className="text-amber-500" />
+              <Link
+                href={
+                  user?.role === "member"
+                    ? `/member/dashboard/my-ideas/details/${data.id}`
+                    : `/admin/dashboard/all-ideas/details/${data.id}`
+                }>
+                <MessageSquareMore size={22} className="text-amber-500 " />
+              </Link>
             </div>
           </div>
         </div>

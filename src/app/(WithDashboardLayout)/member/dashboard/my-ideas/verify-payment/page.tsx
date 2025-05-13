@@ -5,8 +5,8 @@ export const dynamic = "force-dynamic";
 const VerifyOrder = () => {
   return (
     <div>
-      <Suspense fallback={<div>LOgin...</div>}>
-        <OrderVerification/>
+      <Suspense fallback={<div>Login...</div>}>
+        <OrderVerification />
       </Suspense>
     </div>
   );

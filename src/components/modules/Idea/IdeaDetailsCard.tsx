@@ -22,16 +22,25 @@ import { PaymentModal } from "./PaymentModal";
 import { useEffect, useState } from "react";
 import { getSingleOrder } from "@/services/order";
 import { TOrder } from "@/types";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+export type TComment = {
+  id: string;
+  blogId: string;
+  author: string;
+  content: string;
+  createdAt: string;
+};
 
 const getStatusColor = (status: string) => {
   switch (status) {
-    case "pending":
+    case "underReview":
       return "bg-yellow-500";
     case "draft":
       return "bg-gray-500";
-    case "published":
+    case "approved":
       return "bg-green-600";
-    case "unpublished":
+    case "rejected":
       return "bg-red-500";
     default:
       return "bg-slate-500";
@@ -48,6 +57,24 @@ const IdeaDetailsCard = ({
   refresh: () => void;
 }) => {
   const [currentOrder, setCurrentOrder] = useState<TOrder | null>(null);
+  const [comments, setComments] = useState<TComment[]>([]);
+  const [commentText, setCommentText] = useState("");
+
+  // Dummy: Add comment
+  const handleAddComment = () => {
+    if (!commentText.trim()) return;
+
+    const newComment: TComment = {
+      id: user?.id,
+      blogId: idea.id,
+      author: user?.name || "Anonymous",
+      content: commentText,
+      createdAt: new Date().toISOString(),
+    };
+
+    setComments((prev) => [newComment, ...prev]);
+    setCommentText("");
+  };
   console.log({ user });
   const router = useRouter();
   const isUpvoted = idea.up_votes > 0;
@@ -180,9 +207,8 @@ const IdeaDetailsCard = ({
             </button>
           ) : (
             idea.isPremium &&
-            idea?.authorId !== user?.id && (
-              <PaymentModal idea={idea} user={user} />
-            )
+            idea?.authorId !== user?.id &&
+            user?.role === "member" && <PaymentModal idea={idea} user={user} />
           )}
         </div>
       </div>
@@ -264,6 +290,77 @@ const IdeaDetailsCard = ({
                 )}
                 <p className="text-sm">{idea.down_votes}</p>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Comments Section */}
+      <div className="mt-8 border-t pt-6">
+        <h2 className="text-2xl font-semibold text-green-700 mb-4">Comments</h2>
+
+        <div className="flex flex-col md:flex-row gap-6">
+          {/*  Comment Field - Left Side */}
+          <div className="w-full md:w-1/2">
+            <h3 className="text-lg font-medium text-gray-700 mb-3">
+              Write a Comment
+            </h3>
+
+            <div className="flex items-start gap-3">
+              {/* Optional: User Avatar */}
+
+              <Avatar className="w-[40px] h-[40px] border-green-500 border">
+                <AvatarImage
+                  src={user?.image || "https://i.pravatar.cc/40"}
+                  alt={user?.name}
+                />
+                <AvatarFallback></AvatarFallback>
+              </Avatar>
+
+              {/* Comment Input Box */}
+              <div className="flex-1 bg-gray-100 rounded-xl px-4 py-2 border border-gray-300">
+                <textarea
+                  className="w-full resize-none bg-transparent outline-none text-sm placeholder-gray-500"
+                  placeholder="Write a comment..."
+                  rows={3}
+                  value={commentText}
+                  onChange={(e) => setCommentText(e.target.value)}></textarea>
+
+                {/* Action Button */}
+                <div className="flex justify-end mt-1">
+                  <button
+                    onClick={handleAddComment}
+                    className="bg-green-600 text-white text-sm px-4 py-1.5 rounded-md hover:bg-green-700 transition">
+                    Post
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Comment List -Right Side*/}
+          <div className="w-full md:w-1/2">
+            <h3 className="text-lg font-medium text-gray-700 mb-2">
+              All Comments
+            </h3>
+            <div className="h-[200px] overflow-y-auto pr-2 space-y-4">
+              {comments.length === 0 ? (
+                <p className="text-gray-500 text-sm">No comments yet.</p>
+              ) : (
+                comments.map((comment) => (
+                  <div
+                    key={comment.id}
+                    className="bg-white rounded-md shadow-sm p-3 border border-gray-200">
+                    <p className="text-sm text-gray-600 mb-1">
+                      <span className="font-semibold text-green-700">
+                        {comment.author}
+                      </span>{" "}
+                      • {format(new Date(comment.createdAt), "PPPp")}
+                    </p>
+                    <p className="text-gray-800">{comment.content}</p>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         </div>
