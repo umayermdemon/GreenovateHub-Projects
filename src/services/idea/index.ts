@@ -78,8 +78,13 @@ export const getAllIdeas = async (options?: IdeaFilterType) => {
             `${process.env.NEXT_PUBLIC_BASE_URL}/ideas/get-all-ideas${query}`,
             {
                 method: "GET",
+                next: {
+                    tags: ['ideas']
+                }
             }
+
         );
+
         const result = await res.json();
         return result;
     } catch (error) {
@@ -136,7 +141,7 @@ export const updateIdea = async (ideaData: { id: string, data: FieldValues }) =>
                 body: JSON.stringify(ideaData.data)
             }
         );
-        revalidateTag("Ideas")
+         revalidateTag("ideas")
         const result = await res.json();
         return result;
     } catch (error) {
@@ -155,6 +160,7 @@ export const deleteMyIdea = async (id: string) => {
                 },
             }
         );
+       await revalidateTag("ideas")
         const result = await res.json();
         return result;
     } catch (error) {

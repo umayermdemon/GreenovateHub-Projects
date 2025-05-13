@@ -107,18 +107,25 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
   return (
     <div>
       <div className="flex flex-col bg-amber-50 relative border-amber-500 border rounded-md lg:h-[450px]">
-        <div className="flex  relative">
-          <Image
-            className="w-[410px] h-[250px] rounded-t-md"
-            src={
-              data?.images[0] ||
-              "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
-            }
-            alt="image"
-            height={200}
-            width={300}
-          />
-        </div>
+        <Link href={
+          user?.role === "member"
+            ? `/member/dashboard/my-ideas/details/${data.id}`
+            : // : `/blogs/${data.id}`
+            `/admin/dashboard/all-ideas/details/${data.id}`
+        }>
+          <div className="flex  relative cursor-pointer">
+            <Image
+              className="w-[410px] h-[250px] rounded-t-md"
+              src={
+                data?.images[0] ||
+                "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
+              }
+              alt="image"
+              height={200}
+              width={300}
+            />
+          </div>
+        </Link>
         <div className="flex justify-between mx-4 mt-3">
           <p className="  bg-green-900 text-white px-2 rounded-full">
             {data.category}
@@ -136,7 +143,7 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
                         user?.role === "member"
                           ? `/member/dashboard/my-ideas/details/${data.id}`
                           : // : `/blogs/${data.id}`
-                            `/admin/dashboard/all-ideas/details/${data.id}`
+                          `/admin/dashboard/all-ideas/details/${data.id}`
                       }
                       passHref>
                       <li className="cursor-pointer hover:bg-amber-500 flex gap-1 hover:text-white px-1 text-amber-600 pb-0.5">

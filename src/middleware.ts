@@ -15,7 +15,7 @@ export const middleware = async (req: NextRequest) => {
       return NextResponse.next();
     } else {
       return NextResponse.redirect(
-        new URL(`http://localhost:3000/login?redirectPath=${pathname}`, req.url)
+        new URL(`https://greeni-circle-client.vercel.app/login?redirectPath=${pathname}`, req.url)
       );
     }
   }
