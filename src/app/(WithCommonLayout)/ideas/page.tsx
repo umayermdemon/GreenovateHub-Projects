@@ -97,14 +97,12 @@ const IdeaPage = () => {
             <PaginationItem>
               <Button disabled={currentPage === 1} className="text-amber-500 bg-white border border-amber-500" onClick={() => setCurrentPage(currentPage - 1)}><BiLeftArrow />Previous</Button>
             </PaginationItem>
-            <PaginationItem>
-              <div className="flex gap-2">
-                {[...Array(Math.max(1, meta?.totalPage || 1))].map((_, index) => (
-                  <PaginationItem key={index}>
-                    <PaginationLink onClick={() => setCurrentPage(index + 1)} className={`border text-green-500 border-green-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white ${index === (Number(meta?.page) - 1) ? "bg-green-500 text-white" : ""}`} href="#">{index + 1}</PaginationLink>
-                  </PaginationItem>
-                ))}
-              </div>
+            <PaginationItem className="flex gap-2">
+              {[...Array(Math.max(1, meta?.totalPage || 1))].map((_, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink onClick={() => setCurrentPage(index + 1)} className={`border text-green-500 border-green-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white ${index === (Number(meta?.page) - 1) ? "bg-green-500 text-white" : ""}`}>{index + 1}</PaginationLink>
+                </PaginationItem>
+              ))}
             </PaginationItem>
             <PaginationItem>
               <Button disabled={currentPage === meta?.totalPage} className="bg-amber-500 text-white" onClick={() => setCurrentPage(currentPage + 1)}>Next <BiRightArrow /></Button>

@@ -47,7 +47,7 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
       }
     };
     fetchIsVoted();
-  }, [data, userId]);
+  }, [data.id, userId]);
 
   const timeAgo = formatDistanceToNow(new Date(data.createdAt), {
     addSuffix: true,
