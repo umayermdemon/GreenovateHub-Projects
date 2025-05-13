@@ -1,7 +1,7 @@
 "use client";
 
 import { Separator } from "@/components/ui/separator";
-import { Facebook, Twitter, Instagram, Leaf } from "lucide-react";
+import { Facebook, Twitter, Instagram } from "lucide-react";
 import Link from "next/link";
 import Logo from "./Logo";
 
@@ -19,10 +19,7 @@ export default function Footer() {
       <div className="container mx-auto px-4 py-10 grid grid-cols-1 md:grid-cols-4 gap-16">
         {/* Logo and About */}
         <div>
-          <div className="flex items-center gap-2 text-green-700 font-semibold text-xl">
-            <Leaf className="w-6 h-6" />
-            <Logo />
-          </div>
+          <Logo />
           <p className="mt-4 text-sm text-gray-600">
             A community for sharing sustainable ideas to protect and preserve
             our planet.

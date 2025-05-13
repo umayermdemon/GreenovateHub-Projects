@@ -142,9 +142,9 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
             <ul className="divide-y divide-gray-200">
               <Link
                 href={
-                  user
+                  user?.role === "member"
                     ? `/member/dashboard/my-blogs/details/${data.id}`
-                    : `/blogs/${data.id}`
+                    : `/admin/dashboard/all-blogs/details/${data.id}`
                 }>
                 <li className="cursor-pointer hover:bg-green-500 flex gap-1 hover:text-white px-1 text-green-500 pb-0.5">
                   <Eye className="relative top-1" size={17} />
