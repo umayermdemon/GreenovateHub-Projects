@@ -12,7 +12,7 @@ const FeaturedBlog = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchBlogs = async () => {
-    const res = await getAllBlogs({status:"approved"});
+    const res = await getAllBlogs({ status: "approved" });
     if (res?.data) {
       setBlogs(res.data);
     }
@@ -24,26 +24,26 @@ const FeaturedBlog = () => {
   const { user } = useUser();
 
   return (
-    <section className="bg-gray-100 py-16">
+    <section className="bg-gray-100 py-16 lg:mx-3">
       <div className="max-w-7xl mx-auto px-4">
         <h2 className="text-center text-3xl font-bold text-green-700 mb-8">
           Featured Blog
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:gap-10">
           {isLoading
             ? Array.from({ length: 3 }).map((_, i) => (
-                <BlogCardSkeleton key={i} />
-              ))
+              <BlogCardSkeleton key={i} />
+            ))
             : blogs
-                ?.slice(0, 3)
-                .map((blog: TBlog) => (
-                  <BlogCard
-                    key={blog.id}
-                    data={blog}
-                    refresh={fetchBlogs}
-                    userId={user?.userId}
-                  />
-                ))}
+              ?.slice(0, 3)
+              .map((blog: TBlog) => (
+                <BlogCard
+                  key={blog.id}
+                  data={blog}
+                  refresh={fetchBlogs}
+                  userId={user?.userId}
+                />
+              ))}
         </div>
         <div className="text-center mt-10">
           <Link
