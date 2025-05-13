@@ -25,13 +25,12 @@ const BlogPage = () => {
   const [meta, setMeta] = useState<TMeta>({} as TMeta);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
-
   const fetchBlogs = useCallback(async () => {
     const res = await getAllBlogs({
       category: selectedTab === "all" ? "" : selectedTab,
       searchTerm: searchTerm,
       page: currentPage.toString(),
-      status:"published"
+      status: "approved"
     });
     if (res.success) {
       setBlogs(res.data);
@@ -41,13 +40,14 @@ const BlogPage = () => {
   useEffect(() => {
     fetchBlogs()
   }, [searchTerm, selectedTab, currentPage, fetchBlogs]);
-  console.log(blogs);
   const { user } = useUser();
+  console.log(blogs);
+
   return (
 
-    <div className="mx-8 my-6">
-      <div className="flex flex-row-reverse gap-3 mx-4">
-        <div className="flex flex-1">
+    <div className="lg:mx-8 my-6">
+      <div className="lg:flex lg:flex-row-reverse gap-3 lg:mx-4 mx-1">
+        <div className="flex flex-1 lg:mb-0 mb-1 lg:mx-0 mx-0.5">
           <Input
             placeholder="Search Idea..."
             className="lg:w-full border-green-500 rounded-r-none focus:border-green-500"
@@ -61,7 +61,7 @@ const BlogPage = () => {
             <Search size={18} />
           </Button>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 lg:mt-0 mt-2">
           <Tabs
             value={selectedTab}
             onValueChange={(val) => {
@@ -82,7 +82,7 @@ const BlogPage = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-2 mx-5 ">
+      <div className="grid lg:grid-cols-4 gap-2 mx-5 grid-cols-1 ">
         {
           blogs?.map((blog) => (<BlogCard key={blog.id} refresh={fetchBlogs} data={blog} userId={user?.userId} />))
         }

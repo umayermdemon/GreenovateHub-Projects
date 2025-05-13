@@ -30,7 +30,7 @@ const IdeaPage = () => {
       category: selectedTab === "all" ? "" : selectedTab,
       searchTerm: searchTerm,
       page: currentPage.toString(),
-      status: "published"
+      status: "approved"
     });
     if (res.success) {
       setIdeas(res.data);
@@ -44,9 +44,9 @@ const IdeaPage = () => {
   const { user } = useUser();
   return (
 
-    <div className="mx-8 my-6">
-      <div className="flex flex-row-reverse gap-3 mx-4">
-        <div className="flex flex-1">
+    <div className="lg:mx-8 my-6">
+      <div className="lg:flex lg:flex-row-reverse gap-3 lg:mx-4 mx-1">
+        <div className="flex flex-1 lg:mb-0 mb-1 lg:mx-0 mx-0.5">
           <Input
             placeholder="Search Idea..."
             className="lg:w-full border-green-500 rounded-r-none focus:border-green-500"
@@ -60,7 +60,7 @@ const IdeaPage = () => {
             <Search size={18} />
           </Button>
         </div>
-        <div className="flex-1">
+        <div className="flex-1 lg:mt-0 mt-2">
           <Tabs
             value={selectedTab}
             onValueChange={(val) => {
@@ -81,7 +81,7 @@ const IdeaPage = () => {
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-2 mx-5 ">
+      <div className="grid lg:grid-cols-4 gap-2 mx-5 grid-cols-1">
         {ideas?.map((idea: TIdea) => (
           <IdeaCard
             refresh={fetchIdeas}
@@ -97,14 +97,12 @@ const IdeaPage = () => {
             <PaginationItem>
               <Button disabled={currentPage === 1} className="text-amber-500 bg-white border border-amber-500" onClick={() => setCurrentPage(currentPage - 1)}><BiLeftArrow />Previous</Button>
             </PaginationItem>
-            <PaginationItem>
-              <div className="flex gap-2">
-                {[...Array(Math.max(1, meta?.totalPage || 1))].map((_, index) => (
-                  <PaginationItem key={index}>
-                    <PaginationLink onClick={() => setCurrentPage(index + 1)} className={`border text-green-500 border-green-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white ${index === (Number(meta?.page) - 1) ? "bg-green-500 text-white" : ""}`} href="#">{index + 1}</PaginationLink>
-                  </PaginationItem>
-                ))}
-              </div>
+            <PaginationItem className="flex gap-2">
+              {[...Array(Math.max(1, meta?.totalPage || 1))].map((_, index) => (
+                <PaginationItem key={index}>
+                  <PaginationLink onClick={() => setCurrentPage(index + 1)} className={`border text-green-500 border-green-500 hover:bg-amber-500 hover:border-amber-500 hover:text-white ${index === (Number(meta?.page) - 1) ? "bg-green-500 text-white" : ""}`}>{index + 1}</PaginationLink>
+                </PaginationItem>
+              ))}
             </PaginationItem>
             <PaginationItem>
               <Button disabled={currentPage === meta?.totalPage} className="bg-amber-500 text-white" onClick={() => setCurrentPage(currentPage + 1)}>Next <BiRightArrow /></Button>
