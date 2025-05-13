@@ -110,30 +110,30 @@ const Navbar = () => {
                 </div>
                 <ul className="mt-4 divide-y divide-gray-200">
                   <li className="hover:bg-green-500 hover:text-white py-1 px-2">
-                    <Link href="/customer/all-products" className="flex gap-2">
+                    <Link href="/ideas" className="flex gap-2 items-center">
                       <Palette size={18} /> All Ideas
                     </Link>
                   </li>
                   <li className="hover:bg-green-500 hover:text-white py-1 px-2">
                     <Link
                       href={`/${user?.role}/dashboard`}
-                      className="flex gap-2">
-                      <LayoutDashboard size={18} /> Dashboard
+                      className="flex gap-2 items-center">
+                      <LayoutDashboard  size={18} /> Dashboard
                     </Link>
                   </li>
                   <li className="hover:bg-green-500 hover:text-white py-1 px-2">
-                    <Link href="/customer/about" className="flex gap-2">
+                    <Link href="/about" className="flex gap-2 items-center">
                       <Info size={18} /> About
                     </Link>
                   </li>
                   <li className="hover:bg-green-500 hover:text-white py-1 px-2">
-                    <Link href="/customer/my-orders" className="flex gap-2">
+                    <Link href="/blogs" className="flex gap-2 items-center">
                       <PencilLine size={18} /> Blogs
                     </Link>
                   </li>
                   <li
                     onClick={handleLogout}
-                    className="hover:bg-green-500 hover:text-white py-1 px-2 flex gap-2 cursor-pointer">
+                    className="hover:bg-green-500 hover:text-white py-1 px-2 flex gap-2 cursor-pointer items-center">
                     <LogOut size={18} /> Logout
                   </li>
                 </ul>

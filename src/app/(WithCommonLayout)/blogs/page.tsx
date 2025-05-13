@@ -25,13 +25,12 @@ const BlogPage = () => {
   const [meta, setMeta] = useState<TMeta>({} as TMeta);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [currentPage, setCurrentPage] = useState(1);
-
   const fetchBlogs = useCallback(async () => {
     const res = await getAllBlogs({
       category: selectedTab === "all" ? "" : selectedTab,
       searchTerm: searchTerm,
       page: currentPage.toString(),
-      status:"published"
+      status: "approved"
     });
     if (res.success) {
       setBlogs(res.data);
@@ -41,8 +40,9 @@ const BlogPage = () => {
   useEffect(() => {
     fetchBlogs()
   }, [searchTerm, selectedTab, currentPage, fetchBlogs]);
-  console.log(blogs);
   const { user } = useUser();
+  console.log(blogs);
+
   return (
 
     <div className="mx-8 my-6">

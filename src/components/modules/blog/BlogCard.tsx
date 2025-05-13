@@ -31,6 +31,7 @@ export interface TIsVoted {
 
 const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
   const [vote, setVote] = useState<TIsVoted>({} as TIsVoted);
+
   useEffect(() => {
     const fetchIsVoted = async () => {
       const blogData = {
@@ -47,10 +48,13 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
     };
     fetchIsVoted();
   }, [data, userId]);
+
   const timeAgo = formatDistanceToNow(new Date(data.createdAt), {
     addSuffix: true,
   });
+
   const { user } = useUser();
+
   const addVote = async (value: string) => {
     const voteData = {
       blogId: data.id,
@@ -65,6 +69,7 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
       console.log(error);
     }
   };
+
   const removeVote = async () => {
     const voteData = {
       blogId: data.id,
@@ -78,6 +83,7 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
       console.log(error);
     }
   };
+
   const deleteBlog = async (id: string) => {
     Swal.fire({
       title: "Are you sure?",
@@ -91,121 +97,110 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
       if (result.isConfirmed) {
         try {
           const res = await deleteMyBlog(id);
-          console.log(res);
           if (res.success) {
+            refresh();
           }
         } catch (error) {
           console.log(error);
         }
-        Swal.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success",
-        });
+        Swal.fire("Deleted!", "Your file has been deleted.", "success");
       }
     });
   };
 
   return (
-    <div>
-      <div className="flex flex-col lg:h-[0px] bg-green-50 relative border-green-500 border rounded-md">
-        <div className="flex  relative">
-          <Image
-            className="w-full lg:h-[250px] rounded-t-md"
-            src={
-              data?.images[0] ||
-              "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
-            }
-            alt="image"
-            height={200}
-            width={300}
-          />
-        </div>
-        <div className="flex justify-between mx-4 mt-3">
-          <Badge
-            variant="outline"
-            className={`mb-4 capitalize text-white p-2 ${data?.category === "waste"
-                ? "bg-yellow-700"
-                : data.category === "energy"
-                  ? "bg-red-700"
-                  : "bg-green-700"
-              }`}>
-            {data?.category}
-          </Badge>
-          <div className="text-[15px] cursor-pointer">
-            <Popover>
-              <PopoverTrigger className=" hover:bg-green-500 rounded-sm hover:text-white">
-                <SlOptions className="cursor-pointer  w-[30px] h-[25px]  px-0.5 py-1" />
-              </PopoverTrigger>
-              <PopoverContent className="w-[130px] border border-green-500 bg-amber-50 px-1 py-1">
-                <div>
-                  <ul className="divide-y divide-gray-200">
-                    <Link
-                      href={
-                        user
-                          ? `/member/dashboard/my-blogs/details/${data.id}`
-                          : `/blogs/${data.id}`
-                      }
-                      passHref>
-                      <li className="cursor-pointer hover:bg-green-500 flex gap-1 hover:text-white px-1 text-green-500 pb-0.5">
-                        <Eye className="relative top-1 " size={17} />
-                        View
-                      </li>
-                    </Link>
-                    {userId === data.authorId && (
-                      <>
-                        <Link
-                          href={`/member/dashboard/my-blogs/update/${data.id}`}>
-                          <li className="cursor-pointer flex gap-1 hover:bg-green-500 hover:text-white px-1  pt-0.5 border-t border-green-500 text-green-500">
-                            <Edit className="relative top-1" size={17} />
-                            Update
-                          </li>
-                        </Link>
-                        <li
-                          onClick={() => deleteBlog(data.id)}
-                          className="cursor-pointer flex gap-1 hover:bg-red-500 hover:text-white px-1 border-t border-green-500 text-red-500 pt-0.5">
-                          <Trash className="relative top-1" size={17} /> Delete
-                        </li>
-                      </>
-                    )}
-                  </ul>
-                </div>
-              </PopoverContent>
-            </Popover>
-          </div>
-        </div>
-        <div className="flex justify-center  p-3">
-          <div>
-            <h1 className="text-xl font font-semibold">
-              {data.title.split(" ").slice(0, 4).join(" ")}
-            </h1>
-            <p className="border-b border-green-900 pb-2">
-              {data.description.split(" ").slice(0, 10).join(" ")}
-            </p>
-            <div className="flex justify-between pt-1">
-              <p className="text-sm text-sky-400 italic">
-                {timeAgo.split(" ").slice(1, 3).join(" ")} ago
-              </p>
-              <div className="flex gap-4 mt-1">
-                <div className="flex gap-2 bg-green-500 px-2 py-1 rounded-full">
-                  <div className="flex gap-0.5 border-r cursor-pointer pr-1 text-white text-[19px]">
-                    <p>
-                      {vote?.isVoted && vote?.value === "up" ? (
-                        <BiSolidLike onClick={removeVote} />
-                      ) : (
-                        <AiOutlineLike onClick={() => addVote("up")} />
-                      )}
-                    </p>
-                    <p className="text-sm">{data.up_votes || 0}</p>
-                  </div>
-                  <p className=" cursor-pointer pr-1 text-white text-[19px]">
-                    {vote?.isVoted && vote?.value === "down" ? (
-                      <AiFillDislike onClick={removeVote} />
-                    ) : (
-                      <AiOutlineDislike onClick={() => addVote("down")} />
-                    )}
-                  </p>
-                </div>
+    <div className="w-full sm:max-w-[500px] md:max-w-[600px] mx-auto shadow-md hover:shadow-lg transition-shadow duration-300 rounded-md border border-green-500 bg-green-50 overflow-hidden">
+      <div className="relative w-full h-[200px]">
+        <Image
+          src={
+            data?.images[0] ||
+            "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
+          }
+          alt="image"
+          fill
+          className="object-cover"
+        />
+      </div>
+
+      <div className="flex justify-between items-center px-4 pt-3">
+        <Badge
+          variant="outline"
+          className={`capitalize text-white px-3 py-1 ${data?.category === "waste"
+              ? "bg-yellow-700"
+              : data.category === "energy"
+                ? "bg-red-700"
+                : "bg-green-700"
+            }`}>
+          {data?.category}
+        </Badge>
+
+        <Popover>
+          <PopoverTrigger className="hover:bg-green-500 rounded-sm hover:text-white">
+            <SlOptions className="cursor-pointer w-[30px] h-[25px] px-0.5 py-1" />
+          </PopoverTrigger>
+          <PopoverContent className="w-[130px] border border-green-500 bg-amber-50 px-1 py-1">
+            <ul className="divide-y divide-gray-200">
+              <Link
+                href={
+                  user
+                    ? `/member/dashboard/my-blogs/details/${data.id}`
+                    : `/blogs/${data.id}`
+                }>
+                <li className="cursor-pointer hover:bg-green-500 flex gap-1 hover:text-white px-1 text-green-500 pb-0.5">
+                  <Eye className="relative top-1" size={17} />
+                  View
+                </li>
+              </Link>
+              {userId === data.authorId && (
+                <>
+                  <Link href={`/member/dashboard/my-blogs/update/${data.id}`}>
+                    <li className="cursor-pointer flex gap-1 hover:bg-green-500 hover:text-white px-1 pt-0.5 border-t border-green-500 text-green-500">
+                      <Edit className="relative top-1" size={17} />
+                      Update
+                    </li>
+                  </Link>
+                  <li
+                    onClick={() => deleteBlog(data.id)}
+                    className="cursor-pointer flex gap-1 hover:bg-red-500 hover:text-white px-1 border-t border-green-500 text-red-500 pt-0.5">
+                    <Trash className="relative top-1" size={17} />
+                    Delete
+                  </li>
+                </>
+              )}
+            </ul>
+          </PopoverContent>
+        </Popover>
+      </div>
+
+      <div className="px-4 pb-4 pt-2">
+        <h1 className="text-xl font-semibold">
+          {data.title.split(" ").slice(0, 4).join(" ")}
+        </h1>
+        <p className="border-b border-green-900 pb-2 text-gray-700">
+          {data.description.split(" ").slice(0, 10).join(" ")}...
+        </p>
+
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-2 pt-2">
+          <p className="text-sm text-sky-500 italic">
+            {timeAgo.split(" ").slice(1, 3).join(" ")} ago
+          </p>
+
+          <div className="flex gap-4">
+            <div className="flex gap-2 bg-green-500 px-3 py-1 rounded-full">
+              <div className="flex items-center gap-1 border-r border-white pr-2 text-white text-lg cursor-pointer">
+                {vote?.isVoted && vote?.value === "up" ? (
+                  <BiSolidLike onClick={removeVote} />
+                ) : (
+                  <AiOutlineLike onClick={() => addVote("up")} />
+                )}
+                <span className="text-sm">{data.up_votes || 0}</span>
+              </div>
+              <div className="flex items-center text-white text-lg cursor-pointer">
+                {vote?.isVoted && vote?.value === "down" ? (
+                  <AiFillDislike onClick={removeVote} />
+                ) : (
+                  <AiOutlineDislike onClick={() => addVote("down")} />
+                )}
               </div>
             </div>
           </div>

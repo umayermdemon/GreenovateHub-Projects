@@ -129,7 +129,7 @@ const AppSidebar = () => {
           },
           {
             title: "Settings",
-            url: "/member/dashboard/settings",
+            url: "/settings",
             icon: Settings,
           },
         ]

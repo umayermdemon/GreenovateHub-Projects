@@ -6,37 +6,45 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { TAuthor } from "@/types";
 import { useForm } from "react-hook-form";
-
-const AdminSettings = () => {
-    const form = useForm();
+interface SettingsFormProps {
+    data: TAuthor;
+}
+const SettingsForm = ({ data }: SettingsFormProps) => {
+    console.log(data);
+    const form = useForm({
+        defaultValues: {
+            name: data?.name,
+            email: data?.email,
+            address: data?.address
+        }
+    });
     const { control } = form;
     return (
         <div className="my-5">
             <Card>
                 <CardHeader>
-                    <CardTitle>General Information</CardTitle>
+                    <CardTitle className="text-green-500">General Information</CardTitle>
                     <CardDescription>Update your account information.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <Form {...form}>
-                        <form>
+                        <form className="space-y-2">
                             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                                 <div className="space-y-2">
-                                    <Label htmlFor="first-name">First name</Label>
-                                    <GFormInput
+                                    <Label className="text-green-500" htmlFor="email">Name *</Label>                                    <GFormInput
                                         name="name"
                                         control={control}
-                                        className="border-green-500 rounded-none"
+                                        className=""
                                         placeholder="Your Name"
                                     />
                                 </div>
                                 <div className="space-y-2">
-                                    <Label htmlFor="last-name">Address</Label>
-                                    <GFormInput
+                                    <Label className="text-green-500" htmlFor="email">Address *</Label>                                    <GFormInput
                                         name="address"
                                         control={control}
-                                        className="border-green-500 rounded-none"
+                                        className=""
                                         placeholder="Your Address"
                                     />                                </div>
                             </div>
@@ -45,15 +53,14 @@ const AdminSettings = () => {
                                 <GFormInput
                                     name="email"
                                     control={control}
-                                    className="border-green-500 "
+                                    className=" "
                                     placeholder="Your Email"
                                 />                            </div>
                             <div className="space-y-2">
-                                <Label htmlFor="bio">Bio</Label>
-                                <GFormTextarea
+                                <Label className="text-green-500" htmlFor="email">Bio *</Label>           <GFormTextarea
                                     name="bio"
                                     control={control}
-                                    className="border-green-500 rounded-none"
+                                    className=""
                                     placeholder="Your Bio"
                                 />
                             </div>
@@ -67,20 +74,20 @@ const AdminSettings = () => {
 
             <Card className="mt-3">
                 <CardHeader>
-                    <CardTitle>Password</CardTitle>
+                    <CardTitle className="text-amber-500">Password</CardTitle>
                     <CardDescription>Update your password.</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
                     <div className="space-y-2">
-                        <Label htmlFor="current-password">Current password</Label>
+                        <Label htmlFor="current-password" className="text-amber-500">Current password *</Label>
                         <Input id="current-password" type="password" />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="new-password">New password</Label>
+                        <Label htmlFor="new-password" className="text-amber-500">New password *</Label>
                         <Input id="new-password" type="password" />
                     </div>
                     <div className="space-y-2">
-                        <Label htmlFor="confirm-password">Confirm password</Label>
+                        <Label htmlFor="confirm-password" className="text-amber-500">Confirm password *</Label>
                         <Input id="confirm-password" type="password" />
                     </div>
                 </CardContent>
@@ -92,4 +99,4 @@ const AdminSettings = () => {
     );
 };
 
-export default AdminSettings;
+export default SettingsForm;

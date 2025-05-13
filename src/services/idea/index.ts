@@ -51,7 +51,7 @@ interface IdeaFilterType {
     searchTerm?: string,
     status?: string,
     page?: string,
-    limit?:string
+    limit?: string
 }
 export const getAllIdeas = async (options?: IdeaFilterType) => {
     try {
@@ -78,13 +78,6 @@ export const getAllIdeas = async (options?: IdeaFilterType) => {
             `${process.env.NEXT_PUBLIC_BASE_URL}/ideas/get-all-ideas${query}`,
             {
                 method: "GET",
-                headers: {
-                    "content-type": "application/json",
-                    Authorization: (await cookies()).get("accessToken")!.value,
-                },
-                next: {
-                    tags: ["Ideas"]
-                }
             }
         );
         const result = await res.json();
