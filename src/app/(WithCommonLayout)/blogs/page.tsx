@@ -91,7 +91,7 @@ const BlogPage = () => {
         <Pagination>
           <PaginationContent>
             <PaginationItem>
-              <Button disabled={currentPage === 1} className="text-amber-500 bg-white border border-amber-500" onClick={() => setCurrentPage(currentPage + 1)}><BiLeftArrow />Previous</Button>
+              <Button disabled={currentPage === 1} className="text-green-500 bg-white border border-green-500" onClick={() => setCurrentPage(currentPage + 1)}><BiLeftArrow />Previous</Button>
             </PaginationItem>
             <PaginationItem>
               <div className="flex gap-2">
@@ -103,7 +103,7 @@ const BlogPage = () => {
               </div>
             </PaginationItem>
             <PaginationItem>
-              <Button disabled={currentPage === meta?.totalPage} className="bg-amber-500 text-white" onClick={() => setCurrentPage(currentPage + 1)}>Next <BiRightArrow /></Button>
+              <Button disabled={currentPage === meta?.totalPage} className="bg-green-500 text-white" onClick={() => setCurrentPage(currentPage + 1)}>Next <BiRightArrow /></Button>
             </PaginationItem>
           </PaginationContent>
         </Pagination>

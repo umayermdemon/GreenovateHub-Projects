@@ -13,7 +13,6 @@ import { deleteMyBlog } from "@/services/blog";
 import Swal from "sweetalert2";
 import Link from "next/link";
 import { useUser } from "@/context/UserContext";
-import { Badge } from "@/components/ui/badge";
 import { createVote, isUserVoted, undoVote } from "@/services/vote";
 import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { BiSolidLike } from "react-icons/bi";
@@ -123,17 +122,9 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
       </div>
 
       <div className="flex justify-between items-center px-4 pt-3">
-        <Badge
-          variant="outline"
-          className={`capitalize text-white px-3 py-1 ${data?.category === "waste"
-              ? "bg-yellow-700"
-              : data.category === "energy"
-                ? "bg-red-700"
-                : "bg-green-700"
-            }`}>
-          {data?.category}
-        </Badge>
-
+        <p className="bg-green-500 text-white text-sm px-2 py-0.5 rounded-full">
+          {data.category}
+        </p>
         <Popover>
           <PopoverTrigger className="hover:bg-green-500 rounded-sm hover:text-white">
             <SlOptions className="cursor-pointer w-[30px] h-[25px] px-0.5 py-1" />
@@ -181,7 +172,7 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
         </p>
 
         <div className="flex flex-col sm:flex-row justify-between items-center gap-2 pt-2">
-          <p className="text-sm text-sky-500 italic">
+          <p className="text-sm text-green-500 italic">
             {timeAgo.split(" ").slice(1, 3).join(" ")} ago
           </p>
 

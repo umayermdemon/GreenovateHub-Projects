@@ -44,10 +44,10 @@ const LoginForm = () => {
       console.log(error);
     }
   };
-  const commonWidth = "w-[400px]";
+  const commonWidth = "lg:w-[400px] w-[340px]";
   return (
-    <div className="max-w-3xl w-full mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="mb-2">
+    <div className="lg:max-w-3xl lg:w-full lg:mx-auto lg:px-8 px-3">
+      <div className="mb-2 lg:mr-0 relative lg:left-0 left-3">
         <Link href="/" className="text-green-500 underline">
           {" "}
           Back To Home
@@ -56,13 +56,13 @@ const LoginForm = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="space-y-4 w-[480px]">
+          className="space-y-4 lg:w-[480px] w-full p-3">
           <div
             className={`space-y-1 border-2 border-green-300 border-b-0 rounded-2xl pt-6`}>
             <h1 className="text-center text-2xl text-green-500">
               Enter You Credentials
             </h1>
-            <div className="w-full flex justify-center">
+            <div className="w-full flex justify-center p-4">
               <GFormInput
                 name="email"
                 label="Email"

@@ -90,6 +90,7 @@ const AppSidebar = () => {
       url: `/${role}/dashboard`,
       icon: LayoutDashboard,
     },
+
     ...(role === "member"
       ? [
         {
@@ -127,11 +128,7 @@ const AppSidebar = () => {
           url: "/member/dashboard/draft-blogs",
           icon: FileText,
         },
-        {
-          title: "Settings",
-          url: "/settings",
-          icon: Settings,
-        },
+
       ]
       : []),
     ...(role === "admin"
@@ -156,13 +153,14 @@ const AppSidebar = () => {
           url: "/admin/dashboard/manage-users",
           icon: UserCog,
         },
-        {
-          title: "Settings",
-          url: "/admin/dashboard/settings",
-          icon: Settings,
-        },
       ]
+
       : []),
+    {
+      title: "Settings",
+      url: "/settings",
+      icon: Settings,
+    },
   ];
 
   return (

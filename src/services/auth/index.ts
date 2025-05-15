@@ -47,6 +47,25 @@ export const registerUser = async (userData: FieldValues) => {
     return Error(error as string);
   }
 };
+export const changePassword = async (data: FieldValues) => {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/change-password`,
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          Authorization: (await cookies()).get("accessToken")!.value,
+        },
+        body: JSON.stringify(data),
+      }
+    );
+    const result = await res.json();
+    return result;
+  } catch (error) {
+    return Error(error as string);
+  }
+};
 
 export const getMyProfile = async () => {
   try {
