@@ -81,9 +81,7 @@ const Navbar = () => {
             <li key={i}>
               <Link
                 href={item.path}
-                className={
-                  pathname === item.path ? "text-green-500 font-semibold" : ""
-                }>
+                className={`${pathname === item.path ? "text-green-500 font-semibold" : ""} ${pathname==='ideas'&& item.path==="/ideas"?"text-sky-500":""}`}>
                 {item.label}
               </Link>
             </li>
@@ -119,7 +117,7 @@ const Navbar = () => {
                     <Link
                       href={`/${user?.role}/dashboard`}
                       className="flex gap-2 items-center">
-                      <LayoutDashboard  size={18} /> Dashboard
+                      <LayoutDashboard size={18} /> Dashboard
                     </Link>
                   </li>
                   <li className="hover:bg-green-500 hover:text-white py-1 px-2">

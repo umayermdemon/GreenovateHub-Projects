@@ -75,9 +75,9 @@ const GFormInput = ({
                     onClick={handleTogglePassword}
                     className="absolute right-3 top-3/4 transform -translate-y-1/2 text-muted-foreground">
                     {showPassword ? (
-                      <EyeOff className="cursor-pointer" size={20} />
+                      <EyeOff className="cursor-pointer relative bottom-2" size={20} />
                     ) : (
-                      <Eye className="cursor-pointer" size={20} />
+                      <Eye className="cursor-pointer relative bottom-2" size={20} />
                     )}
                   </button>
                 )}

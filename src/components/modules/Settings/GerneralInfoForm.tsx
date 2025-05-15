@@ -1,18 +1,17 @@
-"use client"
+"use client";
 import GFormInput from "@/components/shared/Form/GFormInput";
 import GFormTextarea from "@/components/shared/Form/GFormTextarea";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Form } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TAuthor } from "@/types";
 import { useForm } from "react-hook-form";
+
 interface SettingsFormProps {
     data: TAuthor;
 }
-const SettingsForm = ({ data }: SettingsFormProps) => {
-    console.log(data);
+const GerneralInfoForm = ({ data }: SettingsFormProps) => {
     const form = useForm({
         defaultValues: {
             name: data?.name,
@@ -22,7 +21,7 @@ const SettingsForm = ({ data }: SettingsFormProps) => {
     });
     const { control } = form;
     return (
-        <div className="my-5">
+        <div>
             <Card>
                 <CardHeader>
                     <CardTitle className="text-green-500">General Information</CardTitle>
@@ -71,32 +70,8 @@ const SettingsForm = ({ data }: SettingsFormProps) => {
                     <Button className="bg-green-500">Save Changes</Button>
                 </CardFooter>
             </Card>
-
-            <Card className="mt-3">
-                <CardHeader>
-                    <CardTitle className="text-amber-500">Password</CardTitle>
-                    <CardDescription>Update your password.</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                    <div className="space-y-2">
-                        <Label htmlFor="current-password" className="text-amber-500">Current password *</Label>
-                        <Input id="current-password" type="password" />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="new-password" className="text-amber-500">New password *</Label>
-                        <Input id="new-password" type="password" />
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="confirm-password" className="text-amber-500">Confirm password *</Label>
-                        <Input id="confirm-password" type="password" />
-                    </div>
-                </CardContent>
-                <CardFooter>
-                    <Button className="bg-amber-500">Change Password</Button>
-                </CardFooter>
-            </Card>
         </div>
     );
 };
 
-export default SettingsForm;
+export default GerneralInfoForm;

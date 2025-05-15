@@ -7,12 +7,12 @@ const LoginPage = () => {
     <Suspense fallback={<div>Loading...</div>}>
       <div className="h-screen flex flex-col md:flex-row-reverse bg-white">
         {/* Left - Login Form */}
-        <div className="w-[50%]  flex items-center justify-center  px-6 py-8">
+        <div className="lg:w-[50%] lg:mt-0 mt-20  flex items-center justify-center  lg:px-6 py-8">
           <LoginForm />
         </div>
 
         {/* Right - Image */}
-        <div className="w-[50%] hidden md:block relative">
+        <div className="w-[50%]  md:block relative">
           <Image
             src={loginImg}
             alt="login"

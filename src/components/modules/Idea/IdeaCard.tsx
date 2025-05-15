@@ -87,7 +87,7 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
 
   return (
     <div className="w-full sm:w-[95%] mx-auto mb-6">
-      <div className="flex flex-col bg-amber-50 relative border-amber-500 border rounded-md">
+      <div className="flex flex-col bg-sky-50 relative border-sky-500 border rounded-md">
         <Link
           href={
             user?.role === "member"
@@ -109,14 +109,14 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
         </Link>
 
         <div className="flex justify-between px-4 mt-3">
-          <p className="bg-green-900 text-white text-sm px-2 py-0.5 rounded-full">
+          <p className="bg-sky-500 text-white text-sm px-2 py-0.5 rounded-full">
             {data.category}
           </p>
           <Popover>
-            <PopoverTrigger className="hover:bg-amber-500 rounded-sm hover:text-white">
-              <SlOptions className="w-[30px] h-[25px] cursor-pointer" />
+            <PopoverTrigger className="hover:bg-sky-500 rounded-sm hover:text-white">
+              <SlOptions className="cursor-pointer w-[30px] h-[25px] px-0.5 py-1" />
             </PopoverTrigger>
-            <PopoverContent className="w-[130px] border border-amber-500 bg-green-50 px-1 py-1">
+            <PopoverContent className="w-[130px] border border-sky-500 bg-sky-50 px-1 py-1">
               <ul className="divide-y divide-gray-200">
                 <Link
                   href={
@@ -125,7 +125,7 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
                       : `/admin/dashboard/all-ideas/details/${data.id}`
                   }
                   passHref>
-                  <li className="cursor-pointer hover:bg-amber-500 hover:text-white flex gap-1 px-1 text-amber-600 pb-0.5">
+                  <li className="cursor-pointer hover:bg-sky-500 hover:text-white flex gap-1 px-1 text-sky-600 pb-0.5">
                     <Eye size={17} className="relative top-1" />
                     View
                   </li>
@@ -134,14 +134,14 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
                 {userId === data.authorId && (
                   <>
                     <Link href={`/member/dashboard/my-ideas/update/${data.id}`}>
-                      <li className="cursor-pointer hover:bg-amber-500 hover:text-white flex gap-1 px-1 text-amber-600 pt-0.5 border-t border-amber-500">
+                      <li className="cursor-pointer hover:bg-sky-500 hover:text-white flex gap-1 px-1 text-sky-600 pt-0.5 border-t border-sky-500">
                         <Edit size={17} className="relative top-1" />
                         Update
                       </li>
                     </Link>
                     <li
                       onClick={() => deleteIdea(data.id)}
-                      className="cursor-pointer hover:bg-red-500 hover:text-white flex gap-1 px-1 text-red-500 pt-0.5 border-t border-amber-500">
+                      className="cursor-pointer hover:bg-red-500 hover:text-white flex gap-1 px-1 text-red-500 pt-0.5 border-t border-sky-500">
                       <Trash2 size={17} className="relative top-1" />
                       Delete
                     </li>
@@ -156,16 +156,16 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
           <h1 className="text-lg font-semibold mb-1 truncate">
             {data.title.split(" ").slice(0, 4).join(" ")}
           </h1>
-          <p className="text-sm text-gray-700 border-b border-green-900 pb-2 mb-2 truncate">
+          <p className="text-sm text-gray-700 border-b border-sky-500 pb-2 mb-2 truncate">
             {data.description.split(" ").slice(0, 10).join(" ")}
           </p>
 
           <div className="flex justify-between items-center text-sm">
-            <p className="text-amber-600 italic">
+            <p className="text-sky-600 italic">
               {timeAgo.split(" ").slice(1, 3).join(" ")} ago
             </p>
             <div className="flex items-center gap-3">
-              <div className="flex items-center gap-2 bg-amber-500 px-2 py-1 rounded-full">
+              <div className="flex items-center gap-2 bg-sky-500 px-2 py-1 rounded-full">
                 <div className="flex items-center gap-1 border-r pr-2 text-white text-[18px]">
                   {vote?.isVoted && vote?.value === "up" ? (
                     <BiSolidLike
@@ -198,7 +198,7 @@ const IdeaCard = ({ data, userId, refresh }: IIdeaCard) => {
                     ? `/member/dashboard/my-ideas/details/${data.id}`
                     : `/admin/dashboard/all-ideas/details/${data.id}`
                 }>
-                <MessageSquareMore size={22} className="text-amber-500 " />
+                <MessageSquareMore size={22} className="text-sky-500 " />
               </Link>
             </div>
           </div>

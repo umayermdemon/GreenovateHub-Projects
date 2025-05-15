@@ -26,7 +26,7 @@ const FeaturedIdea = () => {
   return (
     <section className="bg-gray-100 py-16">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-center text-3xl font-bold text-green-700 mb-8">
+        <h2 className="text-center text-3xl font-bold text-sky-500 mb-8">
           Featured Ideas
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -48,7 +48,7 @@ const FeaturedIdea = () => {
         <div className="text-center mt-10">
           <Link
             href="/ideas"
-            className="inline-block bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-800 transition">
+            className="inline-block bg-sky-500 text-white px-6 py-3 rounded-full hover:bg-green-800 transition">
             View All Ideas
           </Link>
         </div>
