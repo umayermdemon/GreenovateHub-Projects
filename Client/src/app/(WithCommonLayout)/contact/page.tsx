@@ -1,10 +1,11 @@
 import ContactPage from "@/components/modules/Contact/ContactPage";
+import { Suspense } from "react";
 
 const Contact = () => {
   return (
-    <div>
+    <Suspense fallback={<div>Loading...</div>}>
       <ContactPage />
-    </div>
+    </Suspense>
   );
 };
 

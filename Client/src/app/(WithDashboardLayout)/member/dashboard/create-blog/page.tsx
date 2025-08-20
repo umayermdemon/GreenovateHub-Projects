@@ -53,22 +53,23 @@ const CreateBlog = () => {
       images,
       status,
     };
-    console.log(blogData);
     try {
       const res = await createBlog(blogData);
-      if (res.success) {
+      if (res?.success) {
         setImageUrls([]);
         setPreviewImages([]);
         form.reset();
         window.location.reload();
-        toast.success(res.message);
+        toast.success(res?.message);
+      } else {
+        toast.error(res?.message);
       }
     } catch (error) {
       console.log(error);
     }
-  }; // Closing the onSubmit function
+  };
   return (
-    <div className=" lg:max-w-5xl lg:mx-auto  my-5 ">
+    <div className="max-w-5xl lg:container mx-auto  my-5 ">
       <Form {...form}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className=" flex items-center justify-between">
@@ -79,7 +80,7 @@ const CreateBlog = () => {
           </div>
           <Card>
             <CardHeader>
-              <CardTitle className="text-green-500">
+              <CardTitle className="text-primary">
                 Start Writing Your Blog
               </CardTitle>
               <CardDescription>
@@ -93,7 +94,7 @@ const CreateBlog = () => {
                 placeholder="Title"
                 label="Title"
                 control={form.control}
-                className="border-green-500 hover:border- mb-4 hover:border-amber-400 rounded-none"
+                className="border-primary hover:border-primary/80 mb-4 rounded-md"
               />
               <GFormSelect
                 name="category"
@@ -101,14 +102,14 @@ const CreateBlog = () => {
                 label="Category"
                 options={categoryOptions}
                 control={form.control}
-                className="w-full border-green-500 hover:border- mb-4 hover:border-amber-400 rounded-none"
+                className="w-full border-primary hover:border-primary/80 mb-4 rounded-md"
               />
               <GFormTextarea
                 name="description"
-                placeholder="Describe your throught"
+                placeholder="Describe your thought"
                 label="Description"
                 control={form.control}
-                className="w-full border-green-500 hover:border- mb-4 hover:border-amber-400 rounded-none"
+                className="w-full border-primary hover:border-primary/80 mb-4 rounded-md"
               />
               <GFormSelect
                 name="status"
@@ -116,16 +117,16 @@ const CreateBlog = () => {
                 label="Status"
                 options={statusOptions}
                 control={form.control}
-                className="w-full border-green-500 hover:border- mb-4 hover:border-amber-400 rounded-none"
+                className="w-full border-primary hover:border-primary/80 mb-4 rounded-md"
               />
               <div className="space-y-2">
-                <Label htmlFor="image" className="font-semibold text-[14px]">
+                <Label htmlFor="image" className="font-semibold text-sm">
                   Images{" "}
-                  <span className="text-green-500 text-xl relative top-0.5">
+                  <span className="text-primary text-xl relative top-0.5">
                     *
                   </span>
                 </Label>
-                <div className="border border-dashed p-12 text-center border-green-500 hover:border-amber-400 transition-colors cursor-pointer">
+                <div className="border border-dashed p-6 sm:p-12 text-center border-primary hover:border-primary/80 transition-colors cursor-pointer">
                   <GFormImageUpload
                     setPreviewImages={setPreviewImages}
                     previewImages={previewImages}
@@ -140,7 +141,7 @@ const CreateBlog = () => {
               <div className="flex justify-end">
                 <Button
                   type="submit"
-                  className="mt-4 rounded-none bg-green-500 cursor-pointer">
+                  className="mt-4 rounded-md bg-primary text-white hover:bg-primary/90 cursor-pointer">
                   {isSubmitting ? "Creating..." : "Submit"}
                 </Button>
               </div>

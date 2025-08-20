@@ -1,68 +1,55 @@
 "use client";
-import { TBlog } from "@/types/blog.types";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { SlOptions } from "react-icons/sl";
-import { formatDistanceToNow } from "date-fns";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Edit, Eye, Trash } from "lucide-react";
-import { deleteMyBlog } from "@/services/blog";
-import Swal from "sweetalert2";
 import Link from "next/link";
-import { useUser } from "@/context/UserContext";
-import { createVote, isUserVoted, undoVote } from "@/services/vote";
+import { formatDistanceToNow } from "date-fns";
 import { AiFillDislike, AiOutlineDislike, AiOutlineLike } from "react-icons/ai";
 import { BiSolidLike } from "react-icons/bi";
-import { useEffect, useState } from "react";
+
+import { TBlog } from "@/types/blog.types";
+import { createVote, isUserVoted, undoVote } from "@/services/vote";
+import { BookOpen, MessageSquareMore } from "lucide-react";
 
 interface IBlogCard {
   data: TBlog;
   userId: string | undefined;
-  refresh: () => void;
 }
+
 export interface TIsVoted {
   value?: "up" | "down";
   isVoted: boolean;
 }
 
-const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
+const BlogCard = ({ data, userId }: IBlogCard) => {
   const [vote, setVote] = useState<TIsVoted>({} as TIsVoted);
 
   useEffect(() => {
     const fetchIsVoted = async () => {
-      const blogData = {
-        blogId: data.id,
-      };
       try {
-        const res = await isUserVoted(blogData);
-        if (res) {
-          setVote(res.data);
-        }
+        const res = await isUserVoted({ blogId: data?.id });
+        if (res) setVote(res.data);
       } catch (error) {
         console.log(error);
       }
     };
     fetchIsVoted();
-  }, [data.id, userId]);
+  }, [data?.id, userId]);
 
-  const timeAgo = formatDistanceToNow(new Date(data.createdAt), {
+  const timeAgo = formatDistanceToNow(new Date(data?.createdAt), {
     addSuffix: true,
   });
 
-  const { user } = useUser();
-
   const addVote = async (value: string) => {
-    const voteData = {
-      blogId: data.id,
-      value,
-    };
     try {
-      const res = await createVote(voteData);
+      const res = await createVote({ ideaId: data?.id, value });
       if (res.success) {
-        refresh();
+        setVote({ isVoted: true, value: value as "up" | "down" });
+        if (value === "up") {
+          data.up_votes = (data.up_votes || 0) + 1;
+        } else {
+          data.down_votes = (data.down_votes || 0) + 1;
+        }
       }
     } catch (error) {
       console.log(error);
@@ -70,115 +57,68 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
   };
 
   const removeVote = async () => {
-    const voteData = {
-      blogId: data.id,
-    };
     try {
-      const res = await undoVote(voteData);
+      const res = await undoVote({ ideaId: data?.id });
       if (res.success) {
-        refresh();
+        setVote({ isVoted: false });
+        if (vote.value === "up") {
+          data.up_votes = (data.up_votes || 0) - 1;
+        } else if (vote.value === "down") {
+          data.down_votes = (data.down_votes || 0) - 1;
+        }
       }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const deleteBlog = async (id: string) => {
-    Swal.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, delete it!",
-    }).then(async (result) => {
-      if (result.isConfirmed) {
-        try {
-          const res = await deleteMyBlog(id);
-          if (res.success) {
-            refresh();
-          }
-        } catch (error) {
-          console.log(error);
-        }
-        Swal.fire("Deleted!", "Your file has been deleted.", "success");
-      }
-    });
-  };
+  const blogDetailsLink = `/blogs/${data?.id}`;
 
   return (
-    <div className="w-full sm:max-w-[500px] md:max-w-[600px] mx-auto shadow-md hover:shadow-lg transition-shadow duration-300 rounded-md border border-green-500 bg-green-50 overflow-hidden">
-      <div className="relative w-full h-[200px]">
-        <Image
-          src={
-            data?.images[0] ||
-            "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
-          }
-          alt="image"
-          fill
-          className="object-cover"
-        />
+    <div className="w-full sm:w-[95%] mx-auto mb-8 rounded-2xl border border-primary/30 hover:border-primary bg-card overflow-hidden relative transition-all duration-300 flex flex-col h-[550px]">
+      {/* Blog badge */}
+      <div className="absolute top-3 left-1 z-10 flex justify-between items-center w-full px-2">
+        <div className="flex items-center gap-1 bg-primary text-primary-foreground px-3 py-1 rounded-full shadow text-xs font-bold">
+          <BookOpen size={16} /> Blog
+        </div>
+        <div>
+          <p className="bg-primary text-primary-foreground text-xs px-3 py-1 rounded-full font-semibold tracking-wide shadow">
+            {data.category === "waste"
+              ? "Waste"
+              : data.category === "energy"
+              ? "Energy"
+              : "Transportation"}
+          </p>
+        </div>
       </div>
 
-      <div className="flex justify-between items-center px-4 pt-3">
-        <p className="bg-green-500 text-white text-sm px-2 py-0.5 rounded-full">
-          {data.category}
-        </p>
-        <Popover>
-          <PopoverTrigger className="hover:bg-green-500 rounded-sm hover:text-white">
-            <SlOptions className="cursor-pointer w-[30px] h-[25px] px-0.5 py-1" />
-          </PopoverTrigger>
-          <PopoverContent className="w-[130px] border border-green-500 bg-amber-50 px-1 py-1">
-            <ul className="divide-y divide-gray-200">
-              <Link
-                href={
-                  user?.role === "member"
-                    ? `/member/dashboard/my-blogs/details/${data.id}`
-                    : `/admin/dashboard/all-blogs/details/${data.id}`
-                }>
-                <li className="cursor-pointer hover:bg-green-500 flex gap-1 hover:text-white px-1 text-green-500 pb-0.5">
-                  <Eye className="relative top-1" size={17} />
-                  View
-                </li>
-              </Link>
-              {userId === data.authorId && (
-                <>
-                  <Link href={`/member/dashboard/my-blogs/update/${data.id}`}>
-                    <li className="cursor-pointer flex gap-1 hover:bg-green-500 hover:text-white px-1 pt-0.5 border-t border-green-500 text-green-500">
-                      <Edit className="relative top-1" size={17} />
-                      Update
-                    </li>
-                  </Link>
-                  <li
-                    onClick={() => deleteBlog(data.id)}
-                    className="cursor-pointer flex gap-1 hover:bg-red-500 hover:text-white px-1 border-t border-green-500 text-red-500 pt-0.5">
-                    <Trash className="relative top-1" size={17} />
-                    Delete
-                  </li>
-                </>
-              )}
-            </ul>
-          </PopoverContent>
-        </Popover>
-      </div>
+      <Link href={blogDetailsLink}>
+        <div className="relative w-full h-[200px]">
+          <Image
+            src={
+              data?.images[0] ||
+              "https://i.ibb.co.com/7d4G55NY/house-4811590-1280.jpg"
+            }
+            alt="image"
+            fill
+            className="object-cover"
+          />
+        </div>
+      </Link>
 
-      <div className="px-4 pb-4 pt-2">
-        <h1 className="text-xl font-semibold">
+      <div className="px-5 pb-5 pt-3 flex flex-col flex-grow">
+        <h1 className="text-xl font-bold text-primary mb-1 truncate">
           {data.title.split(" ").slice(0, 4).join(" ")}
         </h1>
-        <p className="border-b border-green-900 pb-2 text-gray-700">
-          {data.description.split(" ").slice(0, 10).join(" ")}...
+        <p className="pb-2 text-muted-foreground italic text-justify">
+          {data.description.split(" ").slice(0, 50).join(" ")}...
         </p>
 
-        <div className="flex flex-col sm:flex-row justify-between items-center gap-2 pt-2">
-          <p className="text-sm text-green-500 italic">
-            {timeAgo.split(" ").slice(1, 3).join(" ")} ago
-          </p>
-
+        <div className="flex flex-row justify-between items-center gap-2 pt-2 mt-auto border-t border-primary/20">
+          <p className="text-xs text-primary italic">{timeAgo}</p>
           <div className="flex gap-4">
-            <div className="flex gap-2 bg-green-500 px-3 py-1 rounded-full">
-              <div className="flex items-center gap-1 border-r border-white pr-2 text-white text-lg cursor-pointer">
+            <div className="flex gap-2 bg-primary/10 px-3 py-1 rounded-full">
+              <div className="flex items-center gap-1 border-r border-primary pr-2 text-primary text-lg cursor-pointer">
                 {vote?.isVoted && vote?.value === "up" ? (
                   <BiSolidLike onClick={removeVote} />
                 ) : (
@@ -186,7 +126,7 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
                 )}
                 <span className="text-sm">{data.up_votes || 0}</span>
               </div>
-              <div className="flex items-center text-white text-lg cursor-pointer">
+              <div className="flex items-center text-primary text-lg cursor-pointer">
                 {vote?.isVoted && vote?.value === "down" ? (
                   <AiFillDislike onClick={removeVote} />
                 ) : (
@@ -194,6 +134,9 @@ const BlogCard = ({ data, userId, refresh }: IBlogCard) => {
                 )}
               </div>
             </div>
+            <Link href={blogDetailsLink}>
+              <MessageSquareMore size={22} className="text-primary" />
+            </Link>
           </div>
         </div>
       </div>

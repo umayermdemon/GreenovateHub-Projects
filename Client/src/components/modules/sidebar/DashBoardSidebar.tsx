@@ -22,6 +22,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import Cookies from "js-cookie";
 import { jwtDecode, JwtPayload } from "jwt-decode";
+import { logoutUser } from "@/services/auth";
 
 // Extend the JwtPayload to include custom properties
 interface CustomJwtPayload extends JwtPayload {
@@ -47,27 +48,26 @@ const DashboardSidebar = () => {
   } catch (error) {
     console.error("Invalid token:", error);
   }
-  // console.log(role);
   const routes = [
     {
       label: "Home",
       icon: Home,
       href: "/",
-      color: "text-sky-600",
+      color: "text-green-600",
       title: "Home",
     },
     {
       label: "Dashboard",
       icon: LayoutDashboard,
       href: "/member/dashboard",
-      color: "text-sky-500",
+      color: "text-green-500",
     },
 
     {
       label: "Create Blog",
       icon: PenLine,
       href: "/member/dashboard/create-blog",
-      color: "text-sky-500",
+      color: "text-green-500",
       title: "d",
     },
     {
@@ -111,9 +111,13 @@ const DashboardSidebar = () => {
       href: "/dashboard/settings",
     },
   ];
-  const handleLogout = () => {
-    Cookies.remove("accessToken");
-    window.location.href = "/login";
+  const handleLogout = async () => {
+    try {
+      await logoutUser();
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (

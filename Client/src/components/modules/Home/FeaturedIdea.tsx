@@ -1,54 +1,39 @@
 "use client";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useUser } from "@/context/UserContext";
 import { TIdea } from "@/types/idea.types";
-import { getAllIdeas } from "@/services/idea";
 import IdeaCard from "../Idea/IdeaCard";
 import IdeaCardSkeleton from "@/skeletons/IdeaCardSkeleton";
 
-const FeaturedIdea = () => {
-  const [idea, setIdeas] = useState<TIdea[]>([]);
+const FeaturedIdea = ({ ideas }: { ideas: TIdea[] }) => {
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchIdeas = async () => {
-    const res = await getAllIdeas({ status: "approved" });
-    if (res?.data) {
-      setIdeas(res.data);
-    }
-    setIsLoading(false);
-  };
   useEffect(() => {
-    fetchIdeas();
-  }, []);
-  const { user } = useUser();
+    setIsLoading(false);
+  }, [ideas]);
 
   return (
-    <section className="bg-gray-100 py-16">
+    <section className="py-16 bg-secondary-foreground">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-center text-3xl font-bold text-sky-500 mb-8">
-          Featured Ideas
+        <h2 className="text-center text-3xl font-bold mb-2">
+          <span className="text-secondary">Featured Ideas</span>
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <p className="text-center text-muted-foreground max-w-2xl mx-auto mb-8 text-lg">
+          Innovative ideas driving business and sustainability forward.
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
           {isLoading
-            ? Array.from({ length: 3 }).map((_, i) => (
-              <IdeaCardSkeleton key={i} />
-            ))
-            : idea
-              ?.slice(0, 3)
-              .map((idea: TIdea) => (
-                <IdeaCard
-                  key={idea.id}
-                  data={idea}
-                  refresh={fetchIdeas}
-                  userId={user?.userId}
-                />
-              ))}
+            ? Array.from({ length: 4 }).map((_, i) => (
+                <IdeaCardSkeleton key={i} />
+              ))
+            : ideas
+                ?.slice(0, 3)
+                .map((idea: TIdea) => <IdeaCard key={idea.id} data={idea} />)}
         </div>
-        <div className="text-center mt-10">
+        <div className="text-center mt-8">
           <Link
             href="/ideas"
-            className="inline-block bg-sky-500 text-white px-6 py-3 rounded-full hover:bg-green-800 transition">
+            className="inline-block bg-primary text-primary-foreground px-8 py-3 rounded-full font-semibold text-lg shadow hover:bg-primary/90 transition-all duration-200">
             View All Ideas
           </Link>
         </div>

@@ -13,8 +13,6 @@ import {
   BookOpenText,
   Palette,
   UserCog,
-  LogOut,
-  Bell,
   FilePen,
   Package,
   FileText,
@@ -23,24 +21,19 @@ import {
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { Avatar } from "@radix-ui/react-avatar";
-import { AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TUserProfile } from "@/types/user.type";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { HiChevronUpDown } from "react-icons/hi2";
-import { getMyProfile, logoutUser } from "@/services/auth";
-// Extend JWT Payload to include role
+
+import { getMyProfile } from "@/services/auth";
+import { NavUser } from "./nav-user";
+import Logo from "@/components/shared/Logo";
 interface CustomJwtPayload extends JwtPayload {
   role: string;
   userId: string;
@@ -48,7 +41,7 @@ interface CustomJwtPayload extends JwtPayload {
   name?: string;
 }
 
-const AppSidebar = () => {
+const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
   const pathname = usePathname();
   const [myProfile, setMyProfile] = useState<TUserProfile | null>(null);
 
@@ -59,14 +52,7 @@ const AppSidebar = () => {
     }
     fetchProfile();
   }, []);
-  const handleLogout = async () => {
-    try {
-      await logoutUser();
-      window.location.href = "/login";
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
-  };
+
   const accessToken = Cookies.get("accessToken");
   let role = null;
 
@@ -93,68 +79,66 @@ const AppSidebar = () => {
 
     ...(role === "member"
       ? [
-        {
-          title: "Create Blog",
-          url: "/member/dashboard/create-blog",
-          icon: PenLine,
-        },
-        {
-          title: "Create Idea",
-          url: "/member/dashboard/create-idea",
-          icon: Sparkles,
-        },
-        {
-          title: "My Blogs",
-          url: "/member/dashboard/my-blogs",
-          icon: BookOpenText,
-        },
-        {
-          title: "My Ideas",
-          url: "/member/dashboard/my-ideas",
-          icon: Palette,
-        },
-        {
-          title: "My Orders",
-          url: "/member/dashboard/my-orders",
-          icon: Package,
-        },
-        {
-          title: "Draft Ideas",
-          url: "/member/dashboard/draft-ideas",
-          icon: FilePen,
-        },
-        {
-          title: "Draft Blogs",
-          url: "/member/dashboard/draft-blogs",
-          icon: FileText,
-        },
-
-      ]
+          {
+            title: "Create Blog",
+            url: "/member/dashboard/create-blog",
+            icon: PenLine,
+          },
+          {
+            title: "Create Idea",
+            url: "/member/dashboard/create-idea",
+            icon: Sparkles,
+          },
+          {
+            title: "My Blogs",
+            url: "/member/dashboard/my-blogs",
+            icon: BookOpenText,
+          },
+          {
+            title: "My Ideas",
+            url: "/member/dashboard/my-ideas",
+            icon: Palette,
+          },
+          {
+            title: "My Orders",
+            url: "/member/dashboard/my-orders",
+            icon: Package,
+          },
+          {
+            title: "Draft Ideas",
+            url: "/member/dashboard/draft-ideas",
+            icon: FilePen,
+          },
+          {
+            title: "Draft Blogs",
+            url: "/member/dashboard/draft-blogs",
+            icon: FileText,
+          },
+        ]
       : []),
     ...(role === "admin"
       ? [
-        {
-          title: "All Blogs",
-          url: "/admin/dashboard/all-blogs",
-          icon: BookOpenText,
-        },
-        {
-          title: "All Ideas",
-          url: "/admin/dashboard/all-ideas",
-          icon: Palette,
-        },
-        {
-          title: "All Orders",
-          url: "/admin/dashboard/all-orders",
-          icon: Package,
-        },
-        {
-          title: "User Management",
-          url: "/admin/dashboard/manage-users",
-          icon: UserCog,
-        },
-      ]
-
+          {
+            title: "All Blogs",
+            url: "/admin/dashboard/all-blogs",
+            icon: BookOpenText,
+          },
+          {
+            title: "All Ideas",
+            url: "/admin/dashboard/all-ideas",
+            icon: Palette,
+          },
+          {
+            title: "All Orders",
+            url: "/admin/dashboard/all-orders",
+            icon: Package,
+          },
+          {
+            title: "User Management",
+            url: "/admin/dashboard/manage-users",
+            icon: UserCog,
+          },
+        ]
       : []),
     {
       title: "Settings",
@@ -164,24 +148,28 @@ const AppSidebar = () => {
   ];
 
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarContent>
         <SidebarGroup>
-          <h1 className="text-2xl font-semibold border-b-2 border-green-500 pb-3 text-center">
-            <span className="text-2xl text-green-500 ">Green</span> Circle
-          </h1>
+          <div className="ml-2">
+            <Logo />
+          </div>
           <SidebarGroupContent>
             <SidebarMenu className="mt-10">
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <Link
-                      className={` ${pathname === item.url ? "bg-green-500 text-white" : ""
-                        } text-[16px] rounded-none `}
+                      className={`${
+                        pathname === item.url
+                          ? "bg-primary hover:bg-primary text-white"
+                          : ""
+                      } text-[16px] rounded-none`}
                       href={item.url}>
                       <item.icon
-                        className={`mr-2 ${pathname === item.url ? "text-white" : ""
-                          } text-green-500 h-5 w-5`}
+                        className={`mr-2 ${
+                          pathname === item.url ? "text-white" : ""
+                        } text-primary h-5 w-5`}
                       />
                       <span>{item.title}</span>
                     </Link>
@@ -192,54 +180,16 @@ const AppSidebar = () => {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <Avatar className="mb-3 mx-2">
-        <div className="flex gap-2">
-          <AvatarImage
-            className="relative top-1 w-[44px] h-[44px] rounded-full border border-green-500"
-            src={myProfile?.image || "https://github.com/shadcn.png"}
-          />
-          <div>
-            <h1 className="font-semibold text-[15px]">{myProfile?.name}</h1>
-            <p className="font-semibold text-[14px] text-green-500">
-              {myProfile?.email}
-            </p>
-          </div>
-          <Popover>
-            <PopoverTrigger>
-              <HiChevronUpDown className="text-xl ml-6 cursor-pointer" />
-            </PopoverTrigger>
-            <PopoverContent className="relative left-52">
-              <div>
-                <div className="flex gap-3 border-b border-green-500 pb-4">
-                  <AvatarImage
-                    className="relative top-1 w-[44px] h-[44px] rounded-full border border-green-500"
-                    src={myProfile?.image || "https://github.com/shadcn.png"}
-                  />
-                  <div>
-                    <h1 className="font-semibold text-[15px]">
-                      {myProfile?.name}
-                    </h1>
-                    <p className="font-semibold text-[14px] text-green-500">
-                      {myProfile?.email}
-                    </p>
-                  </div>
-                </div>
-                <ul className="divide-y">
-                  <li
-                    onClick={handleLogout}
-                    className="mt-4  flex gap-2 cursor-pointer hover:bg-green-500 p-1 hover:text-white">
-                    <LogOut className="relative top-1" size={18} /> Logout
-                  </li>
-                  <li className="mt-2  flex gap-2 cursor-pointer hover:bg-green-500 p-1 hover:text-white">
-                    <Bell className="relative top-1" size={18} /> Notification
-                  </li>
-                </ul>
-              </div>
-            </PopoverContent>
-          </Popover>
-        </div>
-        <AvatarFallback>CN</AvatarFallback>
-      </Avatar>
+
+      <SidebarFooter>
+        <NavUser
+          user={{
+            name: myProfile?.name || "User",
+            email: myProfile?.email || "",
+            avatar: myProfile?.image || "",
+          }}
+        />
+      </SidebarFooter>
     </Sidebar>
   );
 };

@@ -1,7 +1,6 @@
 "use client";
 import IdeaCard from "@/components/modules/Idea/IdeaCard";
 import { PageHeader } from "@/components/singles/PageHeader";
-import { useUser } from "@/context/UserContext";
 import { getMyIdeas } from "@/services/idea";
 import { TIdea } from "@/types/idea.types";
 import { Suspense, useEffect, useState } from "react";
@@ -11,18 +10,15 @@ const MyIdeas = () => {
 
   const fetchIdeas = async () => {
     const res = await getMyIdeas();
-    console.log(res);
     if (res?.data) {
-      setIdeas(res.data.data);
+      setIdeas(res?.data);
     }
   };
   useEffect(() => {
     fetchIdeas();
   }, []);
-  const { user } = useUser();
   return (
     <Suspense fallback={<div>Loading...</div>}>
-
       <div className="">
         <div className="flex items-center justify-between mx-8 mt-5">
           <PageHeader
@@ -33,17 +29,11 @@ const MyIdeas = () => {
 
         <div className="grid grid-cols-3 gap-4 mx-5 ">
           {ideas?.map((idea: TIdea) => (
-            <IdeaCard
-              key={idea.id}
-              data={idea}
-              refresh={fetchIdeas}
-              userId={user?.userId}
-            />
+            <IdeaCard key={idea.id} data={idea} />
           ))}
         </div>
       </div>
     </Suspense>
-
   );
 };
 
